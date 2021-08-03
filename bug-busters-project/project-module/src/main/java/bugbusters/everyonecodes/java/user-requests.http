@@ -1,0 +1,44 @@
+### Invalid Password
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "LeSchoki",
+  "password": "invalidPassword",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Georg Soher",
+  "birthday": null,
+  "address": null,
+  "email": "georg.soher@bugbusters.com",
+  "description": null
+}
+
+### Valid Post with only mandatory info
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "LeSchoki",
+  "password": "Coding12#",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Georg Soher",
+  "birthday": null,
+  "address": null,
+  "email": "georg.soher@bugbusters.com",
+  "description": null
+}
+
+### Missing FullName
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "iSekro",
+  "password": "Coding12#",
+  "role": "ROLE_INDIVIDUAL",
+  "fullName": null,
+  "birthday": null,
+  "address": null,
+  "email": "invalid.fullname@bugbusters.com",
+  "description": null
+}
