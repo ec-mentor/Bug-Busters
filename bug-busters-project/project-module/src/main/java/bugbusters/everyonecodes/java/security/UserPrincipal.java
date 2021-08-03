@@ -1,7 +1,7 @@
 package bugbusters.everyonecodes.java.security;
 
+import bugbusters.everyonecodes.java.registration.data.User;
 import org.springframework.security.core.GrantedAuthority;
-
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,8 +9,6 @@ import java.util.Collection;
 
 public class UserPrincipal implements UserDetails {
 
-
-    //ToDo: Import User class
     private final User user;
 
     public UserPrincipal(User user) {
