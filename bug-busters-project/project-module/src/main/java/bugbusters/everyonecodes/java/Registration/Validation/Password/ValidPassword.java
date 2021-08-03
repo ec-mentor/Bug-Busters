@@ -1,4 +1,4 @@
-package bugbusters.everyonecodes.java.Registration.Validation.Password;
+package bugbusters.everyonecodes.java.registration.Validation.Password;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

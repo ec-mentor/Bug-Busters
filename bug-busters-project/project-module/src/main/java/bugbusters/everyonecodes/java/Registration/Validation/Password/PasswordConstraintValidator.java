@@ -1,6 +1,7 @@
-package bugbusters.everyonecodes.java.Registration.Validation.Password;
+package bugbusters.everyonecodes.java.registration.Validation.Password;
 
 import org.passay.*;
+import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -8,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {
     @Override
     public void initialize(ValidPassword arg0) {
@@ -27,12 +29,14 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
         if (result.isValid()) {
             return true;
         }
-        List<String> messages = validator.getMessages(result);
-        String messageTemplate = messages.stream()
-                .collect(Collectors.joining(","));
-        context.buildConstraintViolationWithTemplate(messageTemplate)
-                .addConstraintViolation()
-                .disableDefaultConstraintViolation();
+
+        // commented out, because there is no ConstraintValidatorContext provided
+//        List<String> messages = validator.getMessages(result);
+//        String messageTemplate = messages.stream()
+//                .collect(Collectors.joining(","));
+//        context.buildConstraintViolationWithTemplate(messageTemplate)
+//                .addConstraintViolation()
+//                .disableDefaultConstraintViolation();
         return false;
     }
 }
