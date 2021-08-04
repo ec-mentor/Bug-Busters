@@ -10,7 +10,7 @@ public class ProfileEditor {
         this.userRepository = userRepository;
     }
 
-    private User editUserData(UserPrivateDTO input) {
+    public User editUserData(UserPrivateDTO input) {
         var userOptional = userRepository.findOneByUsername(input.getUsername());
         if (userOptional.isEmpty()) {
             return null;
@@ -26,4 +26,13 @@ public class ProfileEditor {
         userRepository.save(user);
         return user;
     }
+
+    public User getUser(String username) {
+        var userOptional = userRepository.findOneByUsername(username);
+        if (userOptional.isEmpty()) {
+            return null;
+        }
+        return userOptional.get();
+    }
+
 }

@@ -3,6 +3,7 @@ package bugbusters.everyonecodes.java.profile.userprivate;
 import bugbusters.everyonecodes.java.registration.data.User;
 
 public class UserPrivateDTOService {
+
     public UserPrivateDTO toDTO(User input) {
         return new UserPrivateDTO(
                 input.getUsername(),
