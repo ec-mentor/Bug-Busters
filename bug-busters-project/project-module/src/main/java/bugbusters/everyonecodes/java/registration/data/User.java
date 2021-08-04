@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -27,7 +28,7 @@ public class User {
 
     @NotEmpty
     private String fullName;
-    private Date birthday;
+    private LocalDate birthday;
     private String address;
 
     @NotEmpty
@@ -39,7 +40,7 @@ public class User {
 
     protected User() {}
 
-    public User(Long id, String username, String password, String role, String fullName, Date birthday, String address, String email, String description) {
+    public User(Long id, String username, String password, String role, String fullName, LocalDate birthday, String address, String email, String description) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -91,11 +92,11 @@ public class User {
         this.fullName = fullName;
     }
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
