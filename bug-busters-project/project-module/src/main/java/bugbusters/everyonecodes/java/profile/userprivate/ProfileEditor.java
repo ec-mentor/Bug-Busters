@@ -17,7 +17,6 @@ public class ProfileEditor {
         }
         var user = userOptional.get();
 
-        user.setRole(input.getRole());
         user.setFullName(input.getFullName());
         user.setBirthday(input.getBirthday());
         user.setAddress(input.getAddress());
