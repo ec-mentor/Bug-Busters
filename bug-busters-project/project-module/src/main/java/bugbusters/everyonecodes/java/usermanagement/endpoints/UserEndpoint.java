@@ -34,7 +34,7 @@ public class UserEndpoint {
 
     @GetMapping("/view")
     UserPrivateDTO viewUserProfile(Authentication authentication) {
-        return userService.viewUserData(authentication.getName()).orElse(null);
+        return userService.viewUserPrivateData(authentication.getName()).orElse(null);
     }
 
     @PutMapping("/edit")

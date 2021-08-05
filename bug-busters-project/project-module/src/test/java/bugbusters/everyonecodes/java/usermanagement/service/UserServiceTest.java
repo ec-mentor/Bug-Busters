@@ -1,8 +1,10 @@
 package bugbusters.everyonecodes.java.usermanagement.service;
 
 import bugbusters.everyonecodes.java.usermanagement.data.User;
+import bugbusters.everyonecodes.java.usermanagement.data.UserPublicDTO;
 import bugbusters.everyonecodes.java.usermanagement.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mockito;
@@ -12,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -26,7 +29,13 @@ class UserServiceTest {
     @MockBean
     UserRepository userRepository;
 
+    @MockBean
+    UserDTOMapper mapper;
+
     private final User testUser = new User(1L, "test", "", "test", "test", LocalDate.parse("2000-01-01"), "test", "test", "test");
+
+
+    //saveUser Tests
 
     @ParameterizedTest
     @CsvSource({
@@ -59,4 +68,43 @@ class UserServiceTest {
         Mockito.verify(userRepository, Mockito.times(1)).save(testUser);
     }
 
+
+    //editUserData Test
+    //ToDo: create Tests
+
+
+
+    //viewUserPrivateData Test
+    //ToDo: create Tests
+
+
+    //getUserByUsername Test
+    //ToDo: create Tests
+
+
+    //viewUserPublicDTO Test
+    //ToDo: refactor
+
+//
+//    @Test
+//    void viewUserPublicDTO_UserFound() {
+//        String username = "username";
+//        Optional<User> user = Optional.of(new User(1L, username, "password", "role",
+//                "fullName", LocalDate.of(1967, 8, 10), "address",
+//                "email", "description"));
+//        Mockito.when(userRepository.findOneByUsername(username)).thenReturn(user);
+//        Mockito.when(provider.getDateNow()).thenReturn(LocalDate.of(2021, 8, 5));
+//        UserPublicDTO result = service.transformUserToUserPublicDTO(user.get());
+//        Assertions.assertNotNull(result);
+//    }
+//
+//    @Test
+//    void viewUserPublicDTO_UserNotFound() {
+//        String username = "username";
+//        Optional<User> user = Optional.empty();
+//        Mockito.when(userRepository.findOneByUsername(username)).thenReturn(user);
+//        Mockito.when(provider.getDateNow()).thenReturn(LocalDate.of(2021, 8, 5));
+//        UserPublicDTO result = service.transformUserToUserPublicDTO(null);
+//        Assertions.assertNull(result);
+//    }
 }

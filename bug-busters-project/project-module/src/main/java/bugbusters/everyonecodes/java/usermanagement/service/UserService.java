@@ -32,7 +32,7 @@ public class UserService {
     }
 
     public Optional<UserPrivateDTO> editUserData(UserPrivateDTO input, String username) {
-        var oUser = getUser(username);
+        var oUser = getUserByUsername(username);
         if (oUser.isEmpty()) return Optional.empty();
         var user = oUser.get();
         user.setFullName(input.getFullName());
@@ -43,12 +43,12 @@ public class UserService {
         return Optional.of(mapper.toUserPrivateDTO(userRepository.save(user)));
     }
 
-    public Optional<UserPrivateDTO> viewUserData(String username) {
-        var oUser = getUser(username);
+    public Optional<UserPrivateDTO> viewUserPrivateData(String username) {
+        var oUser = getUserByUsername(username);
         return oUser.map(mapper::toUserPrivateDTO);
     }
 
-    public Optional<User> getUser(String username) {
+    public Optional<User> getUserByUsername(String username) {
         return userRepository.findOneByUsername(username);
     }
 

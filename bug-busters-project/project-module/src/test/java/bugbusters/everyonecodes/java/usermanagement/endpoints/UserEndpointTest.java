@@ -23,6 +23,9 @@ class UserEndpointTest {
 
     private final String url = "/users/register";
 
+
+    //registerUser Test
+
     @Test
     void registerUser_invalidPassword() {
         User testUser = new User (null, "Test",
@@ -90,4 +93,14 @@ class UserEndpointTest {
         Assertions.assertEquals(HttpStatus.OK, resultStatusCode);
         Mockito.verify(userService).saveUser(testUser);
     }
+
+
+    //viewUserProfile Test
+    //ToDo: create Tests
+
+    //editUserProfile Test
+    //ToDo: create Tests
+
+    //getDTOByUsername Test
+    //ToDo: create Tests
 }
