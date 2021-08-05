@@ -1,7 +1,7 @@
-package bugbusters.everyonecodes.java.registration.service;
+package bugbusters.everyonecodes.java.usermanagement.service;
 
-import bugbusters.everyonecodes.java.registration.data.User;
-import bugbusters.everyonecodes.java.registration.repository.UserRepository;
+import bugbusters.everyonecodes.java.usermanagement.data.User;
+import bugbusters.everyonecodes.java.usermanagement.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

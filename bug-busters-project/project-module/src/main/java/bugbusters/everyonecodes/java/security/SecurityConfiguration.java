@@ -1,6 +1,6 @@
 package bugbusters.everyonecodes.java.security;
 
-import bugbusters.everyonecodes.java.registration.repository.UserRepository;
+import bugbusters.everyonecodes.java.usermanagement.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

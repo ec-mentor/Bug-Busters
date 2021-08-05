@@ -1,7 +1,7 @@
-package bugbusters.everyonecodes.java.registration.endpoints;
+package bugbusters.everyonecodes.java.usermanagement.endpoints;
 
-import bugbusters.everyonecodes.java.registration.data.User;
-import bugbusters.everyonecodes.java.registration.service.UserService;
+import bugbusters.everyonecodes.java.usermanagement.data.User;
+import bugbusters.everyonecodes.java.usermanagement.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

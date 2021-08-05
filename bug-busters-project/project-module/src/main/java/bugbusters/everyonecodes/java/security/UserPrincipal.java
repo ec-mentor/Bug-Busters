@@ -1,6 +1,6 @@
 package bugbusters.everyonecodes.java.security;
 
-import bugbusters.everyonecodes.java.registration.data.User;
+import bugbusters.everyonecodes.java.usermanagement.data.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;

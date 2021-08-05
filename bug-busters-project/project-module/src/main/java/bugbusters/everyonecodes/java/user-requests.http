@@ -44,6 +44,6 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8080/private/view
+GET http://localhost:8080/users/view
 Authorization: Basic LeSchoki Coding12#
 

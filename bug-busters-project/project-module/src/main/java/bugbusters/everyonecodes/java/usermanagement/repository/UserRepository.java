@@ -1,6 +1,6 @@
-package bugbusters.everyonecodes.java.registration.repository;
+package bugbusters.everyonecodes.java.usermanagement.repository;
 
-import bugbusters.everyonecodes.java.registration.data.User;
+import bugbusters.everyonecodes.java.usermanagement.data.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package bugbusters.everyonecodes.java.profile.userpublic;
+package bugbusters.everyonecodes.java.usermanagement.service;
 
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
