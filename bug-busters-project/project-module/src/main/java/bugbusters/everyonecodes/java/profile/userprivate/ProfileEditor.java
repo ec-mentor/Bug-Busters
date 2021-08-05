@@ -2,8 +2,11 @@ package bugbusters.everyonecodes.java.profile.userprivate;
 
 import bugbusters.everyonecodes.java.registration.data.User;
 import bugbusters.everyonecodes.java.registration.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ProfileEditor {
+
     private final UserRepository userRepository;
 
     public ProfileEditor(UserRepository userRepository) {

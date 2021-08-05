@@ -42,3 +42,8 @@ Content-Type: application/json
   "email": "invalid.fullname@bugbusters.com",
   "description": null
 }
+
+###
+GET http://localhost:8080/private/view
+Authorization: Basic LeSchoki Coding12#
+
