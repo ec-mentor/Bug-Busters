@@ -32,7 +32,7 @@ public class UserEndpoint {
         }
     }
 
-    @GetMapping("/view")
+    @GetMapping("/login")
     UserPrivateDTO viewUserProfile(Authentication authentication) {
         return userService.viewUserPrivateData(authentication.getName()).orElse(null);
     }
@@ -43,7 +43,7 @@ public class UserEndpoint {
     }
 
     @GetMapping("/view/{username}")
-    UserPublicDTO getDTOByUsername(@PathVariable String username){
+    UserPublicDTO viewUserPublicData(@PathVariable String username){
         return userService.viewUserPublicData(username).orElse(null);
     }
 }

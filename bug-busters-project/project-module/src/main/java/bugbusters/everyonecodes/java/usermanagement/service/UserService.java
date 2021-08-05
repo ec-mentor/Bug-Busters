@@ -44,7 +44,7 @@ public class UserService {
     }
 
     public Optional<UserPrivateDTO> viewUserPrivateData(String username) {
-        return getUserByUsername(username).map(mapper::toUserPrivateDTO);
+        return getUserByUsername(username).map(user -> mapper.toUserPrivateDTO(user));
     }
 
     public Optional<User> getUserByUsername(String username) {

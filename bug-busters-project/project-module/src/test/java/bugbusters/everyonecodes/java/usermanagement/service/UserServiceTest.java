@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.util.Optional;
-import java.util.function.Function;
+
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -95,12 +95,31 @@ class UserServiceTest {
     }
 
     //viewUserPrivateData Test
-    //ToDo: create Tests
-//    @Test
-//    void viewUserPrivateData() {
-//        String username = "test";
-//
-//    }
+
+    @Test
+    void viewUserPrivateData_UserFound() {
+        String username = "username";
+        User user = new User(1L, username, "test", "test",
+                "test", LocalDate.of(2000, 1, 1), "test",
+                "test", "test");
+        UserPrivateDTO userPrivateDTO = new UserPrivateDTO(username, user.getRole(), user.getFullName(), user.getBirthday(), user.getAddress(), user.getEmail(), user.getDescription());
+        Mockito.when(userRepository.findOneByUsername(username)).thenReturn(Optional.of(user));
+        Mockito.when(mapper.toUserPrivateDTO(user)).thenReturn(userPrivateDTO);
+        var oResult = userService.viewUserPrivateData(username);
+        Assertions.assertEquals(Optional.of(userPrivateDTO), oResult);
+        Mockito.verify(userRepository, Mockito.times(1)).findOneByUsername(username);
+        Mockito.verify(mapper, Mockito.times(1)).toUserPrivateDTO(user);
+    }
+
+    @Test
+    void viewUserPrivateData_UserNotFound() {
+        String username = "test";
+        Mockito.when(userRepository.findOneByUsername(username)).thenReturn(Optional.empty());
+        var oResult = userService.viewUserPrivateData(username);
+        Assertions.assertEquals(Optional.empty(), oResult);
+        Mockito.verify(userRepository, Mockito.times(1)).findOneByUsername(username);
+        Mockito.verify(mapper, Mockito.never()).toUserPrivateDTO(Mockito.any(User.class));
+    }
 
 
     //getUserByUsername Test

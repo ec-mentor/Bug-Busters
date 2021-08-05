@@ -29,7 +29,7 @@ class UserEndpointTest {
     @MockBean
     UserDTOMapper userDTOMapper;
 
-    private final String url = "/users/register";
+    private final String url = "/users";
 
 
     //registerUser Test
@@ -45,7 +45,7 @@ class UserEndpointTest {
                 "test.test@bugbusters.com",
                 null);
         Mockito.when(userService.saveUser(testUser)).thenThrow(IllegalArgumentException.class);
-        ResponseEntity<User> resultResponseEntity = testRestTemplate.postForEntity(url, testUser, User.class);
+        ResponseEntity<User> resultResponseEntity = testRestTemplate.postForEntity(url + "/register", testUser, User.class);
         HttpStatus statusCode = resultResponseEntity.getStatusCode();
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, statusCode);
         Mockito.verify(userService, Mockito.times(1)).saveUser(testUser);
@@ -61,7 +61,7 @@ class UserEndpointTest {
                 null,
                 null,
                 null);
-        ResponseEntity<User> resultResponseEntity = testRestTemplate.postForEntity(url, testUser, User.class);
+        ResponseEntity<User> resultResponseEntity = testRestTemplate.postForEntity(url + "/register", testUser, User.class);
         HttpStatus statusCode = resultResponseEntity.getStatusCode();
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, statusCode);
         Mockito.verify(userService, Mockito.never()).saveUser(Mockito.any(User.class));
@@ -77,7 +77,7 @@ class UserEndpointTest {
                 null,
                 "totallyValidEmail",
                 null);
-        ResponseEntity<User> resultResponseEntity = testRestTemplate.postForEntity(url, testUser, User.class);
+        ResponseEntity<User> resultResponseEntity = testRestTemplate.postForEntity(url + "/register", testUser, User.class);
         HttpStatus statusCode = resultResponseEntity.getStatusCode();
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, statusCode);
         Mockito.verify(userService, Mockito.never()).saveUser(Mockito.any(User.class));
@@ -94,7 +94,7 @@ class UserEndpointTest {
                 "test.test@bugbusters.com",
                 null);
         Mockito.when(userService.saveUser(testUser)).thenReturn(testUser);
-        ResponseEntity<User> resultResponseEntity = testRestTemplate.postForEntity(url, testUser, User.class);
+        ResponseEntity<User> resultResponseEntity = testRestTemplate.postForEntity(url + "/register", testUser, User.class);
         User result = resultResponseEntity.getBody();
         HttpStatus resultStatusCode = resultResponseEntity.getStatusCode();
         Assertions.assertEquals(testUser, result);
@@ -102,18 +102,22 @@ class UserEndpointTest {
         Mockito.verify(userService).saveUser(testUser);
     }
 
-    //viewUserPublicData Test
+    //viewUserProfile test
     //ToDo refactor Endpoint test using TestRestTemplate
 
-    @Test
-    void viewUserPublicData_methodCalled(){
-        String input = "string";
-        Mockito.when(userService.viewUserPublicData(input))
-                .thenReturn(Optional.empty());
-        Optional<UserPublicDTO> result = userService.viewUserPublicData(input);
-        Mockito.verify(userService).viewUserPublicData(input);
-        Assertions.assertEquals(result, Optional.empty());
-    }
+//    @Test
+//    @WithMockUser(username = "test", password = "Testing1#")
+//    void viewUserProfile_methodCalled(){
+//        String username = "test";
+//        String password = "Testing1#";
+//
+//        Mockito.when(userService.viewUserPrivateData(username))
+//                .thenReturn(Optional.of(new UserPrivateDTO()));
+//        ResponseEntity<UserPrivateDTO> response = testRestTemplate.getForEntity(url + "/login", UserPrivateDTO.class);
+//        System.out.println(response.getStatusCode());
+//        Mockito.verify(userService).viewUserPrivateData(username);
+//        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+//    }
 
 
     //editUserProfile Test
@@ -132,16 +136,17 @@ class UserEndpointTest {
     }
 
 
-    //viewUserProfile test
+    //viewUserPublicData Test
     //ToDo refactor Endpoint test using TestRestTemplate
 
     @Test
-    void viewUserProfile_methodCalled(){
+    void viewUserPublicData_methodCalled(){
         String input = "string";
-        Mockito.when(userService.viewUserPrivateData(input))
+        Mockito.when(userService.viewUserPublicData(input))
                 .thenReturn(Optional.empty());
-        Optional<UserPrivateDTO> result = userService.viewUserPrivateData(input);
-        Mockito.verify(userService).viewUserPrivateData(input);
+        Optional<UserPublicDTO> result = userService.viewUserPublicData(input);
+        Mockito.verify(userService).viewUserPublicData(input);
         Assertions.assertEquals(result, Optional.empty());
     }
+
 }
