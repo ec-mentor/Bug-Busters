@@ -44,6 +44,6 @@ public class UserEndpoint {
 
     @GetMapping("/view/{username}")
     UserPublicDTO getDTOByUsername(@PathVariable String username){
-        return userService.viewUserPublicDTO(username).orElse(null);
+        return userService.viewUserPublicData(username).orElse(null);
     }
 }

@@ -52,8 +52,8 @@ public class UserService {
         return userRepository.findOneByUsername(username);
     }
 
-    public Optional<UserPublicDTO> viewUserPublicDTO(String username){
-        return userRepository.findOneByUsername(username).map(mapper::toUserPublicDTO);
+    public Optional<UserPublicDTO> viewUserPublicData(String username){
+        return userRepository.findOneByUsername(username).map(user -> mapper.toUserPublicDTO(user));
     }
 }
 
