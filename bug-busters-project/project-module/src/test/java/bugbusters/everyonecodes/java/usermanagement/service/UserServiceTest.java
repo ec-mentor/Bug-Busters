@@ -1,12 +1,15 @@
 package bugbusters.everyonecodes.java.usermanagement.service;
 
 import bugbusters.everyonecodes.java.usermanagement.data.User;
+import bugbusters.everyonecodes.java.usermanagement.data.UserPrivateDTO;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPublicDTO;
 import bugbusters.everyonecodes.java.usermanagement.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,7 +17,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -72,7 +77,27 @@ class UserServiceTest {
     //editUserData Test
     //ToDo: create Tests
 
+    @Test
+    void editUserDataEmpty() {
+        UserPrivateDTO userChanges = new UserPrivateDTO("1", "2", "3", LocalDate.of(1999,8,10), "4", "abc@def.g", "5");
+        Mockito.when(userRepository.findOneByUsername("1")).thenReturn(Optional.empty());
+        var result = userService.editUserData(userChanges, "1");
+        var expected = Optional.empty();
+        Assertions.assertEquals(expected, result);
+    }
 
+    @Test
+    void editUserDataFound() {
+        UserPrivateDTO userChanges = new UserPrivateDTO("1", "2", "newName", LocalDate.of(1999,8,10), "newAddress", "abc@def.g", "newDescription");
+        Mockito.when(userRepository.findOneByUsername("1")).thenReturn(Optional.of(new User(1L, "1", "", "2", "3", LocalDate.parse("2000-01-01"), "4", "abcee@def.g", "test")));
+        Mockito.when(mapper.toUserPrivateDTO(new User(1L, "1", "", "2", "newName", LocalDate.of(1999,8,10), "newAddress", "abc@def.g", "newDescription")))
+                .thenReturn(new UserPrivateDTO("1", "2", "newName", LocalDate.of(1999,8,10), "newAddress", "abc@def.g", "newDescription"));
+        Mockito.when(userRepository.save(new User(1L, "1", "", "2", "newName", LocalDate.of(1999,8,10), "newAddress", "abc@def.g", "newDescription")))
+                .thenReturn(new User(1L, "1", "", "2", "newName", LocalDate.of(1999,8,10), "newAddress", "abc@def.g", "newDescription"));
+        var result = userService.editUserData(userChanges, "1");
+        var expected = Optional.of(new UserPrivateDTO("1", "2", "newName", LocalDate.of(1999,8,10), "newAddress", "abc@def.g", "newDescription"));
+        Assertions.assertEquals(expected, result);
+    }
 
     //viewUserPrivateData Test
     //ToDo: create Tests
