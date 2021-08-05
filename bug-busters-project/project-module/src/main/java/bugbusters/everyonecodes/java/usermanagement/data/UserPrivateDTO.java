@@ -1,6 +1,7 @@
 package bugbusters.everyonecodes.java.usermanagement.data;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class UserPrivateDTO {
     private String username;
@@ -75,5 +76,31 @@ public class UserPrivateDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserPrivateDTO that = (UserPrivateDTO) o;
+        return Objects.equals(username, that.username) && Objects.equals(role, that.role) && Objects.equals(fullName, that.fullName) && Objects.equals(birthday, that.birthday) && Objects.equals(address, that.address) && Objects.equals(email, that.email) && Objects.equals(description, that.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, role, fullName, birthday, address, email, description);
+    }
+
+    @Override
+    public String toString() {
+        return "UserPrivateDTO{" +
+                "username='" + username + '\'' +
+                ", role='" + role + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", birthday=" + birthday +
+                ", address='" + address + '\'' +
+                ", email='" + email + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

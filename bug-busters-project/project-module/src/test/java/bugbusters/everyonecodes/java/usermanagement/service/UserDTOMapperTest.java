@@ -1,6 +1,7 @@
 package bugbusters.everyonecodes.java.usermanagement.service;
 
 import bugbusters.everyonecodes.java.usermanagement.data.User;
+import bugbusters.everyonecodes.java.usermanagement.data.UserPrivateDTO;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPublicDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -25,13 +26,10 @@ class UserDTOMapperTest {
     LocalDateNowProvider provider;
 
 
-
-
     //toUserPrivateDTO Test
-    //ToDO: refactor
 
     @Test
-    void testUserToPrivateUserDTO_rightValues(){
+    void toUserPrivateDTO(){
         User user = new User(123L,
                 "username",
                 "password",
@@ -41,7 +39,7 @@ class UserDTOMapperTest {
                 "address",
                 "email",
                 "description");
-        UserPrivateDTO result = userPrivateDTOService.toDTO(user);
+        UserPrivateDTO result = userDTOMapper.toUserPrivateDTO(user);
         UserPrivateDTO expected = new UserPrivateDTO("username",
                 "role",
                 "fullname",
@@ -49,29 +47,6 @@ class UserDTOMapperTest {
                 "address",
                 "email",
                 "description");
-        Assertions.assertEquals(expected, result);
-    }
-
-
-    @Test
-    void testUserToPrivateUserDTO_wrongValues(){
-        User user = new User(123L,
-                "username",
-                "password",
-                "role",
-                "fullname",
-                LocalDate.now(),
-                "address",
-                "email",
-                "description");
-        UserPrivateDTO result = userPrivateDTOService.toDTO(user);
-        UserPrivateDTO expected = new UserPrivateDTO("mike",
-                "user",
-                "michael",
-                LocalDate.now(),
-                "vienna",
-                "email",
-                "coding");
         Assertions.assertEquals(expected, result);
     }
 
@@ -87,7 +62,7 @@ class UserDTOMapperTest {
                 null,
                 null,
                 "description");
-        UserPrivateDTO result = userPrivateDTOService.toDTO(user);
+        UserPrivateDTO result = userDTOMapper.toUserPrivateDTO(user);
         UserPrivateDTO expected = new UserPrivateDTO("username",
                 "role",
                 null,
@@ -99,14 +74,10 @@ class UserDTOMapperTest {
     }
 
 
-
-
-
     //toUserPublicDTO Test
-    //ToDo: refactor
 
     @Test
-    void transformUserToUserPublicDTO_allValues() {
+    void toUserPublicDTO() {
         Mockito.when(provider.getDateNow()).thenReturn(LocalDate.of(2021, 8, 4));
         String username = "username";
         String fullName = "fullname";
@@ -114,19 +85,19 @@ class UserDTOMapperTest {
         String description = "description";
         User user = new User(1L, username, "password", "role",
                 fullName, birthday, "address", "email", description);
-        UserPublicDTO result = service.transformUserToUserPublicDTO(user);
+        UserPublicDTO result = userDTOMapper.toUserPublicDTO(user);
         UserPublicDTO expected = new UserPublicDTO(username, fullName, 53, description);
         Assertions.assertEquals(expected, result);
     }
 
     @Test
-    void transformUserToUserPublicDTO_nullValues() {
+    void toUserPublicDTO_nullValues() {
         Mockito.when(provider.getDateNow()).thenReturn(LocalDate.of(2021, 8, 4));
         String username = "username";
         String fullName = "fullname";
         User user = new User(1L, username, "password", "role",
                 fullName, null, null, null, null);
-        UserPublicDTO result = service.transformUserToUserPublicDTO(user);
+        UserPublicDTO result = userDTOMapper.toUserPublicDTO(user);
         UserPublicDTO expected = new UserPublicDTO(username, fullName, null, null);
         Assertions.assertEquals(expected, result);
     }
