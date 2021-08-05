@@ -44,15 +44,14 @@ public class UserService {
     }
 
     public Optional<UserPrivateDTO> viewUserPrivateData(String username) {
-        var oUser = getUserByUsername(username);
-        return oUser.map(mapper::toUserPrivateDTO);
+        return getUserByUsername(username).map(mapper::toUserPrivateDTO);
     }
 
     public Optional<User> getUserByUsername(String username) {
         return userRepository.findOneByUsername(username);
     }
 
-    public Optional<UserPublicDTO> viewUserPublicData(String username){
+    public Optional<UserPublicDTO> viewUserPublicData(String username) {
         return userRepository.findOneByUsername(username).map(user -> mapper.toUserPublicDTO(user));
     }
 }

@@ -103,6 +103,7 @@ class UserEndpointTest {
     }
 
     //viewUserPublicData Test
+    //ToDo refactor Endpoint test using TestRestTemplate
 
     @Test
     void viewUserPublicData_methodCalled(){
@@ -117,6 +118,7 @@ class UserEndpointTest {
 
     //editUserProfile Test
     //ToDo create validation testcase
+    //ToDo refactor Endpoint test using TestRestTemplate
 
     @Test
     void editUserProfile_methodCalled(){
@@ -131,6 +133,7 @@ class UserEndpointTest {
 
 
     //viewUserProfile test
+    //ToDo refactor Endpoint test using TestRestTemplate
 
     @Test
     void viewUserProfile_methodCalled(){
