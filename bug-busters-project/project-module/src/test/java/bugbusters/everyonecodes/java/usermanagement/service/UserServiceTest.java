@@ -11,6 +11,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
+import org.mockito.internal.util.MockUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -110,25 +111,30 @@ class UserServiceTest {
     //viewUserPublicDTO Test
     //ToDo: refactor
 
-//
+    //public Optional<UserPublicDTO> viewUserPublicDTO(String username){
+    //        return userRepository.findOneByUsername(username).map(mapper::toUserPublicDTO);
+    //    }
+
+    @Test
+    void viewUserPublicData_UserFound() {
+        String username = "username";
+        User user = new User(1L, username, "test", "test",
+                "test", LocalDate.of(2000, 1, 1), "test",
+                "test", "test");
+        UserPublicDTO userPublicDTO = new UserPublicDTO(username, "test", 1, "test");
+        Mockito.when(userRepository.findOneByUsername(username)).thenReturn(Optional.of(user));
+        Mockito.when(mapper.toUserPublicDTO(user)).thenReturn(userPublicDTO);
+        var oResult = userService.viewUserPublicData(username);
+        Assertions.assertEquals(Optional.of(userPublicDTO), oResult);
+        Mockito.verify(userRepository, Mockito.times(1)).findOneByUsername(username);
+        Mockito.verify(mapper, Mockito.times(1)).toUserPublicDTO(user);
+    }
+
 //    @Test
-//    void viewUserPublicDTO_UserFound() {
-//        String username = "username";
-//        Optional<User> user = Optional.of(new User(1L, username, "password", "role",
-//                "fullName", LocalDate.of(1967, 8, 10), "address",
-//                "email", "description"));
-//        Mockito.when(userRepository.findOneByUsername(username)).thenReturn(user);
-//        Mockito.when(provider.getDateNow()).thenReturn(LocalDate.of(2021, 8, 5));
-//        UserPublicDTO result = service.transformUserToUserPublicDTO(user.get());
-//        Assertions.assertNotNull(result);
-//    }
-//
-//    @Test
-//    void viewUserPublicDTO_UserNotFound() {
+//    void viewUserPublicData_UserNotFound() {
 //        String username = "username";
 //        Optional<User> user = Optional.empty();
 //        Mockito.when(userRepository.findOneByUsername(username)).thenReturn(user);
-//        Mockito.when(provider.getDateNow()).thenReturn(LocalDate.of(2021, 8, 5));
 //        UserPublicDTO result = service.transformUserToUserPublicDTO(null);
 //        Assertions.assertNull(result);
 //    }
