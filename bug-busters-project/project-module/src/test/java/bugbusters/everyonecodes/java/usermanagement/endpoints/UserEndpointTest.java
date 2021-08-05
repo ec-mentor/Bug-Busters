@@ -102,9 +102,10 @@ class UserEndpointTest {
         Mockito.verify(userService).saveUser(testUser);
     }
 
+    //viewUserPublicData Test
 
     @Test
-    void viewUserPublicDTO_methodCalled(){
+    void viewUserPublicData_methodCalled(){
         String input = "string";
         Mockito.when(userService.viewUserPublicData(input))
                 .thenReturn(Optional.empty());
@@ -113,6 +114,9 @@ class UserEndpointTest {
         Assertions.assertEquals(result, Optional.empty());
     }
 
+
+    //editUserProfile Test
+    //ToDo create validation testcase
 
     @Test
     void editUserProfile_methodCalled(){
@@ -125,6 +129,8 @@ class UserEndpointTest {
         Assertions.assertEquals(result, Optional.empty());
     }
 
+
+    //viewUserProfile test
 
     @Test
     void viewUserProfile_methodCalled(){

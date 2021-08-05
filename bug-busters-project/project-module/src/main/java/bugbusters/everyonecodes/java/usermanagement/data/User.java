@@ -37,7 +37,7 @@ public class User {
 
     private String description;
 
-    protected User() {}
+    public User() {}
 
     public User(Long id, String username, String password, String role, String fullName, LocalDate birthday, String address, String email, String description) {
         this.id = id;

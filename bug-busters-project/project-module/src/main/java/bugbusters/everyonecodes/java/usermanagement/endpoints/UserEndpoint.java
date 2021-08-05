@@ -38,7 +38,7 @@ public class UserEndpoint {
     }
 
     @PutMapping("/edit")
-    UserPrivateDTO editUserProfile(@RequestBody UserPrivateDTO edits, Authentication authentication) {
+    UserPrivateDTO editUserProfile(@Valid @RequestBody UserPrivateDTO edits, Authentication authentication) {
         return userService.editUserData(edits, authentication.getName()).orElse(null);
     }
 
