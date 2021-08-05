@@ -9,6 +9,8 @@ public class UserPublicDTO {
     private Integer age;
     private String description;
 
+    public UserPublicDTO() {}
+
     public UserPublicDTO(String username, String fullName, Integer age, String description) {
         this.username = username;
         this.fullName = fullName;

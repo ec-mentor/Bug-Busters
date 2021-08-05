@@ -5,23 +5,35 @@ import bugbusters.everyonecodes.java.usermanagement.data.UserPrivateDTO;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPublicDTO;
 import bugbusters.everyonecodes.java.usermanagement.service.UserDTOMapper;
 import bugbusters.everyonecodes.java.usermanagement.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Optional;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
 class UserEndpointTest {
 
     @Autowired
     TestRestTemplate testRestTemplate;
+
+    //Needed for Secured Endpoint tests, because TestRestTemplate hates me. I will answer any questions that arise - Georg
+    @Autowired
+    MockMvc mockMvc;
 
     @MockBean
     UserService userService;
@@ -102,51 +114,65 @@ class UserEndpointTest {
         Mockito.verify(userService).saveUser(testUser);
     }
 
-    //viewUserProfile test
-    //ToDo refactor Endpoint test using TestRestTemplate
 
-//    @Test
-//    @WithMockUser(username = "test", password = "Testing1#")
-//    void viewUserProfile_methodCalled(){
-//        String username = "test";
-//        String password = "Testing1#";
-//
-//        Mockito.when(userService.viewUserPrivateData(username))
-//                .thenReturn(Optional.of(new UserPrivateDTO()));
-//        ResponseEntity<UserPrivateDTO> response = testRestTemplate.getForEntity(url + "/login", UserPrivateDTO.class);
-//        System.out.println(response.getStatusCode());
-//        Mockito.verify(userService).viewUserPrivateData(username);
-//        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-//    }
+    //viewUserProfile test
+
+    @Test
+    @WithMockUser(username = "test", password = "Testing1#")
+    void viewUserProfile_methodCalled() throws Exception {
+        String username = "test";
+        Mockito.when(userService.viewUserPrivateData(username))
+                .thenReturn(Optional.of(new UserPrivateDTO()));
+        mockMvc.perform(MockMvcRequestBuilders.get(url + "/login")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        Mockito.verify(userService).viewUserPrivateData(username);
+    }
 
 
     //editUserProfile Test
-    //ToDo create validation testcase
-    //ToDo refactor Endpoint test using TestRestTemplate
 
     @Test
-    void editUserProfile_methodCalled(){
-        String inputString = "string";
-        UserPrivateDTO input = new UserPrivateDTO("username", "test", "full name", null, "address", "email", "description");
-        Mockito.when(userService.editUserData(input, inputString))
-                .thenReturn(Optional.empty());
-        Optional<UserPrivateDTO> result = userService.editUserData(input, inputString);
-        Mockito.verify(userService).editUserData(input, inputString);
-        Assertions.assertEquals(result, Optional.empty());
+    @WithMockUser(username = "test", password = "Testing1#")
+    void editUserProfile_validInput() throws Exception {
+        String username = "test";
+        UserPrivateDTO input = new UserPrivateDTO("test", "test", "test", null, null, "test.test@test.com", null);
+        Mockito.when(userService.editUserData(input, username))
+                .thenReturn(Optional.of(input));
+        mockMvc.perform(MockMvcRequestBuilders.put(url + "/edit")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(input))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        Mockito.verify(userService).editUserData(input, username);
+    }
+
+    @Test
+    @WithMockUser(username = "test", password = "Testing1#")
+    void editUserProfile_invalidInput() throws Exception {
+        String username = "test";
+        UserPrivateDTO input = new UserPrivateDTO("test", "test", null, null, null, null, null);
+        mockMvc.perform(MockMvcRequestBuilders.put(url + "/edit")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new ObjectMapper().writeValueAsString(input))
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+        Mockito.verify(userService, Mockito.never()).editUserData(input, username);
     }
 
 
     //viewUserPublicData Test
-    //ToDo refactor Endpoint test using TestRestTemplate
 
     @Test
-    void viewUserPublicData_methodCalled(){
-        String input = "string";
-        Mockito.when(userService.viewUserPublicData(input))
-                .thenReturn(Optional.empty());
-        Optional<UserPublicDTO> result = userService.viewUserPublicData(input);
-        Mockito.verify(userService).viewUserPublicData(input);
-        Assertions.assertEquals(result, Optional.empty());
+    @WithMockUser(username = "test", password = "Testing1#")
+    void viewUserPublicData_methodCalled() throws Exception {
+        String targetName = "target";
+        Mockito.when(userService.viewUserPublicData(targetName))
+                .thenReturn(Optional.of(new UserPublicDTO()));
+        mockMvc.perform(MockMvcRequestBuilders.get(url + "/view/target")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        Mockito.verify(userService).viewUserPublicData(targetName);
     }
 
 }
