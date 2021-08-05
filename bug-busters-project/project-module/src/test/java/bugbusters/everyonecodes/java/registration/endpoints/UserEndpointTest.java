@@ -57,6 +57,22 @@ class UserEndpointTest {
     }
 
     @Test
+    void registerUser_invalidEmail() {
+        User testUser = new User (null, "Test",
+                "validPassword1#",
+                "ROLE_TEST",
+                "Test Test",
+                null,
+                null,
+                "totallyValidEmail",
+                null);
+        ResponseEntity<User> resultResponseEntity = testRestTemplate.postForEntity(url, testUser, User.class);
+        HttpStatus statusCode = resultResponseEntity.getStatusCode();
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, statusCode);
+        Mockito.verify(userService, Mockito.never()).saveUser(Mockito.any(User.class));
+    }
+
+    @Test
     void registerUser_validNewUser() {
         User testUser = new User (null, "Test",
                 "validPassword1#",
