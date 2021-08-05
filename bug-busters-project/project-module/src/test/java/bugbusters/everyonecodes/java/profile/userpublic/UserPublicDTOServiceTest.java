@@ -1,6 +1,7 @@
 package bugbusters.everyonecodes.java.profile.userpublic;
 
 import bugbusters.everyonecodes.java.registration.data.User;
+import bugbusters.everyonecodes.java.registration.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -22,6 +24,32 @@ class UserPublicDTOServiceTest {
 
     @MockBean
     LocalDateNowProvider provider;
+
+    @MockBean
+    UserRepository userRepository;
+
+
+    @Test
+    void viewUserPublicDTO_UserFound() {
+        String username = "username";
+        Optional<User> user = Optional.of(new User(1L, username, "password", "role",
+                "fullName", LocalDate.of(1967, 8, 10), "address",
+                "email", "description"));
+        Mockito.when(userRepository.findOneByUsername(username)).thenReturn(user);
+        Mockito.when(provider.getDateNow()).thenReturn(LocalDate.of(2021, 8, 5));
+        UserPublicDTO result = service.transformUserToUserPublicDTO(user.get());
+        Assertions.assertNotNull(result);
+    }
+
+    @Test
+    void viewUserPublicDTO_UserNotFound() {
+        String username = "username";
+        Optional<User> user = Optional.empty();
+        Mockito.when(userRepository.findOneByUsername(username)).thenReturn(user);
+        Mockito.when(provider.getDateNow()).thenReturn(LocalDate.of(2021, 8, 5));
+        UserPublicDTO result = service.transformUserToUserPublicDTO(null);
+        Assertions.assertNull(result);
+    }
 
 
     @Test
@@ -34,7 +62,7 @@ class UserPublicDTOServiceTest {
         User user = new User(1L, username, "password", "role",
                 fullName, birthday, "address", "email", description);
         UserPublicDTO result = service.transformUserToUserPublicDTO(user);
-        UserPublicDTO expected = new UserPublicDTO(username, fullName, "53", description);
+        UserPublicDTO expected = new UserPublicDTO(username, fullName, 53, description);
         Assertions.assertEquals(expected, result);
     }
 
@@ -55,8 +83,8 @@ class UserPublicDTOServiceTest {
     @ParameterizedTest
     @MethodSource("parameters")
 
-    void calculateAge(LocalDate birthDate, LocalDate currentDate, int expected) {
-        int result = service.calculateAge(birthDate, currentDate);
+    void calculateAge(LocalDate birthDate, LocalDate currentDate, Integer expected) {
+        Integer result = service.calculateAge(birthDate, currentDate);
         Assertions.assertEquals(expected, result);
     }
 

@@ -6,10 +6,10 @@ public class UserPublicDTO {
 
     private String username;
     private String fullName;
-    private String age;
+    private Integer age;
     private String description;
 
-    public UserPublicDTO(String username, String fullName, String age, String description) {
+    public UserPublicDTO(String username, String fullName, Integer age, String description) {
         this.username = username;
         this.fullName = fullName;
         this.age = age;
@@ -32,11 +32,11 @@ public class UserPublicDTO {
         this.fullName = fullName;
     }
 
-    public String getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
