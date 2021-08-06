@@ -165,11 +165,23 @@ class UserEndpointTest {
 
     @Test
     @WithMockUser(username = "test", password = "Testing1#")
-    void viewUserPublicData_methodCalled() throws Exception {
+    void viewUserPublicData_ownData() throws Exception {
+        String username = "test";
+        Mockito.when(userService.viewUserPublicData(username))
+                .thenReturn(Optional.of(new UserPublicDTO()));
+        mockMvc.perform(MockMvcRequestBuilders.get(url + "/view")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        Mockito.verify(userService).viewUserPublicData(username);
+    }
+
+    @Test
+    @WithMockUser(username = "test", password = "Testing1#")
+    void viewUserPublicData_otherUser() throws Exception {
         String targetName = "target";
         Mockito.when(userService.viewUserPublicData(targetName))
                 .thenReturn(Optional.of(new UserPublicDTO()));
-        mockMvc.perform(MockMvcRequestBuilders.get(url + "/view/target")
+        mockMvc.perform(MockMvcRequestBuilders.get(url + "/view?name=" + targetName)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
         Mockito.verify(userService).viewUserPublicData(targetName);

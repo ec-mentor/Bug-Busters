@@ -42,8 +42,9 @@ public class UserEndpoint {
         return userService.editUserData(edits, authentication.getName()).orElse(null);
     }
 
-    @GetMapping("/view/{username}")
-    UserPublicDTO viewUserPublicData(@PathVariable String username){
-        return userService.viewUserPublicData(username).orElse(null);
+    @GetMapping("/view")
+    UserPublicDTO viewUserPublicData(@RequestParam(name="name", required = false) String name, Authentication authentication) {
+        if (name == null) name = authentication.getName();
+        return userService.viewUserPublicData(name).orElse(null);
     }
 }
