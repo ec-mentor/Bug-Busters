@@ -13,6 +13,36 @@ Content-Type: application/json
   "description": null
 }
 
+### Missing FullName
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "LeSchoki",
+  "password": "Coding12#",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": null,
+  "birthday": null,
+  "address": null,
+  "email": "georg.soher@bugbusters.com",
+  "description": null
+}
+
+### Invalid Email
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "LeSchoki",
+  "password": "invalidPassword",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Georg Soher",
+  "birthday": null,
+  "address": null,
+  "email": "totallyValidEmail",
+  "description": null
+}
+
 ### Valid Post with only mandatory info
 POST http://localhost:8080/users/register
 Content-Type: application/json
@@ -28,22 +58,96 @@ Content-Type: application/json
   "description": null
 }
 
-### Missing FullName
+### Valid Post with optional info
 POST http://localhost:8080/users/register
 Content-Type: application/json
 
 {
-  "username": "iSekro",
+  "username": "Tester",
   "password": "Coding12#",
   "role": "ROLE_INDIVIDUAL",
-  "fullName": null,
+  "fullName": "Test Testington",
+  "birthday": "1990-01-01",
+  "address": "Teststreet 5, Testville, Tennessee",
+  "email": "test.testington@bugbusters.com",
+  "description": "Tester that tests"
+}
+
+
+###
+GET http://localhost:8080/users/login
+Authorization: Basic LeSchoki Coding12#
+
+###
+GET http://localhost:8080/users/login
+Authorization: Basic Tester Coding12#
+
+### Invalid Username change
+PUT http://localhost:8080/users/edit
+Authorization: Basic LeSchoki Coding12#
+Content-Type: application/json
+
+{
+  "username": "",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Georg Soher",
+  "birthday": "1993-03-11",
+  "address": null,
+  "email": "georg.soher@bugbusters.com",
+  "description": "This description is added later on"
+}
+
+### Role can not be changed
+PUT http://localhost:8080/users/edit
+Authorization: Basic LeSchoki Coding12#
+Content-Type: application/json
+
+{
+  "username": "LeSchoki",
+  "role": "ROLE_INDIVIDUAL",
+  "fullName": "Georg Soher",
   "birthday": null,
   "address": null,
-  "email": "invalid.fullname@bugbusters.com",
+  "email": "georg.soher@bugbusters.com",
   "description": null
 }
 
+
+### Invalid Email change
+PUT http://localhost:8080/users/edit
+Authorization: Basic LeSchoki Coding12#
+Content-Type: application/json
+
+{
+  "username": "LeSchoki",
+  "role": "ROLE_INDIVIDUAL",
+  "fullName": "Georg Soher",
+  "birthday": null,
+  "address": null,
+  "email": "this.is.my.new.email",
+  "description": null
+}
+
+### Valid changes
+PUT http://localhost:8080/users/edit
+Authorization: Basic LeSchoki Coding12#
+Content-Type: application/json
+
+{
+  "username": "LeSchoki",
+  "role": "ROLE_INDIVIDUAL",
+  "fullName": "Georg Soher",
+  "birthday": "1993-03-11",
+  "address": null,
+  "email": "georg.soher@bugbusters.com",
+  "description": "This description is added later on"
+}
+
 ###
-GET http://localhost:8080/users/view
+GET http://localhost:8080/users/view/LeSchoki
+Authorization: Basic LeSchoki Coding12#
+
+###
+GET http://localhost:8080/users/view/Tester
 Authorization: Basic LeSchoki Coding12#
 
