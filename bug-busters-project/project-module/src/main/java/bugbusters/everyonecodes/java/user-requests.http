@@ -73,14 +73,14 @@ Content-Type: application/json
   "description": "Tester that tests"
 }
 
-### Valid Post for company
+### Valid Post for organization
 POST http://localhost:8080/users/register
 Content-Type: application/json
 
 {
   "username": "BigO",
   "password": "Coding12#",
-  "role": "ROLE_COMPANY",
+  "role": "ROLE_ORGANIZATION",
   "fullName": "Big Organization",
   "birthday": null,
   "address": null,
