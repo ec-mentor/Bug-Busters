@@ -64,9 +64,9 @@ public class VolunteerService {
     public Optional<Client> getClientByUsername(String username) {
         Optional<Organization> oOrganization = organizationRepository.findOneByUser_username(username);
         if (oOrganization.isPresent()) {
-            return Optional.of(oOrganization.get());
+            return oOrganization.map(Client.class::cast);
         }
         Optional<Individual> oIndividual = individualRepository.findOneByUser_username(username);
-        return Optional.ofNullable(oIndividual.orElse(null));
+        return oIndividual.map(Client.class::cast);
     }
 }

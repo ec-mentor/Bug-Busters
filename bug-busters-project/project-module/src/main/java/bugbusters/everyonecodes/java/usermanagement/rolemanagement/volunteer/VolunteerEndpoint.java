@@ -1,6 +1,7 @@
 package bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer;
 
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientPublicDTO;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,11 +9,9 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/volunteer")
+@Secured("ROLE_VOLUNTEER")
 public class VolunteerEndpoint {
-    // /volunteer/view/ EIGENES
-    // /volunteer/view/{username} ANDERES
-
-
+    
     private final VolunteerService volunteerService;
 
     public VolunteerEndpoint(VolunteerService volunteerService) {

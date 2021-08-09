@@ -3,6 +3,7 @@ package bugbusters.everyonecodes.java.usermanagement.rolemanagement.individual;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientPrivateDTO;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientPublicDTO;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerPublicDTO;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +11,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/individual")
+@Secured("ROLE_INDIVIDUAL")
 public class IndividualEndpoint {
     private final IndividualService individualService;
 

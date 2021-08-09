@@ -1,6 +1,7 @@
 package bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization;
 
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerPublicDTO;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,6 +9,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/organization")
+@Secured("ROLE_ORGANIZATION")
 public class OrganizationEndpoint {
 
     private final OrganizationService organizationService;
