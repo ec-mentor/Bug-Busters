@@ -4,6 +4,7 @@ import bugbusters.everyonecodes.java.usermanagement.data.User;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPrivateDTO;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPublicDTO;
 import bugbusters.everyonecodes.java.usermanagement.repository.UserRepository;
+import bugbusters.everyonecodes.java.usermanagement.rolemanagement.RoleFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +16,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserDTOMapper mapper;
+    private final RoleFactory roleFactory;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserDTOMapper mapper) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, UserDTOMapper mapper, RoleFactory roleFactory) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.mapper = mapper;
+        this.roleFactory = roleFactory;
     }
 
     //regexp = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$^&+=])(?=\\S+$).{6,}")
@@ -28,7 +31,9 @@ public class UserService {
         if (!user.getPassword().matches("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!?@#$^&+=/_-])(?=\\S+$).{6,100}")) throw new IllegalArgumentException();
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
-        return userRepository.save(user);
+        user = userRepository.save(user);
+        roleFactory.createRole(user);
+        return user;
     }
 
     public Optional<UserPrivateDTO> editUserData(UserPrivateDTO input, String username) {
