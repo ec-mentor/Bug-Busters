@@ -1,6 +1,11 @@
 package bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer;
 
-import bugbusters.everyonecodes.java.usermanagement.data.User;
+import bugbusters.everyonecodes.java.usermanagement.rolemanagement.Client;
+import bugbusters.everyonecodes.java.usermanagement.rolemanagement.individual.Individual;
+import bugbusters.everyonecodes.java.usermanagement.rolemanagement.individual.IndividualRepository;
+import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientPublicDTO;
+import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.Organization;
+import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.OrganizationRepository;
 import bugbusters.everyonecodes.java.usermanagement.service.UserService;
 import org.springframework.stereotype.Service;
 
@@ -10,18 +15,21 @@ import java.util.Optional;
 public class VolunteerService {
     private final UserService userService;
     private final VolunteerRepository volunteerRepository;
+    private final OrganizationRepository organizationRepository;
+    private final IndividualRepository individualRepository;
 
     /// TODO VolunteerDTOMAPPER!!!!!!
     /// method:: tovolunteerpublicdto, tovolunteerprivatedto
-    /// ClientPublicDTO, ClientRepository
 
-    public VolunteerService(UserService userService, VolunteerRepository volunteerRepository) {
+    public VolunteerService(UserService userService, VolunteerRepository volunteerRepository, OrganizationRepository organizationRepository, IndividualRepository individualRepository) {
         this.userService = userService;
         this.volunteerRepository = volunteerRepository;
+        this.organizationRepository = organizationRepository;
+        this.individualRepository = individualRepository;
     }
 
     Optional<VolunteerPrivateDTO> viewVolunteerPrivateData(String username) {
-        return getVolunteerByUsername(username).map(volunteer -> mapper.toVolunteerPrivateDTO(volunteer));
+        return getVolunteerByUsername(username).map(volunteer -> volunteerMapper.toVolunteerPrivateDTO(volunteer));
     }
 
     Optional<VolunteerPrivateDTO> editProfile(VolunteerPrivateDTO edits, String username) {
@@ -34,18 +42,18 @@ public class VolunteerService {
         if (oVolunteer.isEmpty()) return Optional.empty();
 
         var volunteer = oVolunteer.get();
-        volunteer.setSkills(mapper.toSet(edits.getSkills()));
-
-        return Optional.of(mapper.toVolunteerPrivateDTO(volunteer));
+        volunteer.setSkills(volunteerMapper.toSet(edits.getSkills()));
+        volunteer = volunteerRepository.save(volunteer);
+        return Optional.of(volunteerMapper.toVolunteerPrivateDTO(volunteer));
     }
 
 
     Optional<VolunteerPublicDTO> viewOwnProfile(String username) {
-        return getVolunteerByUsername(username).map(volunteer -> mapper.toVolunteerPublicDTO(volunteer));
+        return getVolunteerByUsername(username).map(volunteer -> volunteerMapper.toVolunteerPublicDTO(volunteer));
     }
 
     Optional<ClientPublicDTO> viewClientProfile(String name) {
-        return getClientByUsername(name).map(client -> mapper.toClientPublicDTO(client));
+        return getClientByUsername(name).map(client -> clientMapper.toClientPublicDTO(client));
     }
 
 
@@ -54,9 +62,11 @@ public class VolunteerService {
     }
 
     public Optional<Client> getClientByUsername(String username) {
-        var oClient = organizationRepository.findOneByUser_username(username);
-        if (oClient.isPresent()) return oClient;
-        return individualRepository.findOneByUser_username(username);
+        Optional<Organization> oOrganization = organizationRepository.findOneByUser_username(username);
+        if (oOrganization.isPresent()) {
+            return Optional.of(oOrganization.get());
+        }
+        Optional<Individual> oIndividual = individualRepository.findOneByUser_username(username);
+        return Optional.ofNullable(oIndividual.orElse(null));
     }
-
 }

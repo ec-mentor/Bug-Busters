@@ -1,5 +1,6 @@
 package bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer;
 
+import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientPublicDTO;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +36,6 @@ public class VolunteerEndpoint {
 
     @GetMapping("/view/{username}")
     ClientPublicDTO viewClientProfile(@PathVariable String username) {
-        return volunteerService.viewClientProfile(username);
+        return volunteerService.viewClientProfile(username).orElse(null);
     }
 }
