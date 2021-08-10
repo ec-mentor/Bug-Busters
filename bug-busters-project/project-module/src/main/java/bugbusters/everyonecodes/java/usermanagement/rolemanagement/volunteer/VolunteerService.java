@@ -22,13 +22,14 @@ public class VolunteerService {
     private final VolunteerDTOMapper volunteerMapper;
     private final SetToStringMapper setToStringMapper;
 
-    public VolunteerService(UserService userService, VolunteerRepository volunteerRepository, OrganizationRepository organizationRepository, IndividualRepository individualRepository, ClientDTOMapper clientMapper, VolunteerDTOMapper volunteerMapper) {
+    public VolunteerService(UserService userService, VolunteerRepository volunteerRepository, OrganizationRepository organizationRepository, IndividualRepository individualRepository, ClientDTOMapper clientMapper, VolunteerDTOMapper volunteerMapper, SetToStringMapper setToStringMapper) {
         this.userService = userService;
         this.volunteerRepository = volunteerRepository;
         this.organizationRepository = organizationRepository;
         this.individualRepository = individualRepository;
         this.clientMapper = clientMapper;
         this.volunteerMapper = volunteerMapper;
+        this.setToStringMapper = setToStringMapper;
     }
 
     Optional<VolunteerPrivateDTO> viewVolunteerPrivateData(String username) {
@@ -45,7 +46,7 @@ public class VolunteerService {
         if (oVolunteer.isEmpty()) return Optional.empty();
 
         var volunteer = oVolunteer.get();
-        volunteer.setSkills(setToStringMapper.toSet(edits.getSkills()));
+        volunteer.setSkills(setToStringMapper.convertToSet(edits.getSkills()));
         volunteer = volunteerRepository.save(volunteer);
         return Optional.of(volunteerMapper.toVolunteerPrivateDTO(volunteer));
     }
