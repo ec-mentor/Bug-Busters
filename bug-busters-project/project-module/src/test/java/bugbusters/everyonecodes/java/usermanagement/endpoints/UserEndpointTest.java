@@ -3,7 +3,6 @@ package bugbusters.everyonecodes.java.usermanagement.endpoints;
 import bugbusters.everyonecodes.java.usermanagement.data.User;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPrivateDTO;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPublicDTO;
-import bugbusters.everyonecodes.java.usermanagement.service.UserDTOMapper;
 import bugbusters.everyonecodes.java.usermanagement.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
@@ -37,9 +36,6 @@ class UserEndpointTest {
 
     @MockBean
     UserService userService;
-
-    @MockBean
-    UserDTOMapper userDTOMapper;
 
     private final String url = "/users";
 

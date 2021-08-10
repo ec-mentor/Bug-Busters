@@ -6,6 +6,9 @@ public class VolunteerPrivateDTO {
     private UserPrivateDTO user;
     private String skills;
 
+    public VolunteerPrivateDTO() {
+    }
+
     public VolunteerPrivateDTO(UserPrivateDTO user, String skills) {
         this.user = user;
         this.skills = skills;
