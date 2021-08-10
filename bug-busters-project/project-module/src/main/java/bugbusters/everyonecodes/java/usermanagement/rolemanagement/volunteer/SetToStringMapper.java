@@ -3,18 +3,24 @@ package bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class SetToStringMapper {
 
     public String convertToString(Set<String> input) {
+        input = new HashSet<>(input);
         return String.join("; ", input);
     }
 
 
     public Set<String> convertToSet(String input) {
         String[] split = input.split(";");
-        return Set.of(String.valueOf(Arrays.stream(split).map(String::trim)));
+        List<String> splitList = Arrays.asList(split);
+        splitList = splitList.stream().map(String::trim).collect(Collectors.toList());
+        return new HashSet<>(splitList);
     }
 }

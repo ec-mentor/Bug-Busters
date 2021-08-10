@@ -21,13 +21,17 @@ class SetToStringMapperTest {
 
     void convertToString(Set<String>input, String expected) {
         String result = mapper.convertToString(input);
-        Assertions.assertEquals(expected, result);
+        Assertions.assertTrue(result.contains(expected));
+        Assertions.assertEquals(result, expected);
     }
 
     private static Stream<Arguments> parameters() {
         return Stream.of(
                 Arguments.of(
                         Set.of("abc", "def", "geh"), "abc; def; geh"
+                ),
+                Arguments.of(
+                        Set.of("abc", "def"), "abc; def"
                 ),
                 Arguments.of(
                         Set.of("abc"), "abc"
@@ -41,22 +45,26 @@ class SetToStringMapperTest {
     @ParameterizedTest
     @MethodSource("parameters2")
 
-    void convertToSet(Set<String> expected, String input) {
+    void convertToSet(String input, Set<String> expected) {
         Set<String> result = mapper.convertToSet(input);
-        Assertions.assertEquals(expected, result);
+        Assertions.assertEquals(result, expected);
     }
 
     private static Stream<Arguments> parameters2() {
         return Stream.of(
                 Arguments.of(
-                        Set.of("abc", "def", "geh"), "abc; def; geh"
-                ),
+                        "abc; def; geh", Set.of("abc", "def", "geh")
+                        ),
                 Arguments.of(
-                        Set.of("abc"), "abc"
-                ),
+                        "abc; def", Set.of("abc", "def")
+                        ),
                 Arguments.of(
-                        Set.of(""), ""
-                )
+                        "abc", Set.of("abc")
+                        ),
+                Arguments.of(
+                        "", Set.of("")
+                        )
         );
     }
+
 }
