@@ -4,9 +4,11 @@ import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.Vol
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerPublicDTO;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerRepository;
 import bugbusters.everyonecodes.java.usermanagement.service.UserService;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class OrganizationService {
 
     private final OrganizationRepository organizationRepository;

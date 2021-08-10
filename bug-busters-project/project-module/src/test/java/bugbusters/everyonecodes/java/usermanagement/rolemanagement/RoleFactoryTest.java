@@ -7,7 +7,6 @@ import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.OrganizationRepository;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.Volunteer;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerRepository;
-import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +29,6 @@ class RoleFactoryTest {
     IndividualRepository individualRepository;
 
     private final User testUser = new User(null, null, null, "", null, null, null, null, null);
-
-    //ToDo: Run tests
 
     @Test
     void createRole_Volunteer() {
