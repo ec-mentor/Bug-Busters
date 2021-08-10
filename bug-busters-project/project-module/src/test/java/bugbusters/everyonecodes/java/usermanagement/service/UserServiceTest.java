@@ -4,6 +4,7 @@ import bugbusters.everyonecodes.java.usermanagement.data.User;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPrivateDTO;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPublicDTO;
 import bugbusters.everyonecodes.java.usermanagement.repository.UserRepository;
+import bugbusters.everyonecodes.java.usermanagement.rolemanagement.RoleFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -30,6 +31,9 @@ class UserServiceTest {
 
     @MockBean
     UserRepository userRepository;
+
+    @MockBean
+    RoleFactory roleFactory;
 
     @MockBean
     UserDTOMapper mapper;
@@ -140,7 +144,7 @@ class UserServiceTest {
         User user = new User(1L, username, "test", "test",
                 "test", LocalDate.of(2000, 1, 1), "test",
                 "test", "test");
-        UserPublicDTO userPublicDTO = new UserPublicDTO(username, "test", 1, "test");
+        UserPublicDTO userPublicDTO = new UserPublicDTO(username, "test", 1, "test", null);
         Mockito.when(userRepository.findOneByUsername(username)).thenReturn(Optional.of(user));
         Mockito.when(mapper.toUserPublicDTO(user)).thenReturn(userPublicDTO);
         var oResult = userService.viewUserPublicData(username);

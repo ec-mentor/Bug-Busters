@@ -83,10 +83,11 @@ class UserDTOMapperTest {
         String fullName = "fullname";
         LocalDate birthday = LocalDate.of(1967, 8, 10);
         String description = "description";
+        Double rating = 4.0;
         User user = new User(1L, username, "password", "role",
                 fullName, birthday, "address", "email", description);
         UserPublicDTO result = userDTOMapper.toUserPublicDTO(user);
-        UserPublicDTO expected = new UserPublicDTO(username, fullName, 53, description);
+        UserPublicDTO expected = new UserPublicDTO(username, fullName, 53, description, rating);
         Assertions.assertEquals(expected, result);
     }
 
@@ -98,12 +99,9 @@ class UserDTOMapperTest {
         User user = new User(1L, username, "password", "role",
                 fullName, null, null, null, null);
         UserPublicDTO result = userDTOMapper.toUserPublicDTO(user);
-        UserPublicDTO expected = new UserPublicDTO(username, fullName, null, null);
+        UserPublicDTO expected = new UserPublicDTO(username, fullName, null, null, null);
         Assertions.assertEquals(expected, result);
     }
-
-
-
 
 
     //calculateAge Test
