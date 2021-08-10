@@ -21,7 +21,6 @@ class SetToStringMapperTest {
 
     void convertToString(Set<String>input, String expected) {
         String result = mapper.convertToString(input);
-        Assertions.assertTrue(result.contains(expected));
         Assertions.assertEquals(result, expected);
     }
 
@@ -38,6 +37,12 @@ class SetToStringMapperTest {
                 ),
                 Arguments.of(
                         Set.of(""), ""
+                ),
+                Arguments.of(
+                        null, null
+                ),
+                Arguments.of(
+                        Set.of(), null
                 )
         );
     }
@@ -62,8 +67,11 @@ class SetToStringMapperTest {
                         "abc", Set.of("abc")
                         ),
                 Arguments.of(
-                        "", Set.of("")
-                        )
+                        null, null
+                ),
+                Arguments.of(
+                        "", null
+                )
         );
     }
 
