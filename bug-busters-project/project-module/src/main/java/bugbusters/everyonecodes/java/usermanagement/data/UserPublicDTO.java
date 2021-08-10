@@ -1,7 +1,10 @@
 package bugbusters.everyonecodes.java.usermanagement.data;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.Objects;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserPublicDTO {
 
     private String username;

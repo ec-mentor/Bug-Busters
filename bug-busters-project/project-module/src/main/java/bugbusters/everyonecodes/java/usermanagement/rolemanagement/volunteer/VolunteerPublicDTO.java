@@ -3,12 +3,15 @@ package bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPublicDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import javax.validation.Valid;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class VolunteerPublicDTO {
+
     private UserPublicDTO user;
     private String skills;
 
-    VolunteerPublicDTO() {}
+    public VolunteerPublicDTO() {}
 
     public VolunteerPublicDTO(UserPublicDTO user, String skills) {
         this.user = user;

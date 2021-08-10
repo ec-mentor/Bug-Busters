@@ -2,8 +2,14 @@ package bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer;
 
 import bugbusters.everyonecodes.java.usermanagement.data.UserPrivateDTO;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
+
 public class VolunteerPrivateDTO {
+
+    @Valid
     private UserPrivateDTO user;
+    @Pattern(regexp = "^[a-zA-Z\s;]*$")
     private String skills;
 
     public VolunteerPrivateDTO() {

@@ -48,12 +48,12 @@ public class UserService {
         return Optional.of(mapper.toUserPrivateDTO(userRepository.save(user)));
     }
 
-    public Optional<UserPrivateDTO> viewUserPrivateData(String username) {
-        return getUserByUsername(username).map(user -> mapper.toUserPrivateDTO(user));
-    }
-
     public Optional<User> getUserByUsername(String username) {
         return userRepository.findOneByUsername(username);
+    }
+
+    public Optional<UserPrivateDTO> viewUserPrivateData(String username) {
+        return getUserByUsername(username).map(user -> mapper.toUserPrivateDTO(user));
     }
 
     public Optional<UserPublicDTO> viewUserPublicData(String username) {

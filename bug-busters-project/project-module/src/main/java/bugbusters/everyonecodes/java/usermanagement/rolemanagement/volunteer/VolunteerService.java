@@ -32,11 +32,7 @@ public class VolunteerService {
         this.setToStringMapper = setToStringMapper;
     }
 
-    Optional<VolunteerPrivateDTO> viewVolunteerPrivateData(String username) {
-        return getVolunteerByUsername(username).map(volunteer -> volunteerMapper.toVolunteerPrivateDTO(volunteer));
-    }
-
-    Optional<VolunteerPrivateDTO> editProfile(VolunteerPrivateDTO edits, String username) {
+    public Optional<VolunteerPrivateDTO> editVolunteerData(VolunteerPrivateDTO edits, String username) {
         var oVolunteer = getVolunteerByUsername(username);
         if (oVolunteer.isEmpty()) return Optional.empty();
 
@@ -51,18 +47,16 @@ public class VolunteerService {
         return Optional.of(volunteerMapper.toVolunteerPrivateDTO(volunteer));
     }
 
-
-    Optional<VolunteerPublicDTO> viewOwnProfile(String username) {
-        return getVolunteerByUsername(username).map(volunteer -> volunteerMapper.toVolunteerPublicDTO(volunteer));
-    }
-
-    Optional<ClientPublicDTO> viewClientProfile(String name) {
-        return getClientByUsername(name).map(client -> clientMapper.toClientPublicDTO(client));
-    }
-
-
     public Optional<Volunteer> getVolunteerByUsername(String username) {
         return volunteerRepository.findOneByUser_username(username);
+    }
+
+    public Optional<VolunteerPrivateDTO> viewVolunteerPrivateData(String username) {
+        return getVolunteerByUsername(username).map(volunteer -> volunteerMapper.toVolunteerPrivateDTO(volunteer));
+    }
+
+    public Optional<VolunteerPublicDTO> viewVolunteerPublicData(String username) {
+        return getVolunteerByUsername(username).map(volunteer -> volunteerMapper.toVolunteerPublicDTO(volunteer));
     }
 
     public Optional<Client> getClientByUsername(String username) {
@@ -73,4 +67,10 @@ public class VolunteerService {
         Optional<Individual> oIndividual = individualRepository.findOneByUser_username(username);
         return oIndividual.map(Client.class::cast);
     }
+
+    public Optional<ClientPublicDTO> viewClientPublicData(String name) {
+        return getClientByUsername(name).map(client -> clientMapper.toClientPublicDTO(client));
+    }
+
+
 }

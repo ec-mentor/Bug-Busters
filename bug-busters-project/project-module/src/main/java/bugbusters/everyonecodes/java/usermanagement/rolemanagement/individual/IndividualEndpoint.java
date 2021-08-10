@@ -21,7 +21,7 @@ public class IndividualEndpoint {
 
 
     @GetMapping("/login")
-    ClientPrivateDTO viewIndividualData(Authentication authentication) {
+    ClientPrivateDTO viewIndividualPrivateData(Authentication authentication) {
         return individualService.viewIndividualPrivateData(authentication.getName()).orElse(null);
     }
 
@@ -31,12 +31,12 @@ public class IndividualEndpoint {
     }
 
     @GetMapping("/view")
-    ClientPublicDTO viewIndividualProfile(Authentication authentication) {
+    ClientPublicDTO viewIndividualPublicData(Authentication authentication) {
         return individualService.viewIndividualPublicData(authentication.getName()).orElse(null);
     }
 
     @GetMapping("/view/{username}")
-    VolunteerPublicDTO viewVolunteerProfile(@PathVariable String username) {
+    VolunteerPublicDTO viewVolunteerPublicDat(@PathVariable String username) {
         return individualService.viewVolunteerPublicData(username).orElse(null);
     }
 }

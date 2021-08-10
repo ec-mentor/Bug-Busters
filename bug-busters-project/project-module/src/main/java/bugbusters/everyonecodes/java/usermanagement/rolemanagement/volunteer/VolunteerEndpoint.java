@@ -19,22 +19,22 @@ public class VolunteerEndpoint {
     }
 
     @GetMapping("/login")
-    VolunteerPrivateDTO login(Authentication authentication) {
+    VolunteerPrivateDTO viewVolunteerPrivateData(Authentication authentication) {
         return volunteerService.viewVolunteerPrivateData(authentication.getName()).orElse(null);
     }
 
     @PutMapping("/edit")
-    VolunteerPrivateDTO editUserProfile(@Valid @RequestBody VolunteerPrivateDTO edits, Authentication authentication) {
-        return volunteerService.editProfile(edits, authentication.getName()).orElse(null);
+    VolunteerPrivateDTO editVolunteerData(@Valid @RequestBody VolunteerPrivateDTO edits, Authentication authentication) {
+        return volunteerService.editVolunteerData(edits, authentication.getName()).orElse(null);
     }
 
     @GetMapping("/view")
-    VolunteerPublicDTO viewOwnProfile(Authentication authentication) {
-        return volunteerService.viewOwnProfile(authentication.getName()).orElse(null);
+    VolunteerPublicDTO viewVolunteerPublicData(Authentication authentication) {
+        return volunteerService.viewVolunteerPublicData(authentication.getName()).orElse(null);
     }
 
     @GetMapping("/view/{username}")
-    ClientPublicDTO viewClientProfile(@PathVariable String username) {
-        return volunteerService.viewClientProfile(username).orElse(null);
+    ClientPublicDTO viewClientPublicData(@PathVariable String username) {
+        return volunteerService.viewClientPublicData(username).orElse(null);
     }
 }

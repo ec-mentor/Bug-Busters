@@ -35,6 +35,10 @@ public class OrganizationService {
         return Optional.of(clientMapper.toClientPrivateDTO(organization));
     }
 
+    public Optional<Organization> getOrganizationByUsername(String username) {
+        return organizationRepository.findOneByUser_username(username);
+    }
+
     public Optional<ClientPrivateDTO> viewOrganisationPrivateData(String username) {
         return getOrganizationByUsername(username).map(organization -> clientMapper.toClientPrivateDTO(organization));
     }
@@ -46,10 +50,5 @@ public class OrganizationService {
     public Optional<VolunteerPublicDTO> viewVolunteerPublicData(String username) {
         return volunteerRepository.findOneByUser_username(username).map(volunteer -> volunteerMapper.toVolunteerPublicDTO(volunteer));
     }
-
-    public Optional<Organization> getOrganizationByUsername(String username) {
-        return organizationRepository.findOneByUser_username(username);
-    }
-
 
 }
