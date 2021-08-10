@@ -19,16 +19,16 @@ public class VolunteerService {
     private final OrganizationRepository organizationRepository;
     private final IndividualRepository individualRepository;
     private final ClientDTOMapper clientMapper;
+    private final VolunteerDTOMapper volunteerMapper;
+    private final SetToStringMapper setToStringMapper;
 
-    /// TODO VolunteerDTOMAPPER!!!!!!
-    /// method:: tovolunteerpublicdto, tovolunteerprivatedto
-
-    public VolunteerService(UserService userService, VolunteerRepository volunteerRepository, OrganizationRepository organizationRepository, IndividualRepository individualRepository, ClientDTOMapper clientMapper) {
+    public VolunteerService(UserService userService, VolunteerRepository volunteerRepository, OrganizationRepository organizationRepository, IndividualRepository individualRepository, ClientDTOMapper clientMapper, VolunteerDTOMapper volunteerMapper) {
         this.userService = userService;
         this.volunteerRepository = volunteerRepository;
         this.organizationRepository = organizationRepository;
         this.individualRepository = individualRepository;
         this.clientMapper = clientMapper;
+        this.volunteerMapper = volunteerMapper;
     }
 
     Optional<VolunteerPrivateDTO> viewVolunteerPrivateData(String username) {
@@ -45,7 +45,7 @@ public class VolunteerService {
         if (oVolunteer.isEmpty()) return Optional.empty();
 
         var volunteer = oVolunteer.get();
-        volunteer.setSkills(volunteerMapper.toSet(edits.getSkills()));
+        volunteer.setSkills(setToStringMapper.toSet(edits.getSkills()));
         volunteer = volunteerRepository.save(volunteer);
         return Optional.of(volunteerMapper.toVolunteerPrivateDTO(volunteer));
     }

@@ -10,6 +10,11 @@ public class VolunteerPublicDTO {
 
     VolunteerPublicDTO() {}
 
+    public VolunteerPublicDTO(UserPublicDTO user, String skills) {
+        this.user = user;
+        this.skills = skills;
+    }
+
     public UserPublicDTO getUser() {
         return user;
     }

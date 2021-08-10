@@ -3,6 +3,7 @@ package bugbusters.everyonecodes.java.usermanagement.rolemanagement.individual;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientDTOMapper;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientPrivateDTO;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientPublicDTO;
+import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerDTOMapper;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerPublicDTO;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerRepository;
 import bugbusters.everyonecodes.java.usermanagement.service.UserService;
@@ -14,12 +15,15 @@ public class IndividualService {
     private final IndividualRepository individualRepository;
     private final UserService userService;
     private final ClientDTOMapper clientMapper;
+    private final VolunteerDTOMapper volunteerMapper;
 
-    public IndividualService(VolunteerRepository volunteerRepository, IndividualRepository individualRepository, UserService userService, ClientDTOMapper clientMapper) {
+
+    public IndividualService(VolunteerRepository volunteerRepository, IndividualRepository individualRepository, UserService userService, ClientDTOMapper clientMapper, VolunteerDTOMapper volunteerMapper) {
         this.volunteerRepository = volunteerRepository;
         this.individualRepository = individualRepository;
         this.userService = userService;
         this.clientMapper = clientMapper;
+        this.volunteerMapper = volunteerMapper;
     }
 
     public Optional<ClientPrivateDTO> editIndividualData(ClientPrivateDTO input, String username) {
