@@ -11,14 +11,16 @@ public class UserPublicDTO {
     private String fullName;
     private Integer age;
     private String description;
+    private Double rating;
 
     public UserPublicDTO() {}
 
-    public UserPublicDTO(String username, String fullName, Integer age, String description) {
+    public UserPublicDTO(String username, String fullName, Integer age, String description, Double rating) {
         this.username = username;
         this.fullName = fullName;
         this.age = age;
         this.description = description;
+        this.rating = rating;
     }
 
     public String getUsername() {
@@ -51,6 +53,14 @@ public class UserPublicDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 
     @Override
