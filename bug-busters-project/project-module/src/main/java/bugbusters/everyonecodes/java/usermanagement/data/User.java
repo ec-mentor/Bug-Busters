@@ -38,7 +38,7 @@ public class User {
     private String description;
 
     @ElementCollection
-    private List<Integer> ratings = new ArrayList<>();
+    private List<@Min(1) @Max(5) Integer> ratings = new ArrayList<>();
 
     public User() {}
 
