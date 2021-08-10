@@ -31,20 +31,4 @@ public class UserEndpoint {
             );
         }
     }
-//
-//    @GetMapping("/login")
-//    UserPrivateDTO viewUserProfile(Authentication authentication) {
-//        return userService.viewUserPrivateData(authentication.getName()).orElse(null);
-//    }
-//
-//    @PutMapping("/edit")
-//    UserPrivateDTO editUserProfile(@Valid @RequestBody UserPrivateDTO edits, Authentication authentication) {
-//        return userService.editUserData(edits, authentication.getName()).orElse(null);
-//    }
-//
-//    @GetMapping("/view")
-//    UserPublicDTO viewUserPublicData(@RequestParam(name="name", required = false) String name, Authentication authentication) {
-//        if (name == null) name = authentication.getName();
-//        return userService.viewUserPublicData(name).orElse(null);
-//    }
 }
