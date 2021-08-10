@@ -1,5 +1,6 @@
 package bugbusters.everyonecodes.java.usermanagement.rolemanagement.individual;
 
+<<<<<<< HEAD
 import bugbusters.everyonecodes.java.usermanagement.data.User;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPrivateDTO;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPublicDTO;
@@ -129,5 +130,12 @@ class IndividualServiceTest {
         Mockito.verify(individualRepository, Mockito.never()).save(Mockito.any(Individual.class));
     }
 
+=======
+import static org.junit.jupiter.api.Assertions.*;
+
+class IndividualServiceTest {
+
+    //ToDo: create tests
+>>>>>>> 93ebbf7 (Added toDo for tomorrow)
 
 }

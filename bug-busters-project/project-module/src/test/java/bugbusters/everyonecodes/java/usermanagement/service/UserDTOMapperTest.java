@@ -134,4 +134,6 @@ class UserDTOMapperTest {
         );
     }
 
+    //ToDo: create calculate rating test
+
 }
