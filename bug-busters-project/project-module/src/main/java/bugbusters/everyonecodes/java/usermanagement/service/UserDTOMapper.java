@@ -29,7 +29,7 @@ public class UserDTOMapper {
         );
     }
 
-    UserPublicDTO toUserPublicDTO(User user) {
+    public UserPublicDTO toUserPublicDTO(User user) {
         if (user == null) {
             return null;
         }

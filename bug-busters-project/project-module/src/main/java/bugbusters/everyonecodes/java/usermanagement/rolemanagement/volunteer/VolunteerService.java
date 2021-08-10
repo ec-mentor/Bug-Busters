@@ -3,6 +3,7 @@ package bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.Client;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.individual.Individual;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.individual.IndividualRepository;
+import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientDTOMapper;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientPublicDTO;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.Organization;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.OrganizationRepository;
@@ -17,15 +18,17 @@ public class VolunteerService {
     private final VolunteerRepository volunteerRepository;
     private final OrganizationRepository organizationRepository;
     private final IndividualRepository individualRepository;
+    private final ClientDTOMapper clientMapper;
 
     /// TODO VolunteerDTOMAPPER!!!!!!
     /// method:: tovolunteerpublicdto, tovolunteerprivatedto
 
-    public VolunteerService(UserService userService, VolunteerRepository volunteerRepository, OrganizationRepository organizationRepository, IndividualRepository individualRepository) {
+    public VolunteerService(UserService userService, VolunteerRepository volunteerRepository, OrganizationRepository organizationRepository, IndividualRepository individualRepository, ClientDTOMapper clientMapper) {
         this.userService = userService;
         this.volunteerRepository = volunteerRepository;
         this.organizationRepository = organizationRepository;
         this.individualRepository = individualRepository;
+        this.clientMapper = clientMapper;
     }
 
     Optional<VolunteerPrivateDTO> viewVolunteerPrivateData(String username) {

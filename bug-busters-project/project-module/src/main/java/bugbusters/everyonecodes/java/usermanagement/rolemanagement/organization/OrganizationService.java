@@ -12,15 +12,14 @@ public class OrganizationService {
     private final OrganizationRepository organizationRepository;
     private final UserService userService;
     private final VolunteerRepository volunteerRepository;
-
-    //TODO: private final ClientDTOMapper clientMapper;
-
+    private final ClientDTOMapper clientMapper;
     private final VolunteerDTOMapper volunteerMapper;
 
-    public OrganizationService(OrganizationRepository organizationRepository, UserService userService, VolunteerRepository volunteerRepository, VolunteerDTOMapper volunteerMapper) {
+    public OrganizationService(OrganizationRepository organizationRepository, UserService userService, VolunteerRepository volunteerRepository, ClientDTOMapper clientMapper, VolunteerDTOMapper volunteerMapper) {
         this.organizationRepository = organizationRepository;
         this.userService = userService;
         this.volunteerRepository = volunteerRepository;
+        this.clientMapper = clientMapper;
         this.volunteerMapper = volunteerMapper;
     }
 
