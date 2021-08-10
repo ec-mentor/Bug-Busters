@@ -38,7 +38,7 @@ public class UserDTOMapper {
         if (birthday != null) {
             age = calculateAge(birthday, provider.getDateNow());
         }
-        return new UserPublicDTO(user.getUsername(), user.getFullName(), age, user.getDescription(), user.getRating());
+        return new UserPublicDTO(user.getUsername(), user.getFullName(), age, user.getDescription(), user.getRatings());
     }
 
     Integer calculateAge(LocalDate birthDate, LocalDate currentDate) {

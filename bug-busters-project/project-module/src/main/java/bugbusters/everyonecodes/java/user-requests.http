@@ -88,80 +88,81 @@ Content-Type: application/json
   "description": null
 }
 
+### Valid Post with only mandatory info
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Meli",
+  "password": "Coding12#",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Melanie",
+  "birthday": null,
+  "address": null,
+  "email": "melanie.huett@bugbusters.com",
+  "description": null
+}
+
 ###
-GET http://localhost:8080/users/login
+GET http://localhost:8080/volunteer/login
 Authorization: Basic LeSchoki Coding12#
 
 ###
-GET http://localhost:8080/users/login
+GET http://localhost:8080/volunteer/view
+Authorization: Basic LeSchoki Coding12#
+
+###
+GET http://localhost:8080/volunteer/view
+Authorization: Basic Meli Coding12#
+
+###
+GET http://localhost:8080/volunteer/view/Tester
+Authorization: Basic LeSchoki Coding12#
+
+###
+GET http://localhost:8080/volunteer/view/BigO
+Authorization: Basic LeSchoki Coding12#
+
+### contacting wrong endpoint
+GET http://localhost:8080/volunteer/login
 Authorization: Basic Tester Coding12#
 
-### Invalid Username change
-PUT http://localhost:8080/users/edit
+### contacting correct endpoint
+GET http://localhost:8080/individual/login
+Authorization: Basic Tester Coding12#
+
+### Valid volunteer changes
+PUT http://localhost:8080/volunteer/edit
 Authorization: Basic LeSchoki Coding12#
 Content-Type: application/json
 
 {
-  "username": "",
-  "role": "ROLE_VOLUNTEER",
-  "fullName": "Georg Soher",
-  "birthday": "1993-03-11",
-  "address": null,
-  "email": "georg.soher@bugbusters.com",
-  "description": "This description is added later on"
+  "user": {
+    "username": "LeSchoki",
+    "role": "ROLE_VOLUNTEER",
+    "fullName": "Georg Soher",
+    "birthday": "1993-03-11",
+    "address": null,
+    "email": "georg.soher@bugbusters.com",
+    "description": "This description is added later on"
+  },
+  "skills": "cooking;testing;a lot of laughing"
 }
 
-### Role can not be changed
-PUT http://localhost:8080/users/edit
+### Invalid volunteer email change
+PUT http://localhost:8080/volunteer/edit
 Authorization: Basic LeSchoki Coding12#
 Content-Type: application/json
 
 {
-  "username": "LeSchoki",
-  "role": "ROLE_INDIVIDUAL",
-  "fullName": "Georg Soher",
-  "birthday": null,
-  "address": null,
-  "email": "georg.soher@bugbusters.com",
-  "description": null
+  "user": {
+    "username": "LeSchoki",
+    "role": "ROLE_VOLUNTEER",
+    "fullName": "Georg Soher",
+    "birthday": "1993-03-11",
+    "address": null,
+    "email": "totallyValidEmail",
+    "description": "This description is added later on"
+  },
+  "skills": "cooking;testing;a lot of laughing"
 }
-
-
-### Invalid Email change
-PUT http://localhost:8080/users/edit
-Authorization: Basic LeSchoki Coding12#
-Content-Type: application/json
-
-{
-  "username": "LeSchoki",
-  "role": "ROLE_INDIVIDUAL",
-  "fullName": "Georg Soher",
-  "birthday": null,
-  "address": null,
-  "email": "this.is.my.new.email",
-  "description": null
-}
-
-### Valid changes
-PUT http://localhost:8080/users/edit
-Authorization: Basic LeSchoki Coding12#
-Content-Type: application/json
-
-{
-  "username": "LeSchoki",
-  "role": "ROLE_INDIVIDUAL",
-  "fullName": "Georg Soher",
-  "birthday": "1993-03-11",
-  "address": null,
-  "email": "georg.soher@bugbusters.com",
-  "description": "This description is added later on"
-}
-
-### view own data as seen be others
-GET http://localhost:8080/users/view
-Authorization: Basic LeSchoki Coding12#
-
-### view others data
-GET http://localhost:8080/users/view?name=Tester
-Authorization: Basic LeSchoki Coding12#
-

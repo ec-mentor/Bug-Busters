@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.stream.Stream;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -83,11 +84,11 @@ class UserDTOMapperTest {
         String fullName = "fullname";
         LocalDate birthday = LocalDate.of(1967, 8, 10);
         String description = "description";
-        Double rating = 4.0;
+        List<Integer> ratings = List.of(2, 4, 4);
         User user = new User(1L, username, "password", "role",
                 fullName, birthday, "address", "email", description);
         UserPublicDTO result = userDTOMapper.toUserPublicDTO(user);
-        UserPublicDTO expected = new UserPublicDTO(username, fullName, 53, description, rating);
+        UserPublicDTO expected = new UserPublicDTO(username, fullName, 53, description, ratings);
         Assertions.assertEquals(expected, result);
     }
 
