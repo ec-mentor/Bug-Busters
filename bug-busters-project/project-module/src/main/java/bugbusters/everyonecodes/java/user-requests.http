@@ -166,3 +166,7 @@ Content-Type: application/json
   },
   "skills": "cooking;testing;a lot of laughing"
 }
+
+###
+GET http://localhost:8080/volunteer/webapptree
+Authorization: Basic LeSchoki Coding12#

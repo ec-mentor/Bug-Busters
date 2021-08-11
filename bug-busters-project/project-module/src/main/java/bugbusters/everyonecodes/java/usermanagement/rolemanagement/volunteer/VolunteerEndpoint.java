@@ -13,11 +13,9 @@ import javax.validation.Valid;
 @RequestMapping("/volunteer")
 @Secured("ROLE_VOLUNTEER")
 public class VolunteerEndpoint {
-    private final UserService userService;
     private final VolunteerService volunteerService;
 
-    public VolunteerEndpoint(UserService userService, VolunteerService volunteerService) {
-        this.userService = userService;
+    public VolunteerEndpoint(VolunteerService volunteerService) {
         this.volunteerService = volunteerService;
     }
 
@@ -43,6 +41,6 @@ public class VolunteerEndpoint {
 
     @GetMapping("/webapptree")
     String viewWebAppTree(@Value("${webapptree.volunteer}") String input) {
-        return userService.viewWebAppTree(input);
+        return input;
     }
 }

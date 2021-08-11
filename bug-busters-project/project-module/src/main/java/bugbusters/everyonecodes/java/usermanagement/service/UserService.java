@@ -59,9 +59,5 @@ public class UserService {
     public Optional<UserPublicDTO> viewUserPublicData(String username) {
         return userRepository.findOneByUsername(username).map(user -> mapper.toUserPublicDTO(user));
     }
-
-    public String viewWebAppTree(String input) {
-        return input;
-    }
 }
 

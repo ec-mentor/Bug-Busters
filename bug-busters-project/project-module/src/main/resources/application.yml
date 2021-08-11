@@ -7,6 +7,6 @@ spring:
     hibernate:
       ddl-auto: update
 webapptree:
-  volunteer: "Login \n Edit own profile \n View own public profile \n View Organisation/Individual profile"
+  volunteer: "Edit own profile \nView own public profile \nView Organization/Individual profile"
   individual:
   organization:
