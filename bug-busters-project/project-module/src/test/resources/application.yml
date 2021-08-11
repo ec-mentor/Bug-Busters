@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost/user-db?useSSL=false
+    username: root
+    password: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+webapptree:
+  volunteer: "abc"
+  individual: "def"
+  organization: "geh"

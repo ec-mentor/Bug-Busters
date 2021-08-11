@@ -3,15 +3,18 @@ package bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization
 import bugbusters.everyonecodes.java.usermanagement.data.UserPrivateDTO;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerPublicDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -30,7 +33,6 @@ class OrganizationEndpointTest {
     private final String url = "/organization";
 
     //tests for viewOrganizationPrivateData
-
     @Test
     @WithMockUser(username = "test", password = "Testing1#", authorities = {"ROLE_ORGANIZATION"})
     void viewOrganizationPrivateData_authorized() throws Exception{
@@ -110,5 +112,18 @@ class OrganizationEndpointTest {
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
         Mockito.verify(organizationService, Mockito.never()).editOrganizationData(input, username);
     }
+
+    //tests for viewWebAppTree
+    @Test
+    @WithMockUser(username = "test", password = "Testing1#", authorities = {"ROLE_ORGANIZATION"})
+    void viewWebAppTree() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get(url + "/webapptree")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        String expected = "geh";
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(url + "/webapptree")).andReturn();
+        Assertions.assertEquals(expected, result.getResponse().getContentAsString());
+    }
+
 
 }
