@@ -85,10 +85,11 @@ class UserDTOMapperTest {
         LocalDate birthday = LocalDate.of(1967, 8, 10);
         String description = "description";
         List<Integer> ratings = List.of(2, 4, 4);
+        Double rating = userDTOMapper.calculateRating(ratings);
         User user = new User(1L, username, "password", "role",
                 fullName, birthday, "address", "email", description);
         UserPublicDTO result = userDTOMapper.toUserPublicDTO(user);
-        UserPublicDTO expected = new UserPublicDTO(username, fullName, 53, description, ratings);
+        UserPublicDTO expected = new UserPublicDTO(username, fullName, 53, description, rating);
         Assertions.assertEquals(expected, result);
     }
 

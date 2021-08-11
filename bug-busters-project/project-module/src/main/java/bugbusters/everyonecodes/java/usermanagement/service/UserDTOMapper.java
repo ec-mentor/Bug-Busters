@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 
 @Service
 public class UserDTOMapper {
@@ -38,11 +39,20 @@ public class UserDTOMapper {
         if (birthday != null) {
             age = calculateAge(birthday, provider.getDateNow());
         }
-        return new UserPublicDTO(user.getUsername(), user.getFullName(), age, user.getDescription(), user.getRatings());
+        List<Integer> ratings = user.getRatings();
+        Double rating = calculateRating(ratings);
+        return new UserPublicDTO(user.getUsername(), user.getFullName(), age, user.getDescription(), rating);
     }
 
     Integer calculateAge(LocalDate birthDate, LocalDate currentDate) {
         return Period.between(birthDate, currentDate).getYears();
+    }
+
+    Double calculateRating(List<Integer> ratings) {
+        if (ratings.size() == 0) return null;
+        return ratings.stream()
+                .mapToDouble(Double::valueOf)
+                .sum() / ratings.size();
     }
 
 }

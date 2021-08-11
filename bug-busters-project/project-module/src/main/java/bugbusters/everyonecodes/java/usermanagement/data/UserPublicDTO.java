@@ -2,7 +2,6 @@ package bugbusters.everyonecodes.java.usermanagement.data;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import java.util.List;
 import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -16,12 +15,12 @@ public class UserPublicDTO {
 
     public UserPublicDTO() {}
 
-    public UserPublicDTO(String username, String fullName, Integer age, String description, List<Integer> ratings) {
+    public UserPublicDTO(String username, String fullName, Integer age, String description, Double rating) {
         this.username = username;
         this.fullName = fullName;
         this.age = age;
         this.description = description;
-        this.rating = calculateRating(ratings);
+        this.rating = rating;
     }
 
     public String getUsername() {
@@ -64,12 +63,7 @@ public class UserPublicDTO {
         this.rating = rating;
     }
 
-    private Double calculateRating(List<Integer> ratings) {
-        if (ratings.size() == 0) return null;
-        return ratings.stream()
-                .mapToDouble(Double::valueOf)
-                .sum() / ratings.size();
-    }
+
 
     @Override
     public boolean equals(Object o) {
