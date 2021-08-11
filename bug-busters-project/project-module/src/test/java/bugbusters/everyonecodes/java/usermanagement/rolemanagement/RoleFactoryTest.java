@@ -28,7 +28,7 @@ class RoleFactoryTest {
     @MockBean
     IndividualRepository individualRepository;
 
-    private final User testUser = new User(null, null, null, "", null, null, null, null, null);
+    private final User testUser = new User(null, null, "", null, null, null, null, null);
 
     @Test
     void createRole_Volunteer() {

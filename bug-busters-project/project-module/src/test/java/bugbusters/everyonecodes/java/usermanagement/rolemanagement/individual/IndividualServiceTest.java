@@ -44,7 +44,7 @@ class IndividualServiceTest {
 
     // for testing
     private final String username = "test";
-    private final User user = new User(1L, "test", "test", "test",
+    private final User user = new User("test", "test", "test",
             "test", LocalDate.of(2000, 1, 1), "test",
             "test", "test");
     private final UserPrivateDTO userPrivateDTO = new UserPrivateDTO(username, user.getRole(), user.getFullName(), user.getBirthday(), user.getAddress(), user.getEmail(), user.getDescription());

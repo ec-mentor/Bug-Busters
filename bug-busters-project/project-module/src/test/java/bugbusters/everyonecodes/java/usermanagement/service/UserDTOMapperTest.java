@@ -31,7 +31,7 @@ class UserDTOMapperTest {
 
     @Test
     void toUserPrivateDTO(){
-        User user = new User(123L,
+        User user = new User(
                 "username",
                 "password",
                 "role",
@@ -54,7 +54,7 @@ class UserDTOMapperTest {
 
     @Test
     void testUserToPrivateUserDTO_nullValues(){
-        User user = new User(123L,
+        User user = new User(
                 "username",
                 "password",
                 "role",
@@ -86,7 +86,7 @@ class UserDTOMapperTest {
         String description = "description";
         List<Integer> ratings = List.of(2, 4, 4);
         Double rating = userDTOMapper.calculateRating(ratings);
-        User user = new User(1L, username, "password", "role",
+        User user = new User(username, "password", "role",
                 fullName, birthday, "address", "email", description);
         UserPublicDTO result = userDTOMapper.toUserPublicDTO(user);
         UserPublicDTO expected = new UserPublicDTO(username, fullName, 53, description, rating);
@@ -98,7 +98,7 @@ class UserDTOMapperTest {
         Mockito.when(provider.getDateNow()).thenReturn(LocalDate.of(2021, 8, 4));
         String username = "username";
         String fullName = "fullname";
-        User user = new User(1L, username, "password", "role",
+        User user = new User(username, "password", "role",
                 fullName, null, null, null, null);
         UserPublicDTO result = userDTOMapper.toUserPublicDTO(user);
         UserPublicDTO expected = new UserPublicDTO(username, fullName, null, null, null);

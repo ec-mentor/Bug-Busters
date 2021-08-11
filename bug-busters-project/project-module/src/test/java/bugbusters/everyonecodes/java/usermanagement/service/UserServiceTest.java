@@ -38,7 +38,7 @@ class UserServiceTest {
     @MockBean
     UserDTOMapper mapper;
 
-    private final User testUser = new User(1L, "test", "", "test", "test", LocalDate.parse("2000-01-01"), "test", "test", "test");
+    private final User testUser = new User("test", "", "test", "test", LocalDate.parse("2000-01-01"), "test", "test", "test");
 
 
     //saveUser Tests
@@ -88,8 +88,8 @@ class UserServiceTest {
 
     @Test
     void editUserDataFound() {
-        User oldUser = new User(1L, "1", "", "2", "3", LocalDate.of(2000, 1, 1), "4", "abcee@def.g", "test");
-        User newUser = new User(1L, "1", "", "2", "newName", LocalDate.of(1999,8,10), "newAddress", "abc@def.g", "newDescription");
+        User oldUser = new User("1", "", "2", "3", LocalDate.of(2000, 1, 1), "4", "abcee@def.g", "test");
+        User newUser = new User("1", "", "2", "newName", LocalDate.of(1999,8,10), "newAddress", "abc@def.g", "newDescription");
         UserPrivateDTO userChanges = new UserPrivateDTO("1", "2", "newName", LocalDate.of(1999,8,10), "newAddress", "abc@def.g", "newDescription");
         Mockito.when(userRepository.findOneByUsername("1")).thenReturn(Optional.of(oldUser));
         Mockito.when(mapper.toUserPrivateDTO(Mockito.any(User.class))).thenReturn(new UserPrivateDTO());
@@ -103,7 +103,7 @@ class UserServiceTest {
     @Test
     void viewUserPrivateData_UserFound() {
         String username = "username";
-        User user = new User(1L, username, "test", "test",
+        User user = new User(username, "test", "test",
                 "test", LocalDate.of(2000, 1, 1), "test",
                 "test", "test");
         UserPrivateDTO userPrivateDTO = new UserPrivateDTO(username, user.getRole(), user.getFullName(), user.getBirthday(), user.getAddress(), user.getEmail(), user.getDescription());
@@ -141,7 +141,7 @@ class UserServiceTest {
     @Test
     void viewUserPublicData_UserFound() {
         String username = "username";
-        User user = new User(1L, username, "test", "test",
+        User user = new User(username, "test", "test",
                 "test", LocalDate.of(2000, 1, 1), "test",
                 "test", "test");
         UserPublicDTO userPublicDTO = new UserPublicDTO(username, "test", 1, "test", null);

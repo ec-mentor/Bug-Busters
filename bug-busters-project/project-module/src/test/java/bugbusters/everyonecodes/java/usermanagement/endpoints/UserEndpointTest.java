@@ -31,7 +31,7 @@ class UserEndpointTest {
 
     @Test
     void registerUser_invalidPassword() {
-        User testUser = new User (null, "Test",
+        User testUser = new User ("Test",
                 "invalidPassword",
                 "ROLE_TEST",
                 "Test Test",
@@ -48,7 +48,7 @@ class UserEndpointTest {
 
     @Test
     void registerUser_validationFailed() {
-        User testUser = new User (null, "Test",
+        User testUser = new User ("Test",
                 "validPassword1#",
                 null,
                 null,
@@ -64,7 +64,7 @@ class UserEndpointTest {
 
     @Test
     void registerUser_invalidEmail() {
-        User testUser = new User (null, "Test",
+        User testUser = new User ("Test",
                 "validPassword1#",
                 "ROLE_TEST",
                 "Test Test",
@@ -80,7 +80,7 @@ class UserEndpointTest {
 
     @Test
     void registerUser_validNewUser() {
-        User testUser = new User (null, "Test",
+        User testUser = new User ("Test",
                 "validPassword1#",
                 "ROLE_TEST",
                 "Test Test",
