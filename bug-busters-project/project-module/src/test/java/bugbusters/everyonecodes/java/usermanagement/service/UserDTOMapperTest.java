@@ -135,6 +135,12 @@ class UserDTOMapperTest {
         );
     }
 
-    //ToDo: create calculate rating test
+    // Double calculateRating(List<Integer> ratings) {
+    //        if (ratings.size() == 0) return null;
+    //        return ratings.stream()
+    //                .mapToDouble(Double::valueOf)
+    //                .sum() / ratings.size();
+    //    }
+    //ToDo: create test
 
 }
