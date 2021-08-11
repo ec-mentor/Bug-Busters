@@ -109,13 +109,13 @@ class UserDTOMapperTest {
     //calculateAge Test
 
     @ParameterizedTest
-    @MethodSource("parameters")
+    @MethodSource("parameters_calculateAge")
     void calculateAge(LocalDate birthDate, LocalDate currentDate, Integer expected) {
         Integer result = userDTOMapper.calculateAge(birthDate, currentDate);
         Assertions.assertEquals(expected, result);
     }
 
-    private static Stream<Arguments> parameters() {
+    private static Stream<Arguments> parameters_calculateAge() {
         return Stream.of(
                 Arguments.of(
                         LocalDate.of(1961, 5, 17), LocalDate.of(2016, 7, 12), 55
@@ -135,12 +135,34 @@ class UserDTOMapperTest {
         );
     }
 
-    // Double calculateRating(List<Integer> ratings) {
-    //        if (ratings.size() == 0) return null;
-    //        return ratings.stream()
-    //                .mapToDouble(Double::valueOf)
-    //                .sum() / ratings.size();
-    //    }
-    //ToDo: create test
 
+    //calculateRating Tests
+
+    @Test
+    void calculateRating_emptyList() {
+        List<Integer> input = List.of();
+        Double result = userDTOMapper.calculateRating(input);
+        Assertions.assertNull(result);
+    }
+
+    @ParameterizedTest
+    @MethodSource("parameters_calculateRating")
+    void calculateRating_ListWithElements(List<Integer> input, Double expected) {
+        Double result = userDTOMapper.calculateRating(input);
+        Assertions.assertEquals(expected, result, 0.0000001);
+    }
+
+    private static Stream<Arguments> parameters_calculateRating() {
+        return Stream.of(
+                Arguments.of(
+                        List.of(2, 2, 3), 2.33333333
+                ),
+                Arguments.of(
+                        List.of(1, 2), 1.5
+                ),
+                Arguments.of(
+                        List.of(1), 1.0
+                )
+        );
+    }
 }
