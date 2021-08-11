@@ -1,6 +1,7 @@
 package bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization;
 
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerPublicDTO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -36,5 +37,10 @@ public class OrganizationEndpoint {
     @GetMapping("/view/{username}")
     VolunteerPublicDTO viewVolunteerPublicData(@PathVariable String username) {
         return organizationService.viewVolunteerPublicData(username).orElse(null);
+    }
+
+    @GetMapping("/webapptree")
+    String viewWebAppTree(@Value("${webapptree.organization}") String input) {
+        return input;
     }
 }

@@ -8,5 +8,5 @@ spring:
       ddl-auto: update
 webapptree:
   volunteer: "Edit own profile \nView own public profile \nView Organization/Individual profile"
-  individual:
-  organization:
+  individual: "Edit own profile \nView own public profile \nView Volunteer profile"
+  organization: "Edit own profile \nView own public profile \nView Volunteer profile"

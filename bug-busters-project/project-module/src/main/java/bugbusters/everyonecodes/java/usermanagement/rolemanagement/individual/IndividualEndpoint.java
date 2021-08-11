@@ -3,6 +3,7 @@ package bugbusters.everyonecodes.java.usermanagement.rolemanagement.individual;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientPrivateDTO;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientPublicDTO;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerPublicDTO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -38,5 +39,10 @@ public class IndividualEndpoint {
     @GetMapping("/view/{username}")
     VolunteerPublicDTO viewVolunteerPublicDat(@PathVariable String username) {
         return individualService.viewVolunteerPublicData(username).orElse(null);
+    }
+
+    @GetMapping("/webapptree")
+    String viewWebAppTree(@Value("${webapptree.individual}") String input) {
+        return input;
     }
 }
