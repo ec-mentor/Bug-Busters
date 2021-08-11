@@ -6,3 +6,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+webapptree:
+  volunteer: "Login \n Edit own profile \n View own public profile \n View Organisation/Individual profile"
+  individual:
+  organization:

@@ -8,6 +8,7 @@ import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.Organization;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.OrganizationRepository;
 import bugbusters.everyonecodes.java.usermanagement.service.UserService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -71,6 +72,4 @@ public class VolunteerService {
     public Optional<ClientPublicDTO> viewClientPublicData(String name) {
         return getClientByUsername(name).map(client -> clientMapper.toClientPublicDTO(client));
     }
-
-
 }

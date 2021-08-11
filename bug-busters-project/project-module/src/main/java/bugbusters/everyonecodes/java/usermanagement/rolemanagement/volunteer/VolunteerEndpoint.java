@@ -1,6 +1,8 @@
 package bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer;
 
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientPublicDTO;
+import bugbusters.everyonecodes.java.usermanagement.service.UserService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -11,10 +13,11 @@ import javax.validation.Valid;
 @RequestMapping("/volunteer")
 @Secured("ROLE_VOLUNTEER")
 public class VolunteerEndpoint {
-    
+    private final UserService userService;
     private final VolunteerService volunteerService;
 
-    public VolunteerEndpoint(VolunteerService volunteerService) {
+    public VolunteerEndpoint(UserService userService, VolunteerService volunteerService) {
+        this.userService = userService;
         this.volunteerService = volunteerService;
     }
 
@@ -36,5 +39,10 @@ public class VolunteerEndpoint {
     @GetMapping("/view/{username}")
     ClientPublicDTO viewClientPublicData(@PathVariable String username) {
         return volunteerService.viewClientPublicData(username).orElse(null);
+    }
+
+    @GetMapping("/webapptree")
+    String viewWebAppTree(@Value("${webapptree.volunteer}") String input) {
+        return userService.viewWebAppTree(input);
     }
 }
