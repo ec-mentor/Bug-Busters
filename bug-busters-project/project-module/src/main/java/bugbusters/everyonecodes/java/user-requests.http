@@ -103,23 +103,23 @@ Content-Type: application/json
   "description": null
 }
 
-###
+### View own account data
 GET http://localhost:8080/volunteer/login
 Authorization: Basic LeSchoki Coding12#
 
-###
+### View own profile as seen by others, with optional info and rating
 GET http://localhost:8080/volunteer/view
 Authorization: Basic LeSchoki Coding12#
 
-###
+### View own profile as seen by others, only mandatory info
 GET http://localhost:8080/volunteer/view
 Authorization: Basic Meli Coding12#
 
-###
+### View other profile with full info
 GET http://localhost:8080/volunteer/view/Tester
 Authorization: Basic LeSchoki Coding12#
 
-###
+### View other profile with only mandatory info
 GET http://localhost:8080/volunteer/view/BigO
 Authorization: Basic LeSchoki Coding12#
 
@@ -167,6 +167,14 @@ Content-Type: application/json
   "skills": "cooking;testing;a lot of laughing"
 }
 
-###
+### Volunteer web app tree
 GET http://localhost:8080/volunteer/webapptree
 Authorization: Basic LeSchoki Coding12#
+
+### Organization web app tree
+GET http://localhost:8080/organization/webapptree
+Authorization: Basic BigO Coding12#
+
+### Individual web app tree
+GET http://localhost:8080/individual/webapptree
+Authorization: Basic Tester Coding12#
