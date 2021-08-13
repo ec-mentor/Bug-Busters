@@ -123,6 +123,22 @@ Authorization: Basic LeSchoki Coding12#
 GET http://localhost:8080/volunteer/view/BigO
 Authorization: Basic LeSchoki Coding12#
 
+### View other volunteer as volunteer (FAIL)
+GET http://localhost:8080/volunteer/view/LeSchoki
+Authorization: Basic Meli Coding12#
+
+### View volunteer as organization
+GET http://localhost:8080/organization/view/LeSchoki
+Authorization: Basic BigO Coding12#
+
+### View volunteer as individual
+GET http://localhost:8080/individual/view/LeSchoki
+Authorization: Basic Tester Coding12#
+
+### View organization as individual (FAIL)
+GET http://localhost:8080/individual/view/BigO
+Authorization: Basic Tester Coding12#
+
 ### contacting wrong endpoint
 GET http://localhost:8080/volunteer/login
 Authorization: Basic Tester Coding12#
