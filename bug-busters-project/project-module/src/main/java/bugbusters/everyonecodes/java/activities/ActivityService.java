@@ -40,9 +40,9 @@ public class ActivityService {
         result.setDescription(input.getDescription());
         result.setRecommendedSkills(input.getRecommendedSkills());
         result.setCategories(input.getCategories());
-        result.setStartDate(input.getStartDate());
         result.setStartTime(input.getStartTime());
-        result.setEndDate(input.getEndDate());
+        result.setStartTime(input.getStartTime());
+        result.setEndTime(input.getEndTime());
         result.setEndTime(input.getEndTime());
         result.setOpenEnd(input.isOpenEnd());
         return Optional.of(activityRepository.save(result));

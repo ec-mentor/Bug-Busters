@@ -1,27 +1,40 @@
 package bugbusters.everyonecodes.java.activities;
 
-import bugbusters.everyonecodes.java.usermanagement.data.User;
-
 import java.util.List;
 
 public class ActivityDTOMapper {
 
-    public ActivityDTO toActivityDTO(Activity activity) {
+    public ActivityDTO toVolunteerActivityDTO(Activity activity) {
         return new ActivityDTO(activity.getTitle(),
                 activity.getDescription(),
-                activity.getStatus(),
-                activity.getStartDate(),
-                activity.getEndDate(),
-                user,
-                myRatingToThem,
-                myFeedbackToThem,
-                theirRatingToMe,
-                theirFeedbackToMe);
+                activity.getStatusVolunteer(),
+                activity.getStartTime(),
+                activity.getEndTime(),
+                activity.getCreator().getUser().getRole(),
+                activity.getCreator().getUser().getUsername(),
+                calculateRating(activity.getCreator().getUser().getRatings()),
+                activity.getRatingFromVolunteer(),
+                activity.getFeedbackFromVolunteer(),
+                activity.getRatingFromClient(),
+                activity.getFeedbackFromClient());
     }
 
-    ActivityUserDTO toActivityUserDTO(User user) {
-        return new ActivityUserDTO(user.getRole(), user.getUsername(), calculateRating(user.getRatings()));
+    public ActivityDTO toClientActivityDTO(Activity activity) {
+        return new ActivityDTO(activity.getTitle(),
+                activity.getDescription(),
+                activity.getStatusClient(),
+                activity.getStartTime(),
+                activity.getEndTime(),
+                activity.getVolunteer().getUser().getRole(),
+                activity.getVolunteer().getUser().getUsername(),
+                calculateRating(activity.getVolunteer().getUser().getRatings()),
+                activity.getRatingFromClient(),
+                activity.getFeedbackFromClient(),
+                activity.getRatingFromVolunteer(),
+                activity.getFeedbackFromVolunteer());
     }
+
+
 
     Double calculateRating(List<Integer> ratings) {
         if (ratings.size() == 0) return null;
@@ -29,5 +42,4 @@ public class ActivityDTOMapper {
                 .mapToDouble(Double::valueOf)
                 .sum() / ratings.size();
     }
-
 }
