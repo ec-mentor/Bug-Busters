@@ -7,7 +7,7 @@ import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class ActivityDTO {
+public class ClientActivityDTO {
 
     private Client creator;
 
@@ -45,28 +45,10 @@ public class ActivityDTO {
     private int theirRatingToMe;
     private String theirFeedbackToMe;
 
-    public ActivityDTO(String title, String description, Status statusVolunteer, LocalDateTime startTime, LocalDateTime endTime, String role, String username, Double aDouble, Integer ratingFromVolunteer, String feedbackFromVolunteer, Integer ratingFromClient, String feedbackFromClient) {
-
+    public ClientActivityDTO() {
     }
 
-    public ActivityDTO(String title, String description, Status statusClient, Status statusVolunteer, LocalDateTime startDate, LocalDateTime endDate, String role, String username, double rating, int myRatingToThem, String myFeedbackToThem, int theirRatingToMe, String theirFeedbackToMe) {
-        this.title = title;
-        this.description = description;
-        this.statusClient = statusClient;
-        this.statusVolunteer = statusVolunteer;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.role = role;
-        this.username = username;
-        this.rating = rating;
-        this.myRatingToThem = myRatingToThem;
-        this.myFeedbackToThem = myFeedbackToThem;
-        this.theirRatingToMe = theirRatingToMe;
-        this.theirFeedbackToMe = theirFeedbackToMe;
-    }
-
-    public ActivityDTO(Client creator, String title, String description, Status statusClient, LocalDateTime startDate, LocalDateTime endDate, String role, String username, double rating, int myRatingToThem, String myFeedbackToThem, int theirRatingToMe, String theirFeedbackToMe) {
-        this.creator = creator;
+    public ClientActivityDTO(String title, String description, Status statusClient, LocalDateTime startDate, LocalDateTime endDate, String role, String username, double rating, int myRatingToThem, String myFeedbackToThem, int theirRatingToMe, String theirFeedbackToMe) {
         this.title = title;
         this.description = description;
         this.statusClient = statusClient;
@@ -81,22 +63,6 @@ public class ActivityDTO {
         this.theirFeedbackToMe = theirFeedbackToMe;
     }
 
-    public ActivityDTO(Client creator, Volunteer volunteer, String title, String description, Status statusVolunteer, LocalDateTime startDate, LocalDateTime endDate, String role, String username, double rating, int myRatingToThem, String myFeedbackToThem, int theirRatingToMe, String theirFeedbackToMe) {
-        this.creator = creator;
-        this.volunteer = volunteer;
-        this.title = title;
-        this.description = description;
-        this.statusVolunteer = statusVolunteer;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.role = role;
-        this.username = username;
-        this.rating = rating;
-        this.myRatingToThem = myRatingToThem;
-        this.myFeedbackToThem = myFeedbackToThem;
-        this.theirRatingToMe = theirRatingToMe;
-        this.theirFeedbackToMe = theirFeedbackToMe;
-    }
 
     public Client getCreator() {
         return creator;
@@ -222,7 +188,7 @@ public class ActivityDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ActivityDTO that = (ActivityDTO) o;
+        ClientActivityDTO that = (ClientActivityDTO) o;
         return Double.compare(that.rating, rating) == 0 && myRatingToThem == that.myRatingToThem && theirRatingToMe == that.theirRatingToMe && Objects.equals(creator, that.creator) && Objects.equals(volunteer, that.volunteer) && Objects.equals(title, that.title) && Objects.equals(description, that.description) && statusClient == that.statusClient && statusVolunteer == that.statusVolunteer && Objects.equals(startDate, that.startDate) && Objects.equals(endDate, that.endDate) && Objects.equals(role, that.role) && Objects.equals(username, that.username) && Objects.equals(myFeedbackToThem, that.myFeedbackToThem) && Objects.equals(theirFeedbackToMe, that.theirFeedbackToMe);
     }
 

@@ -4,8 +4,8 @@ import java.util.List;
 
 public class ActivityDTOMapper {
 
-    public ActivityDTO toVolunteerActivityDTO(Activity activity) {
-        return new ActivityDTO(activity.getTitle(),
+    public VolunteerActivityDTO toVolunteerActivityDTO(Activity activity) {
+        return new VolunteerActivityDTO(activity.getTitle(),
                 activity.getDescription(),
                 activity.getStatusVolunteer(),
                 activity.getStartTime(),
@@ -19,8 +19,8 @@ public class ActivityDTOMapper {
                 activity.getFeedbackFromClient());
     }
 
-    public ActivityDTO toClientActivityDTO(Activity activity) {
-        return new ActivityDTO(activity.getTitle(),
+    public ClientActivityDTO toClientActivityDTO(Activity activity) {
+        return new ClientActivityDTO(activity.getTitle(),
                 activity.getDescription(),
                 activity.getStatusClient(),
                 activity.getStartTime(),
