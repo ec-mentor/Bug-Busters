@@ -48,7 +48,7 @@ public class UserDTOMapper {
         return Period.between(birthDate, currentDate).getYears();
     }
 
-    Double calculateRating(List<Integer> ratings) {
+    public Double calculateRating(List<Integer> ratings) {
         if (ratings.size() == 0) return null;
         return ratings.stream()
                 .mapToDouble(Double::valueOf)
