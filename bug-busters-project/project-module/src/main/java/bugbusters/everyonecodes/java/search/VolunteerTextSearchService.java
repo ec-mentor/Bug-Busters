@@ -1,6 +1,7 @@
 package bugbusters.everyonecodes.java.search;
 
 
+import bugbusters.everyonecodes.java.usermanagement.data.User;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.Volunteer;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ public class VolunteerTextSearchService {
         var inputMap = inputList.stream()
                 .collect(Collectors.toMap(volunteer -> volunteer.getId(), volunteer -> volunteer));
         var filteredMap = inputMap.entrySet().stream()
-                .map(entry -> Map.entry(entry.getKey(), entry.getValue().toSearchString()))
+                .map(entry -> Map.entry(entry.getKey(), volunteerToSearchString(entry.getValue())))
                 .filter(entry -> entry.getValue().contains(lowerCaseText))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         return filteredMap.entrySet().stream()
@@ -32,4 +33,15 @@ public class VolunteerTextSearchService {
                 ).collect(Collectors.toList());
     }
 
+    String userToSearchString(User user) {
+        String output = user.getUsername() + ";" + user.getFullName();
+        if (user.getDescription() == null) return output.toLowerCase(Locale.ROOT);
+        output = output + ";" + user.getDescription();
+        return output.toLowerCase(Locale.ROOT);
+    }
+
+    String volunteerToSearchString(Volunteer volunteer) {
+        if (volunteer.getSkills().isEmpty()) return userToSearchString(volunteer.getUser());
+        return userToSearchString(volunteer.getUser()) + ";" + String.join(";", new HashSet<>(volunteer.getSkills())).toLowerCase(Locale.ROOT);
+    }
 }
