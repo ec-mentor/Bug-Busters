@@ -9,7 +9,7 @@ public class ActivityDTOMapper {
     public ActivityDTO toActivityDTO(Activity activity) {
         return new ActivityDTO(activity.getTitle(),
                 activity.getDescription(),
-                status,
+                activity.getStatus(),
                 activity.getStartDate(),
                 activity.getEndDate(),
                 user,
@@ -19,7 +19,7 @@ public class ActivityDTOMapper {
                 theirFeedbackToMe);
     }
 
-    ActivityUserDTO toActivityDTO(User user) {
+    ActivityUserDTO toActivityUserDTO(User user) {
         return new ActivityUserDTO(user.getRole(), user.getUsername(), calculateRating(user.getRatings()));
     }
 

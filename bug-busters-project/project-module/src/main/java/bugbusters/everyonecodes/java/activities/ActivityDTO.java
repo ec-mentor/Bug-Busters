@@ -33,6 +33,15 @@ public class ActivityDTO {
 
     }
 
+    public ActivityDTO(String title, String description, Status status, LocalDate startDate, LocalDate endDate, ActivityUserDTO activityUserDTO) {
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.activityUserDTO = activityUserDTO;
+    }
+
     public ActivityDTO(String title, String description, Status status, LocalDate startDate, LocalDate endDate, ActivityUserDTO activityUserDTO, int myRatingToThem, String myFeedbackToThem, int theirRatingToMe, String theirFeedbackToMe) {
         this.title = title;
         this.description = description;
