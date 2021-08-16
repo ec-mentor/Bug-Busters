@@ -1,5 +1,7 @@
 package bugbusters.everyonecodes.java.usermanagement.data;
 
+import bugbusters.everyonecodes.java.activities.Activity;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
@@ -40,9 +42,12 @@ public class User {
     @ElementCollection
     private List<@Min(1) @Max(5) Integer> ratings = new ArrayList<>();
 
+    private List<Activity> activities;
+    private List<Activity> activityDrafts;
+
     public User() {}
 
-    public User(String username, String password, String role, String fullName, LocalDate birthday, String address, String email, String description) {
+    public User(String username, String password, String role, String fullName, LocalDate birthday, String address, String email, String description, List<Activity> activities, List<Activity> activityDrafts) {
         this.username = username;
         this.password = password;
         this.role = role;
@@ -51,6 +56,8 @@ public class User {
         this.address = address;
         this.email = email;
         this.description = description;
+        this.activities = activities;
+        this.activityDrafts = activityDrafts;
     }
 
     public Long getId() {
@@ -133,17 +140,34 @@ public class User {
         this.ratings = ratings;
     }
 
+    public List<Activity> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(List<Activity> activities) {
+        this.activities = activities;
+    }
+
+    public List<Activity> getActivityDrafts() {
+        return activityDrafts;
+    }
+
+    public void setActivityDrafts(List<Activity> activityDrafts) {
+        this.activityDrafts = activityDrafts;
+    }
+
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(role, user.role) && Objects.equals(fullName, user.fullName) && Objects.equals(birthday, user.birthday) && Objects.equals(address, user.address) && Objects.equals(email, user.email) && Objects.equals(description, user.description);
+        return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(role, user.role) && Objects.equals(fullName, user.fullName) && Objects.equals(birthday, user.birthday) && Objects.equals(address, user.address) && Objects.equals(email, user.email) && Objects.equals(description, user.description) && Objects.equals(ratings, user.ratings) && Objects.equals(activities, user.activities) && Objects.equals(activityDrafts, user.activityDrafts);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, role, fullName, birthday, address, email, description);
+        return Objects.hash(id, username, password, role, fullName, birthday, address, email, description, ratings, activities, activityDrafts);
     }
 
     @Override
@@ -158,6 +182,9 @@ public class User {
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
                 ", description='" + description + '\'' +
+                ", ratings=" + ratings +
+                ", activities=" + activities +
+                ", activityDrafts=" + activityDrafts +
                 '}';
     }
 }
