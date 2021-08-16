@@ -15,16 +15,16 @@ public class Activity {
     private Long id;
 
     @NotEmpty
+    private String creator;
+
+    @NotEmpty
     private String title;
 
     @NotEmpty
     @Size(min = 3, max = 40)
     private String Description;
 
-    @NotEmpty
     private String recommendedSkills;
-
-    @NotEmpty
     private List<String> categories;
 
     @NotEmpty
@@ -42,9 +42,12 @@ public class Activity {
     @NotEmpty
     private boolean isOpenEnd;
 
+    @NotEmpty
+    private Status status;
+
     public Activity(){}
 
-    public Activity(String title, String description, String recommendedSkills, List<String> categories, LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime, boolean isOpenEnd) {
+    public Activity(String title, String description, String recommendedSkills, List<String> categories, LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime, boolean isOpenEnd, Status status) {
         this.title = title;
         Description = description;
         this.recommendedSkills = recommendedSkills;
@@ -54,6 +57,7 @@ public class Activity {
         this.endDate = endDate;
         this.endTime = endTime;
         this.isOpenEnd = isOpenEnd;
+        this.status = status;
     }
 
     public Long getId() {
@@ -62,6 +66,14 @@ public class Activity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
 
     public String getTitle() {
@@ -134,6 +146,14 @@ public class Activity {
 
     public void setOpenEnd(boolean openEnd) {
         isOpenEnd = openEnd;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override
