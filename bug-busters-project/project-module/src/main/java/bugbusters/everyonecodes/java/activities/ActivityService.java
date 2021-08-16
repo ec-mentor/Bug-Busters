@@ -14,21 +14,6 @@ public class ActivityService {
         return activityRepository.findAll();
     }
 
-    public Activity postActivity(Activity activity){
-        activity.setStatus(Status.PENDING);
-        return activityRepository.save(activity);
-    }
-
-    public Activity startActivity(Activity activity){
-        activity.setStatus(Status.IN_PROGRESS);
-        return activityRepository.save(activity);
-    }
-
-    public Activity finishActivity(Activity activity){
-        activity.setStatus(Status.COMPLETED);
-        return activityRepository.save(activity);
-    }
-
     public Optional<Activity> edit(Activity input, String title){
         Optional<Activity> oActivity = activityRepository.getActivityByTitle(title);
         if (oActivity.isEmpty()){
