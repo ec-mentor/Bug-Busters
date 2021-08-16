@@ -6,6 +6,17 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: bugbusters21@gmail.com
+    password: kgatvfvoxznoyxsx
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 webapptree:
   volunteer: "Edit own profile \nView own public profile \nView Organization/Individual profile"
   individual: "Edit own profile \nView own public profile \nView Volunteer profile"
