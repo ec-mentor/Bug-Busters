@@ -1,12 +1,14 @@
 package bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization;
 
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerPublicDTO;
+import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerSearchResultDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/organization")
@@ -37,6 +39,16 @@ public class OrganizationEndpoint {
     @GetMapping("/view/{username}")
     VolunteerPublicDTO viewVolunteerPublicData(@PathVariable String username) {
         return organizationService.viewVolunteerPublicData(username).orElse(null);
+    }
+
+    @GetMapping("/view/volunteers")
+    List<VolunteerSearchResultDTO> listAllVolunteers() {
+        return organizationService.listAllVolunteers();
+    }
+
+    @GetMapping("/search/{text}")
+    List<VolunteerSearchResultDTO> searchVolunteersByText(@PathVariable String text) {
+        return organizationService.searchVolunteersByText(text);
     }
 
     @GetMapping("/webapptree")

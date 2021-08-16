@@ -8,6 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 @Entity
@@ -159,5 +160,12 @@ public class User {
                 ", email='" + email + '\'' +
                 ", description='" + description + '\'' +
                 '}';
+    }
+
+    public String toSearchString() {
+        String output = username + ";" + fullName;
+        if (description == null) return output.toLowerCase(Locale.ROOT);
+        output = output + ";" + description;
+        return output.toLowerCase(Locale.ROOT);
     }
 }
