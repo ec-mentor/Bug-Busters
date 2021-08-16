@@ -15,17 +15,17 @@ public class ActivityService {
     }
 
     public Activity postActivity(Activity activity){
-        activity.setStatus(Status.PENDING);
+        // activity.setStatus(Status.PENDING);
         return activityRepository.save(activity);
     }
 
     public Activity startActivity(Activity activity){
-        activity.setStatus(Status.IN_PROGRESS);
+        // activity.setStatus(Status.IN_PROGRESS);
         return activityRepository.save(activity);
     }
 
     public Activity finishActivity(Activity activity){
-        activity.setStatus(Status.COMPLETED);
+        // activity.setStatus(Status.COMPLETED);
         return activityRepository.save(activity);
     }
 
@@ -51,5 +51,7 @@ public class ActivityService {
         return activityRepository.getActivityByTitle(title);
     }
 
-
+    public List<Activity> findAllPendingActivities() {
+        return activityRepository.findAllByStatusClient(Status.PENDING);
+    }
 }

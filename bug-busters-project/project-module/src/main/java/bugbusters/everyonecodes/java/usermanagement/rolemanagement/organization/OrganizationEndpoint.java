@@ -46,7 +46,7 @@ public class OrganizationEndpoint {
         return organizationService.listAllVolunteers();
     }
 
-    @GetMapping("/search/{text}")
+    @GetMapping("/search/volunteers/{text}")
     List<VolunteerSearchResultDTO> searchVolunteersByText(@PathVariable String text) {
         return organizationService.searchVolunteersByText(text);
     }

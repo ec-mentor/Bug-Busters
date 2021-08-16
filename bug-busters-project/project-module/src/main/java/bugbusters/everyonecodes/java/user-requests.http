@@ -200,11 +200,11 @@ GET http://localhost:8080/individual/view/volunteers
 Authorization: Basic Tester Coding12#
 
 ### Meli is better match than LeSchoki
-GET http://localhost:8080/individual/search/e
+GET http://localhost:8080/individual/search/volunteers/e
 Authorization: Basic Tester Coding12#
 
 ### Description match
-GET http://localhost:8080/individual/search/description
+GET http://localhost:8080/individual/search/volunteers/description
 Authorization: Basic Tester Coding12#
 
 ### Org can see all volunteers
@@ -212,5 +212,5 @@ GET http://localhost:8080/organization/view/volunteers
 Authorization: Basic BigO Coding12#
 
 ### LeSchoki only match, case insensitive
-GET http://localhost:8080/organization/search/les
+GET http://localhost:8080/organization/search/volunteers/les
 Authorization: Basic BigO Coding12#
