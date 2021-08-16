@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class ClientTextSearchService {
+public class VolunteerTextSearchService {
 
     public List<Volunteer> searchVolunteersByText(List<Volunteer> inputList, String text) {
         String lowerCaseText = text.toLowerCase(Locale.ROOT);

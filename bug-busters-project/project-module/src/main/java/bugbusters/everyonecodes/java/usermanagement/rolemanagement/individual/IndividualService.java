@@ -1,6 +1,6 @@
 package bugbusters.everyonecodes.java.usermanagement.rolemanagement.individual;
 
-import bugbusters.everyonecodes.java.search.ClientTextSearchService;
+import bugbusters.everyonecodes.java.search.VolunteerTextSearchService;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientDTOMapper;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientPrivateDTO;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientPublicDTO;
@@ -19,10 +19,10 @@ public class IndividualService {
     private final UserService userService;
     private final ClientDTOMapper clientMapper;
     private final VolunteerDTOMapper volunteerMapper;
-    private final ClientTextSearchService searchService;
+    private final VolunteerTextSearchService searchService;
 
 
-    public IndividualService(VolunteerRepository volunteerRepository, IndividualRepository individualRepository, UserService userService, ClientDTOMapper clientMapper, VolunteerDTOMapper volunteerMapper, ClientTextSearchService searchService) {
+    public IndividualService(VolunteerRepository volunteerRepository, IndividualRepository individualRepository, UserService userService, ClientDTOMapper clientMapper, VolunteerDTOMapper volunteerMapper, VolunteerTextSearchService searchService) {
         this.volunteerRepository = volunteerRepository;
         this.individualRepository = individualRepository;
         this.userService = userService;

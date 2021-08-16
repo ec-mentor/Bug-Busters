@@ -14,10 +14,10 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-class ClientTextSearchServiceTest {
+class VolunteerTextSearchServiceTest {
 
     @Autowired
-    ClientTextSearchService clientTextSearchService;
+    VolunteerTextSearchService clientTextSearchService;
 
     @ParameterizedTest
     @MethodSource("parameters_searchVolunteersByText")

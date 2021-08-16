@@ -1,6 +1,6 @@
 package bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization;
 
-import bugbusters.everyonecodes.java.search.ClientTextSearchService;
+import bugbusters.everyonecodes.java.search.VolunteerTextSearchService;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.*;
 import bugbusters.everyonecodes.java.usermanagement.service.UserService;
 import org.springframework.stereotype.Service;
@@ -17,9 +17,9 @@ public class OrganizationService {
     private final VolunteerRepository volunteerRepository;
     private final ClientDTOMapper clientMapper;
     private final VolunteerDTOMapper volunteerMapper;
-    private final ClientTextSearchService searchService;
+    private final VolunteerTextSearchService searchService;
 
-    public OrganizationService(OrganizationRepository organizationRepository, UserService userService, VolunteerRepository volunteerRepository, ClientDTOMapper clientMapper, VolunteerDTOMapper volunteerMapper, ClientTextSearchService searchService) {
+    public OrganizationService(OrganizationRepository organizationRepository, UserService userService, VolunteerRepository volunteerRepository, ClientDTOMapper clientMapper, VolunteerDTOMapper volunteerMapper, VolunteerTextSearchService searchService) {
         this.organizationRepository = organizationRepository;
         this.userService = userService;
         this.volunteerRepository = volunteerRepository;
