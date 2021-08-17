@@ -23,6 +23,8 @@ public class Activity {
     @NotEmpty
     private String creator;
 
+    private String Volunteer;
+
     @NotEmpty
     private String title;
 
@@ -92,6 +94,14 @@ public class Activity {
 
     public void setCreator(String creator) {
         this.creator = creator;
+    }
+
+    public String getVolunteer() {
+        return Volunteer;
+    }
+
+    public void setVolunteer(String volunteer) {
+        Volunteer = volunteer;
     }
 
     public String getTitle() {
@@ -203,12 +213,12 @@ public class Activity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Activity activity = (Activity) o;
-        return isOpenEnd == activity.isOpenEnd && Objects.equals(id, activity.id) && Objects.equals(creator, activity.creator) && Objects.equals(title, activity.title) && Objects.equals(description, activity.description) && Objects.equals(recommendedSkills, activity.recommendedSkills) && Objects.equals(categories, activity.categories) && Objects.equals(startTime, activity.startTime) && Objects.equals(endTime, activity.endTime) && statusVolunteer == activity.statusVolunteer && statusClient == activity.statusClient && Objects.equals(ratingFromVolunteer, activity.ratingFromVolunteer) && Objects.equals(ratingFromClient, activity.ratingFromClient) && Objects.equals(feedbackFromVolunteer, activity.feedbackFromVolunteer) && Objects.equals(feedbackFromClient, activity.feedbackFromClient);
+        return isOpenEnd == activity.isOpenEnd && Objects.equals(id, activity.id) && Objects.equals(creator, activity.creator) && Objects.equals(Volunteer, activity.Volunteer) && Objects.equals(title, activity.title) && Objects.equals(description, activity.description) && Objects.equals(recommendedSkills, activity.recommendedSkills) && Objects.equals(categories, activity.categories) && Objects.equals(startTime, activity.startTime) && Objects.equals(endTime, activity.endTime) && statusVolunteer == activity.statusVolunteer && statusClient == activity.statusClient && Objects.equals(ratingFromVolunteer, activity.ratingFromVolunteer) && Objects.equals(ratingFromClient, activity.ratingFromClient) && Objects.equals(feedbackFromVolunteer, activity.feedbackFromVolunteer) && Objects.equals(feedbackFromClient, activity.feedbackFromClient);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, creator, title, description, recommendedSkills, categories, startTime, endTime, isOpenEnd, statusVolunteer, statusClient, ratingFromVolunteer, ratingFromClient, feedbackFromVolunteer, feedbackFromClient);
+        return Objects.hash(id, creator, Volunteer, title, description, recommendedSkills, categories, startTime, endTime, isOpenEnd, statusVolunteer, statusClient, ratingFromVolunteer, ratingFromClient, feedbackFromVolunteer, feedbackFromClient);
     }
 
     @Override
@@ -216,6 +226,7 @@ public class Activity {
         return "Activity{" +
                 "id=" + id +
                 ", creator='" + creator + '\'' +
+                ", Volunteer='" + Volunteer + '\'' +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", recommendedSkills=" + recommendedSkills +
