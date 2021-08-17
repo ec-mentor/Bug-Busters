@@ -25,3 +25,77 @@ Authorization: Basic Individual3 Coding12#
 ###
 GET http://localhost:8080/volunteer/activities/view
 Authorization: Basic Volunteer1 Coding12#
+
+### post draft as individual
+PUT http://localhost:8080/individual/activities/post/1
+Authorization: Basic Individual1 Coding12#
+
+### edit activity as individual
+PUT http://localhost:8080/individual/activities/edit/1
+Authorization: Basic Individual1 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Individual1",
+  "title": "Activity 1 of Ind1",
+  "description": "Posted and edited Draft of Ind 1",
+  "recommendedSkills": "cooking;eating",
+  "categories": "food",
+  "startTime": "2020-01-16T00:00:00",
+  "endTime": "2020-01-19T00:00:00",
+  "statusClient": "DRAFT"
+}
+
+
+### post draft as organization
+PUT http://localhost:8080/organization/activities/post/7
+Authorization: Basic Organization2 Coding12#
+
+### edit activity as organization
+PUT http://localhost:8080/organization/activities/edit/7
+Authorization: Basic Organization2 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Organization2",
+  "title": "Activity 1 of Org2",
+  "description": "Posted and edited of Org 2",
+  "recommendedSkills": "testing",
+  "categories": "coding",
+  "startTime": "2020-01-20T00:00:00",
+  "endTime": "2020-01-21T00:00:00",
+  "statusClient": "DRAFT"
+}
+
+### list all volunteers as individual
+GET http://localhost:8080/individual/view/volunteers
+Authorization: Basic Individual1 Coding12#
+
+### list all volunteers as organization
+GET http://localhost:8080/organization/view/volunteers
+Authorization: Basic Organization2 Coding12#
+
+### search for a volunteer by text as an individual
+GET http://localhost:8080/individual/search/volunteers/cook
+Authorization: Basic Individual1 Coding12#
+
+### search for a volunteer by text as an individual - EMPTY
+GET http://localhost:8080/individual/search/volunteers/astrophysics
+Authorization: Basic Individual1 Coding12#
+
+### search for a volunteer by text as an organization
+GET http://localhost:8080/organization/search/volunteers/cook
+Authorization: Basic Organization2 Coding12#
+
+### search for a volunteer by text as an organization - EMPTY
+GET http://localhost:8080/organization/search/volunteers/astrophysics
+Authorization: Basic Organization2 Coding12#
+
+### search for activity as an individual
+GET http://localhost:8080/volunteer/activities/search/org
+Authorization: Basic Volunteer1 Coding12#
+
+### search for activity as an individual - EMPTY
+GET http://localhost:8080/organization/search/search/astrophysics
+Authorization: Basic Volunteer1 Coding12#
+

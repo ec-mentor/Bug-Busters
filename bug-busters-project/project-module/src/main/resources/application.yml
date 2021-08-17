@@ -18,6 +18,6 @@ spring:
           starttls:
             enable: true
 webapptree:
-  volunteer: "Edit own profile \nView own public profile \nView Organization/Individual profile"
-  individual: "Edit own profile \nView own public profile \nView Volunteer profile \nView list of all volunteers \nSearch for volunteers \nCreate new Activity"
-  organization: "Edit own profile \nView own public profile \nView Volunteer profile \nView list of all volunteers \nSearch for volunteers \nCreate new Activity"
+  volunteer: "Edit own profile \nView own public profile \nView Organization/Individual profile\nSee all available activities\nSearch for an Activity by text"
+  individual: "Edit own profile \nView own public profile \nView Volunteer profile \nView list of all volunteers \nSearch for volunteers \nCreate new Activity\nSave Activity as Draft\nList my Activities"
+  organization: "Edit own profile \nView own public profile \nView Volunteer profile \nView list of all volunteers \nSearch for volunteers \nCreate new Activity\nSave Activity as Draft\nList my Activities"

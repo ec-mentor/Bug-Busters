@@ -21,7 +21,7 @@ public class EmailService {
     private final PasswordEncoder passwordEncoder;
     private final UserDTOMapper userDTOMapper;
 
-    private final Map<User, String> allowedUsers = new HashMap<>();
+    private final Map<String, String> allowedUsers = new HashMap<>();
 
     public EmailService(JavaMailSender javaMailSender, UserRepository userRepository, PasswordEncoder passwordEncoder, UserDTOMapper userDTOMapper) {
         this.javaMailSender = javaMailSender;
@@ -38,7 +38,7 @@ public class EmailService {
         var uuid = UUID.randomUUID().toString();
 
         // add the user and the uuid to map that allows password change
-        allowedUsers.put(oUser.get(), uuid);
+        allowedUsers.put(oUser.get().getUsername(), uuid);
 
         var subject = "Reset your Password";
         var message = "Please use this dummy link to create a new password:\n https://www.bugbusterseveryonecodes.com/passwordreset/" + uuid;
@@ -64,7 +64,7 @@ public class EmailService {
 
 
         // check if these values have been added to map by sendMail() method
-        if (!allowedUsers.containsKey(userTemp) || !allowedUsers.get(userTemp).equals(uuid)) throw new IllegalArgumentException();
+        if (!allowedUsers.containsKey(userTemp.getUsername()) || !allowedUsers.get(userTemp.getUsername()).equals(uuid)) throw new IllegalArgumentException();
 
         // validate and save new password
         if (!newPassword.matches("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!?@#$^&+=/_-])(?=\\S+$).{6,100}")) throw new IllegalArgumentException();
@@ -74,7 +74,7 @@ public class EmailService {
         var userDTO = userDTOMapper.toUserPrivateDTO(userTemp);
 
         // remove used entry from map
-        allowedUsers.remove(userTemp);
+        allowedUsers.remove(userTemp.getUsername());
 
         return userDTO;
     }

@@ -1,0 +1,15 @@
+### list all volunteers
+GET http://localhost:8080/admin/volunteers
+Authorization: Basic admin Coding12#
+
+### list all organisation
+GET http://localhost:8080/admin/organizations
+Authorization: Basic admin Coding12#
+
+### list all individuals
+GET http://localhost:8080/admin/individuals
+Authorization: Basic admin Coding12#
+
+### view details of an account by username
+GET http://localhost:8080/admin/account/LeSchoki
+Authorization: Basic admin Coding12#
