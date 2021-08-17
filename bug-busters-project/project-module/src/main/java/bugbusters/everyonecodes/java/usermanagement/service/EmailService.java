@@ -8,6 +8,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class EmailService {
 
@@ -17,6 +19,7 @@ public class EmailService {
     private final UserDTOMapper userDTOMapper;
 
     private User userTemp = null;
+    private String uuidTemp = null;
 
     public EmailService(JavaMailSender javaMailSender, UserRepository userRepository, PasswordEncoder passwordEncoder, UserDTOMapper userDTOMapper) {
         this.javaMailSender = javaMailSender;
@@ -29,9 +32,10 @@ public class EmailService {
         var oUser = userRepository.findOneByEmail(email);
         if (oUser.isEmpty()) return;
         userTemp = oUser.get();
+        uuidTemp = UUID.randomUUID().toString();
 
         var subject = "Reset your Password";
-        var message = "Please click this dummy link to create a new password:\nhttps://www.w3.org/Provider/Style/dummy.html";
+        var message = "Please click this dummy link to create a new password:\n https://www.bugbusters.com/passwordreset/" + uuidTemp;
 
         var mailMessage = new SimpleMailMessage();
 
@@ -44,14 +48,16 @@ public class EmailService {
         javaMailSender.send(mailMessage);
     }
 
-    public UserPrivateDTO savePassword(String email, String newPassword) {
+    public UserPrivateDTO savePassword(String email, String uuid, String newPassword) {
+        if (!uuid.equals(uuidTemp)) return null;
         var oUser = userRepository.findOneByEmail(email);
-        if (oUser.isEmpty() || userTemp == null) return null;
+        if (oUser.isEmpty()) return null;
 
         userTemp.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(userTemp);
         var userDTO = userDTOMapper.toUserPrivateDTO(userTemp);
         userTemp = null;
+        uuidTemp = null;
         return userDTO;
     }
 }
