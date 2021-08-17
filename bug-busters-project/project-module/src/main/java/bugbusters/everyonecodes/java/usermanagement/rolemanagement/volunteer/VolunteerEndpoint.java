@@ -43,14 +43,19 @@ public class VolunteerEndpoint {
         return volunteerService.viewClientPublicData(username).orElse(null);
     }
 
-    @GetMapping("/view/activities")
-    List<ActivityDTO> listAllActivities() {
+    @GetMapping("/activities/view")
+    List<ActivityDTO> listAllPendingActivities() {
         return volunteerService.listAllPendingActivities();
     }
 
-    @GetMapping("/search/activities/{text}")
+    @GetMapping("/activities/search/{text}")
     List<ActivityDTO> searchActivityByText(@PathVariable String text) {
         return volunteerService.searchPendingActivitiesByText(text);
+    }
+
+    @GetMapping("/activities/list")
+    List<ActivityDTO> listAllOfUsersActivities(Authentication authentication) {
+        return volunteerService.listAllActivitiesOfVolunteer(authentication.getName());
     }
 
     @GetMapping("/webapptree")

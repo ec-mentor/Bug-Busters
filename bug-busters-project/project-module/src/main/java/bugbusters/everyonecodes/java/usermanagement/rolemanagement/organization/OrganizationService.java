@@ -1,5 +1,7 @@
 package bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization;
 
+import bugbusters.everyonecodes.java.activities.ActivityDTO;
+import bugbusters.everyonecodes.java.activities.ActivityDTOMapper;
 import bugbusters.everyonecodes.java.search.VolunteerTextSearchService;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.*;
 import bugbusters.everyonecodes.java.usermanagement.service.UserService;
@@ -17,15 +19,17 @@ public class OrganizationService {
     private final VolunteerRepository volunteerRepository;
     private final ClientDTOMapper clientMapper;
     private final VolunteerDTOMapper volunteerMapper;
-    private final VolunteerTextSearchService searchService;
+    private final VolunteerTextSearchService volunteerTextSearchService;
+    private final ActivityDTOMapper activityDTOMapper;
 
-    public OrganizationService(OrganizationRepository organizationRepository, UserService userService, VolunteerRepository volunteerRepository, ClientDTOMapper clientMapper, VolunteerDTOMapper volunteerMapper, VolunteerTextSearchService searchService) {
+    public OrganizationService(OrganizationRepository organizationRepository, UserService userService, VolunteerRepository volunteerRepository, ClientDTOMapper clientMapper, VolunteerDTOMapper volunteerMapper, VolunteerTextSearchService volunteerTextSearchService, ActivityDTOMapper activityDTOMapper) {
         this.organizationRepository = organizationRepository;
         this.userService = userService;
         this.volunteerRepository = volunteerRepository;
         this.clientMapper = clientMapper;
         this.volunteerMapper = volunteerMapper;
-        this.searchService = searchService;
+        this.volunteerTextSearchService = volunteerTextSearchService;
+        this.activityDTOMapper = activityDTOMapper;
     }
 
     public Optional<ClientPrivateDTO> editOrganizationData(ClientPrivateDTO input, String username) {
@@ -61,9 +65,17 @@ public class OrganizationService {
     }
 
     public List<VolunteerSearchResultDTO> searchVolunteersByText(String text) {
-        List<Volunteer> filteredList = searchService.searchVolunteersByText(volunteerRepository.findAll(), text);
+        List<Volunteer> filteredList = volunteerTextSearchService.searchVolunteersByText(volunteerRepository.findAll(), text);
         return filteredList.stream()
                 .map(volunteer -> volunteerMapper.toVolunteerSearchResultDTO(volunteer))
+                .collect(Collectors.toList());
+    }
+
+    public List<ActivityDTO> listAllActivitiesOfOrganization(String username) {
+        var oResult = organizationRepository.findOneByUser_username(username);
+        if(oResult.isEmpty()) return List.of();
+        return oResult.get().getUser().getActivities().stream()
+                .map(activityDTOMapper::toClientActivityDTO)
                 .collect(Collectors.toList());
     }
 

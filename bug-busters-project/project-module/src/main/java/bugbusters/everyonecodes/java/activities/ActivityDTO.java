@@ -1,9 +1,12 @@
 package bugbusters.everyonecodes.java.activities;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ActivityDTO {
 
     private String usernameOfOtherParty;

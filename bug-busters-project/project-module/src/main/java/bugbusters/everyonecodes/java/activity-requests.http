@@ -1,27 +1,27 @@
-### Valid posted draft
-POST http://localhost:8080/organization/activities/create/new
-Authorization: Basic BigO Coding12#
-Content-Type: application/json
+###
+GET http://localhost:8080/organization/activities/list
+Authorization: Basic Organization1 Coding12#
 
-{
-  "creator": "BigO",
-  "title": "My first Activty",
-  "description": "Look at it and be amazed",
-  "startTime": "2020-01-16T00:00:00",
-  "endTime": "2020-01-17T00:00:00",
-  "statusClient": "DRAFT"
-}
+###
+GET http://localhost:8080/organization/activities/list
+Authorization: Basic Organization2 Coding12#
 
-### Check for invalid post getting rejected
-POST http://localhost:8080/organization/activities/create/new
-Authorization: Basic BigO Coding12#
-Content-Type: application/json
+###
+GET http://localhost:8080/organization/activities/list
+Authorization: Basic Organization3 Coding12#
 
-{
-  "creator": "BigO",
-  "title": "My invalid Activty",
-  "description": "Look at it and be astonished",
-  "startTime": null,
-  "endTime": "2020-01-17T00:00:00",
-  "statusClient": "DRAFT"
-}
+###
+GET http://localhost:8080/individual/activities/list
+Authorization: Basic Individual1 Coding12#
+
+###
+GET http://localhost:8080/individual/activities/list
+Authorization: Basic Individual2 Coding12#
+
+###
+GET http://localhost:8080/individual/activities/list
+Authorization: Basic Individual3 Coding12#
+
+###
+GET http://localhost:8080/volunteer/activities/view
+Authorization: Basic Volunteer1 Coding12#

@@ -1,0 +1,304 @@
+###
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Volunteer1",
+  "password": "Coding12#",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Volunteer1",
+  "birthday": "1990-01-01",
+  "address": "Volunteer Street 213",
+  "email": "vol.unteer1@bugbusters.com",
+  "description": "first Volunteer"
+}
+
+
+###
+PUT http://localhost:8080/volunteer/edit
+Authorization: Basic Volunteer1 Coding12#
+Content-Type: application/json
+
+{
+  "user": {
+    "username": "Volunteer1",
+    "password": "Coding12#",
+    "role": "ROLE_VOLUNTEER",
+    "fullName": "Volunteer1",
+    "birthday": "1990-01-01",
+    "address": "Volunteer Street 213",
+    "email": "vol.unteer1@bugbusters.com",
+    "description": "first Volunteer"
+  },
+  "skills": "cooking;testing;a lot of laughing"
+}
+
+###
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Volunteer2",
+  "password": "Coding12#",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Volunteer2",
+  "birthday": null,
+  "address": null,
+  "email": "vol.unteer2@bugbusters.com",
+  "description": "second Volunteer"
+}
+
+###
+PUT http://localhost:8080/volunteer/edit
+Authorization: Basic Volunteer2 Coding12#
+Content-Type: application/json
+
+{
+  "user": {
+    "username": "Volunteer2",
+    "password": "Coding12#",
+    "role": "ROLE_VOLUNTEER",
+    "fullName": "Volunteer2",
+    "birthday": null,
+    "address": null,
+    "email": "vol.unteer2@bugbusters.com",
+    "description": "second Volunteer"
+  },
+  "skills": "professional cook"
+}
+
+###
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Volunteer3",
+  "password": "Coding12#",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Volunteer3",
+  "birthday": null,
+  "address": null,
+  "email": "vol.unteer3@bugbusters.com",
+  "description": null
+}
+
+###
+PUT http://localhost:8080/volunteer/edit
+Authorization: Basic Volunteer3 Coding12#
+Content-Type: application/json
+
+{
+  "user": {
+    "username": "Volunteer3",
+    "password": "Coding12#",
+    "role": "ROLE_VOLUNTEER",
+    "fullName": "Volunteer3",
+    "birthday": null,
+    "address": null,
+    "email": "vol.unteer3@bugbusters.com",
+    "description": "Tester that tests"
+  },
+  "skills": "plumbing;tester"
+}
+
+###
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Individual1",
+  "password": "Coding12#",
+  "role": "ROLE_INDIVIDUAL",
+  "fullName": "Individual1",
+  "birthday": null,
+  "address": null,
+  "email": "ind.ividual1@bugbusters.com",
+  "description": null
+}
+
+###
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Individual2",
+  "password": "Coding12#",
+  "role": "ROLE_INDIVIDUAL",
+  "fullName": "Individual2",
+  "birthday": null,
+  "address": null,
+  "email": "ind.ividual2@bugbusters.com",
+  "description": null
+}
+
+###
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Individual3",
+  "password": "Coding12#",
+  "role": "ROLE_INDIVIDUAL",
+  "fullName": "Individual3",
+  "birthday": null,
+  "address": null,
+  "email": "ind.ividual3@bugbusters.com",
+  "description": null
+}
+
+### Valid Post for organization
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Organization1",
+  "password": "Coding12#",
+  "role": "ROLE_ORGANIZATION",
+  "fullName": "Organization1",
+  "birthday": null,
+  "address": null,
+  "email": "org.anization1@bugbusters.com",
+  "description": null
+}
+
+### Valid Post for organization
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Organization2",
+  "password": "Coding12#",
+  "role": "ROLE_ORGANIZATION",
+  "fullName": "Organization2",
+  "birthday": null,
+  "address": null,
+  "email": "org.anization2@bugbusters.com",
+  "description": null
+}
+
+### Valid Post for organization
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Organization3",
+  "password": "Coding12#",
+  "role": "ROLE_ORGANIZATION",
+  "fullName": "Organization3",
+  "birthday": null,
+  "address": null,
+  "email": "org.anization3@bugbusters.com",
+  "description": null
+}
+
+###
+POST http://localhost:8080/individual/activities/create/new
+Authorization: Basic Individual1 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Individual1",
+  "title": "Activity 1 of Ind1",
+  "description": "Draft of Ind 1",
+  "startTime": "2020-01-16T00:00:00",
+  "endTime": "2020-01-17T00:00:00",
+  "statusClient": "DRAFT"
+}
+
+###
+POST http://localhost:8080/individual/activities/create/new
+Authorization: Basic Individual1 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Individual1",
+  "title": "Activity 2 of Ind1",
+  "description": "Pending of Ind 1",
+  "startTime": "2020-01-18T00:00:00",
+  "endTime": "2020-01-19T00:00:00",
+  "statusClient": "PENDING"
+}
+
+###
+POST http://localhost:8080/individual/activities/create/new
+Authorization: Basic Individual2 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Individual2",
+  "title": "Activity 1 of Ind2",
+  "description": "Draft of Ind 2",
+  "startTime": "2020-01-20T00:00:00",
+  "endTime": "2020-01-21T00:00:00",
+  "statusClient": "DRAFT"
+}
+
+###
+POST http://localhost:8080/individual/activities/create/new
+Authorization: Basic Individual3 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Individual3",
+  "title": "Activity 1 of Ind3",
+  "description": "Pending of Ind 3",
+  "startTime": "2020-01-22T00:00:00",
+  "endTime": "2020-01-23T00:00:00",
+  "statusClient": "PENDING"
+}
+
+###
+POST http://localhost:8080/organization/activities/create/new
+Authorization: Basic Organization1 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Organization1",
+  "title": "Activity 1 of Org1",
+  "description": "Draft of Org 1",
+  "startTime": "2020-01-16T00:00:00",
+  "endTime": "2020-01-17T00:00:00",
+  "statusClient": "DRAFT"
+}
+
+###
+POST http://localhost:8080/organization/activities/create/new
+Authorization: Basic Organization1 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Organization1",
+  "title": "Activity 2 of Org1",
+  "description": "Pending of Org 1",
+  "startTime": "2020-01-18T00:00:00",
+  "endTime": "2020-01-19T00:00:00",
+  "statusClient": "PENDING"
+}
+
+###
+POST http://localhost:8080/organization/activities/create/new
+Authorization: Basic Organization2 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Organization2",
+  "title": "Activity 1 of Org2",
+  "description": "Draft of Org 2",
+  "startTime": "2020-01-20T00:00:00",
+  "endTime": "2020-01-21T00:00:00",
+  "statusClient": "DRAFT"
+}
+
+###
+POST http://localhost:8080/organization/activities/create/new
+Authorization: Basic Organization3 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Organization1",
+  "title": "Activity 1 of Org3",
+  "description": "Pending of Org 3",
+  "startTime": "2020-01-22T00:00:00",
+  "endTime": "2020-01-23T00:00:00",
+  "statusClient": "PENDING"
+}

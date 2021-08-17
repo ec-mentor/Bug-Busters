@@ -15,9 +15,9 @@ public class ActivityEditDTO {
     private String description;
     private String recommendedSkills;
     private String categories;
-    @NotEmpty
+    @NotNull
     private LocalDateTime startTime;
-    @NotEmpty
+    @NotNull
     private LocalDateTime endTime;
     private boolean isOpenEnd;
 

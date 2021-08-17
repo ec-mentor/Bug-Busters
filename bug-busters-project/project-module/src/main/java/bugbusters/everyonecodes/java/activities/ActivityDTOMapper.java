@@ -37,16 +37,23 @@ public class ActivityDTOMapper {
 
     public ActivityDTO toClientActivityDTO(Activity activity) {
         Optional<User> oVolunteer = userRepository.findOneByUsername(activity.getVolunteer());
-        if (oVolunteer.isEmpty()) return null;
-        User volunteer = oVolunteer.get();
-        return new ActivityDTO(activity.getVolunteer(),
+        String volunteerName = null;
+        String volunteerRole = null;
+        Double volunteerRating = null;
+        if (oVolunteer.isPresent()) {
+            User volunteer = oVolunteer.get();
+            volunteerName = volunteer.getUsername();
+            volunteerRole = volunteer.getRole();
+            volunteerRating = calculateRating(volunteer.getRatings());
+        }
+        return new ActivityDTO(volunteerName,
                 activity.getTitle(),
                 activity.getDescription(),
                 activity.getStatusClient(),
                 activity.getStartTime(),
                 activity.getEndTime(),
-                volunteer.getRole(),
-                calculateRating(volunteer.getRatings()),
+                volunteerRole,
+                volunteerRating,
                 activity.getRatingFromClient(),
                 activity.getFeedbackFromClient(),
                 activity.getRatingFromVolunteer(),

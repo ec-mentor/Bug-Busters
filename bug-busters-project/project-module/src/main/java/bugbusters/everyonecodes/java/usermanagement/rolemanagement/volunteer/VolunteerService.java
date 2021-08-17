@@ -95,4 +95,12 @@ public class VolunteerService {
                 .map(activityDTOMapper::toVolunteerActivityDTO)
                 .collect(Collectors.toList());
     }
+
+    public List<ActivityDTO> listAllActivitiesOfVolunteer(String username) {
+        var oResult = volunteerRepository.findOneByUser_username(username);
+        if(oResult.isEmpty()) return List.of();
+        return oResult.get().getUser().getActivities().stream()
+                .map(activityDTOMapper::toVolunteerActivityDTO)
+                .collect(Collectors.toList());
+    }
 }
