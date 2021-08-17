@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class AdminDTOMapperTest {
@@ -30,7 +31,7 @@ class AdminDTOMapperTest {
                 "description");
         user.setRatings(List.of(2));
         Activity activity = new Activity(
-                "test", "test", "test", "test",
+                "test", "test", "test",
                 null, null, LocalDateTime.now(), LocalDateTime.now(),
                 false, Status.PENDING, Status.PENDING,
                 null, null, "test", "test");
@@ -53,17 +54,17 @@ class AdminDTOMapperTest {
                 "description");
         user.setRatings(List.of(2, 3));
         Activity a = new Activity(
-                "test", "test", "test", "test",
+                "test", "test", "test",
                 null, null, LocalDateTime.now(), LocalDateTime.now(),
                 false, Status.PENDING, Status.PENDING,
                 null, null, "test", "test");
         Activity b = new Activity(
-                "test", "test", "test", "test",
+                "test", "test", "test",
                 null, null, LocalDateTime.now(), LocalDateTime.now(),
                 false, Status.PENDING, Status.IN_PROGRESS,
                 null, null, "test", "test");
         Activity c = new Activity(
-                "test", "test", "test", "test",
+                "test", "test", "test",
                 null, null, LocalDateTime.now(), LocalDateTime.now(),
                 false, Status.PENDING, Status.COMPLETED,
                 null, null, "test", "test");
