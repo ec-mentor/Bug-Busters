@@ -67,18 +67,4 @@ public class AdminService {
         return null;
     }
 
-    /*List of all volunteers
-- username, rating, number of activities pending, in progress and completed
-
-    List of all organizations
-- username, rating, number of activities in progress and completed
-
-    List of all individuals
-- username, rating, number of activities in progress and completed
-
-    Details of an account by giving only username as input:
-            - full account and profile data*/
-
-
-
 }

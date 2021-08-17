@@ -31,4 +31,5 @@ public class AdminDTOMapper {
                 .count();
         return new AdminDTO(user.getUsername(), rating, pending, inProgress, completed);
     }
+
 }
