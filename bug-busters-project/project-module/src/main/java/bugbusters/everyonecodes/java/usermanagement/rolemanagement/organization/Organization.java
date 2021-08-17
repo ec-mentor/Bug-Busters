@@ -1,11 +1,9 @@
 package bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization;
 
-import bugbusters.everyonecodes.java.activities.Activity;
 import bugbusters.everyonecodes.java.usermanagement.data.User;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.Client;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -17,8 +15,6 @@ public class Organization implements Client {
 
     @OneToOne @MapsId
     private User user;
-
-    //private List<Activity> drafts;
 
     public Organization() {
     }

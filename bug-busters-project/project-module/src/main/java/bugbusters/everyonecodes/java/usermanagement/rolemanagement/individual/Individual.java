@@ -1,11 +1,9 @@
 package bugbusters.everyonecodes.java.usermanagement.rolemanagement.individual;
 
-import bugbusters.everyonecodes.java.activities.Activity;
 import bugbusters.everyonecodes.java.usermanagement.data.User;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.Client;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -18,8 +16,6 @@ public class Individual implements Client {
     @OneToOne
     @MapsId
     private User user;
-
-    //private List<Activity> drafts;
 
     public Individual() {
     }
