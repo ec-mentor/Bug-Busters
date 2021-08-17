@@ -21,7 +21,7 @@ public class ActivityTextSearchService {
         return filteredMap.entrySet().stream()
                 .map(entry -> {
                     var minCharacterOffset = Collections.min(
-                            Arrays.stream(entry.getValue().split(";"))
+                            Arrays.stream(entry.getValue().split("[; ]"))
                                     .filter(line -> line.contains(lowerCaseText))
                                     .map(line -> Math.abs(line.length() - lowerCaseText.length()))
                                     .collect(Collectors.toList()));
