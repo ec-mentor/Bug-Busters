@@ -24,4 +24,10 @@ public class VolunteerDTOMapper {
         var skills = setToStringMapper.convertToString(input.getSkills());
         return new VolunteerPublicDTO(user, skills);
     }
+
+    public VolunteerSearchResultDTO toVolunteerSearchResultDTO(Volunteer input) {
+        return new VolunteerSearchResultDTO(input.getUser().getUsername(),
+                setToStringMapper.convertToString(input.getSkills()),
+                userDTOMapper.calculateRating(input.getUser().getRatings()));
+    }
 }

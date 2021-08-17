@@ -1,12 +1,13 @@
 package bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization;
 
-import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerDTOMapper;
-import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerPublicDTO;
-import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerRepository;
+import bugbusters.everyonecodes.java.search.VolunteerTextSearchService;
+import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.*;
 import bugbusters.everyonecodes.java.usermanagement.service.UserService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OrganizationService {
@@ -16,13 +17,15 @@ public class OrganizationService {
     private final VolunteerRepository volunteerRepository;
     private final ClientDTOMapper clientMapper;
     private final VolunteerDTOMapper volunteerMapper;
+    private final VolunteerTextSearchService searchService;
 
-    public OrganizationService(OrganizationRepository organizationRepository, UserService userService, VolunteerRepository volunteerRepository, ClientDTOMapper clientMapper, VolunteerDTOMapper volunteerMapper) {
+    public OrganizationService(OrganizationRepository organizationRepository, UserService userService, VolunteerRepository volunteerRepository, ClientDTOMapper clientMapper, VolunteerDTOMapper volunteerMapper, VolunteerTextSearchService searchService) {
         this.organizationRepository = organizationRepository;
         this.userService = userService;
         this.volunteerRepository = volunteerRepository;
         this.clientMapper = clientMapper;
         this.volunteerMapper = volunteerMapper;
+        this.searchService = searchService;
     }
 
     public Optional<ClientPrivateDTO> editOrganizationData(ClientPrivateDTO input, String username) {
@@ -49,6 +52,19 @@ public class OrganizationService {
 
     public Optional<VolunteerPublicDTO> viewVolunteerPublicData(String username) {
         return volunteerRepository.findOneByUser_username(username).map(volunteer -> volunteerMapper.toVolunteerPublicDTO(volunteer));
+    }
+
+    public List<VolunteerSearchResultDTO> listAllVolunteers() {
+        return volunteerRepository.findAll().stream()
+                .map(volunteer -> volunteerMapper.toVolunteerSearchResultDTO(volunteer))
+                .collect(Collectors.toList());
+    }
+
+    public List<VolunteerSearchResultDTO> searchVolunteersByText(String text) {
+        List<Volunteer> filteredList = searchService.searchVolunteersByText(volunteerRepository.findAll(), text);
+        return filteredList.stream()
+                .map(volunteer -> volunteerMapper.toVolunteerSearchResultDTO(volunteer))
+                .collect(Collectors.toList());
     }
 
 }

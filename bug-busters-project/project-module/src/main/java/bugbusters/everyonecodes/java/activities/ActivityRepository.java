@@ -9,9 +9,5 @@ public interface ActivityRepository extends JpaRepository<Activity, Long> {
 
     Optional<Activity> getActivityByTitle(String title);
 
-    List<Activity> findByVolunteer_username(String username);
-
-    List<Activity> findByClient_username(String username);
-
-
+    List<Activity> findAllByStatusClient(Status status);
 }

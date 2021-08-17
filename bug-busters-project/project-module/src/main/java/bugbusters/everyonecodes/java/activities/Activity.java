@@ -18,6 +18,8 @@ public class Activity {
     @GeneratedValue
     private Long id;
 
+
+    //ToDO: Refactor field to role classes, because "Client" is not an entity
     @NotEmpty
     private String creator;
 
