@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 public class ActivityTextSearchService {
 
-    public List<Activity> searchVolunteersByText(List<Activity> inputList, String text) {
+    public List<Activity> searchActivitiesByText(List<Activity> inputList, String text) {
         String lowerCaseText = text.toLowerCase(Locale.ROOT);
         var inputMap = inputList.stream()
                 .collect(Collectors.toMap(activity -> activity.getId(), activity -> activity));
@@ -32,10 +32,11 @@ public class ActivityTextSearchService {
 
 
     String activityToSearchString(Activity activity) {
-        return activity.getCreator().getUser().getUsername() + ";" +
+        String output = activity.getCreator() + ";" +
                 activity.getTitle() + ";" +
                 activity.getDescription() + ";" +
                 String.join(";", activity.getCategories()) + ";" +
                 String.join(";", activity.getRecommendedSkills());
+        return output.toLowerCase(Locale.ROOT);
     }
 }
