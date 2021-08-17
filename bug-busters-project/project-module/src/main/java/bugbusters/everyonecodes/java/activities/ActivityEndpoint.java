@@ -1,5 +1,6 @@
 package bugbusters.everyonecodes.java.activities;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -14,9 +15,9 @@ public class ActivityEndpoint {
         this.activityService = activityService;
     }
 
-    @PostMapping("/post/new")
-    Activity saveNewActivity(@Valid @RequestBody Activity activity){
-        return activityService.saveNewActivity(activity);
+    @PostMapping("/create/new")
+    Activity saveNewActivity(@Valid @RequestBody Activity activity, Authentication authentication){
+        return activityService.saveNewActivity(activity, authentication.getName());
     }
 
     @PutMapping("/post/{id}")

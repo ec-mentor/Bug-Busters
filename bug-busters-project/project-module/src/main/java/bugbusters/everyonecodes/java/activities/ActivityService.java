@@ -1,5 +1,6 @@
 package bugbusters.everyonecodes.java.activities;
 
+import bugbusters.everyonecodes.java.usermanagement.repository.UserRepository;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.SetToStringMapper;
 import org.springframework.stereotype.Service;
 
@@ -10,15 +11,24 @@ import java.util.Optional;
 public class ActivityService {
     private final ActivityRepository activityRepository;
     private final SetToStringMapper setToStringMapper;
+    private final UserRepository userRepository;
 
-    public ActivityService(ActivityRepository activityRepository, SetToStringMapper setToStringMapper) {
+    public ActivityService(ActivityRepository activityRepository, SetToStringMapper setToStringMapper, UserRepository userRepository) {
         this.activityRepository = activityRepository;
         this.setToStringMapper = setToStringMapper;
+        this.userRepository = userRepository;
     }
 
-    public Activity saveNewActivity(Activity activity){
+    public Activity saveNewActivity(Activity activity, String username){
         activity.setStatusVolunteer(activity.getStatusClient());
-        return activityRepository.save(activity);
+        activity = activityRepository.save(activity);
+        var oCreator = userRepository.findOneByUsername(username);
+        if (oCreator.isPresent()) {
+            var creator = oCreator.get();
+            creator.getActivities().add(activity);
+            userRepository.save(creator);
+        }
+        return activity;
     }
 
 

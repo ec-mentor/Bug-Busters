@@ -1,0 +1,27 @@
+### Valid posted draft
+POST http://localhost:8080/organization/activities/create/new
+Authorization: Basic BigO Coding12#
+Content-Type: application/json
+
+{
+  "creator": "BigO",
+  "title": "My first Activty",
+  "description": "Look at it and be amazed",
+  "startTime": "2020-01-16T00:00:00",
+  "endTime": "2020-01-17T00:00:00",
+  "statusClient": "DRAFT"
+}
+
+### Check for invalid post getting rejected
+POST http://localhost:8080/organization/activities/create/new
+Authorization: Basic BigO Coding12#
+Content-Type: application/json
+
+{
+  "creator": "BigO",
+  "title": "My invalid Activty",
+  "description": "Look at it and be astonished",
+  "startTime": null,
+  "endTime": "2020-01-17T00:00:00",
+  "statusClient": "DRAFT"
+}

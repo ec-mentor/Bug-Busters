@@ -1,5 +1,7 @@
 package bugbusters.everyonecodes.java.usermanagement.rolemanagement.individual;
 
+import bugbusters.everyonecodes.java.activities.Activity;
+import bugbusters.everyonecodes.java.activities.ActivityService;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientPrivateDTO;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientPublicDTO;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerPublicDTO;
@@ -17,9 +19,11 @@ import java.util.List;
 @Secured("ROLE_INDIVIDUAL")
 public class IndividualEndpoint {
     private final IndividualService individualService;
+    private final ActivityService activityService;
 
-    public IndividualEndpoint(IndividualService individualService) {
+    public IndividualEndpoint(IndividualService individualService, ActivityService activityService) {
         this.individualService = individualService;
+        this.activityService = activityService;
     }
 
 
@@ -51,6 +55,11 @@ public class IndividualEndpoint {
     @GetMapping("/search/volunteers/{text}")
     List<VolunteerSearchResultDTO> searchVolunteersByText(@PathVariable String text) {
         return individualService.searchVolunteersByText(text);
+    }
+
+    @PostMapping("/activities/create/new")
+    Activity saveNewActivity(@Valid @RequestBody Activity activity, Authentication authentication){
+        return activityService.saveNewActivity(activity, authentication.getName());
     }
 
     @GetMapping("/webapptree")

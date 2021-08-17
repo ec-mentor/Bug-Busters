@@ -19,5 +19,5 @@ spring:
             enable: true
 webapptree:
   volunteer: "Edit own profile \nView own public profile \nView Organization/Individual profile"
-  individual: "Edit own profile \nView own public profile \nView Volunteer profile \nView list of all volunteers \nSearch for volunteers"
-  organization: "Edit own profile \nView own public profile \nView Volunteer profile \nView list of all volunteers \nSearch for volunteers"
+  individual: "Edit own profile \nView own public profile \nView Volunteer profile \nView list of all volunteers \nSearch for volunteers \nCreate new Activity"
+  organization: "Edit own profile \nView own public profile \nView Volunteer profile \nView list of all volunteers \nSearch for volunteers \nCreate new Activity"
