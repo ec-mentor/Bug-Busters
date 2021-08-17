@@ -11,14 +11,14 @@ import java.util.List;
 @Service
 public class AdminDTOMapper {
 
-    private final UserDTOMapper userDTOMapper;
-
-    public AdminDTOMapper(UserDTOMapper userDTOMapper) {
-        this.userDTOMapper = userDTOMapper;
-    }
-
     public AdminDTO toAdminDTO(User user) {
-        Double rating = userDTOMapper.calculateRating(user.getRatings());
+        List<Integer> ratings = user.getRatings();
+        Double rating = null;
+        if (ratings.size() > 0) {
+            rating = ratings.stream()
+                    .mapToDouble(Double::valueOf)
+                    .sum() / ratings.size();
+        }
         List<Activity> activities = user.getActivities();
         int pending = (int) activities.stream()
                 .filter(e -> e.getStatusClient().equals(Status.PENDING))

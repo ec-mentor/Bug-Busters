@@ -10,6 +10,9 @@ public class AdminDTO {
     private int activitiesInProgress;
     private int activitiesCompleted;
 
+    public AdminDTO() {
+    }
+
     public AdminDTO(String username, Double rating, int activitiesPending, int activitiesInProgress, int activitiesCompleted) {
         this.username = username;
         this.rating = rating;
