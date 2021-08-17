@@ -55,7 +55,7 @@ public class EmailService {
 
 
     // use the link sent by mail to actually set a new password
-    public UserPrivateDTO savePassword(String email, String uuid, String newPassword) {
+    public UserPrivateDTO savePassword(String email, String uuid, String newPassword) throws IllegalArgumentException {
 
         // check if user with that email exists
         var oUser = userRepository.findOneByEmail(email);
@@ -66,7 +66,7 @@ public class EmailService {
         // check if these values have been added to map by sendMail() method
         if (!allowedUsers.containsKey(userTemp) || !allowedUsers.get(userTemp).equals(uuid)) throw new IllegalArgumentException();
 
-        // save new password
+        // validate and save new password
         if (!newPassword.matches("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!?@#$^&+=/_-])(?=\\S+$).{6,100}")) throw new IllegalArgumentException();
         userTemp.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(userTemp);

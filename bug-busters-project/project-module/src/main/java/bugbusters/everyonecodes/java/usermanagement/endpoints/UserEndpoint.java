@@ -39,8 +39,8 @@ public class UserEndpoint {
         emailService.sendMail(email);
     }
 
-    @GetMapping("/passwordreset/{email}/{uuid}/{password}")
-    UserPrivateDTO setPassword(@PathVariable String email, @PathVariable String uuid, @PathVariable String password) {
+    @PostMapping("/passwordreset/{email}/{uuid}")
+    UserPrivateDTO setPassword(@PathVariable String email, @PathVariable String uuid, @RequestBody String password) {
         return emailService.savePassword(email, uuid, password);
     }
 }
