@@ -34,7 +34,7 @@ public class EmailService {
     // send email with link that allows password change
     public void sendMail(String email) {
         var oUser = userRepository.findOneByEmail(email);
-        if (oUser.isEmpty()) return;
+        if (oUser.isEmpty()) throw new IllegalArgumentException();
         var uuid = UUID.randomUUID().toString();
 
         // add the user and the uuid to map that allows password change
@@ -59,14 +59,15 @@ public class EmailService {
 
         // check if user with that email exists
         var oUser = userRepository.findOneByEmail(email);
-        if (oUser.isEmpty()) return null;
+        if (oUser.isEmpty()) throw new IllegalArgumentException();
         var userTemp = oUser.get();
 
 
         // check if these values have been added to map by sendMail() method
-        if (!allowedUsers.containsKey(userTemp) || !allowedUsers.get(userTemp).equals(uuid)) return null;
+        if (!allowedUsers.containsKey(userTemp) || !allowedUsers.get(userTemp).equals(uuid)) throw new IllegalArgumentException();
 
         // save new password
+        if (!newPassword.matches("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!?@#$^&+=/_-])(?=\\S+$).{6,100}")) throw new IllegalArgumentException();
         userTemp.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(userTemp);
 
