@@ -19,22 +19,22 @@ public class AdminEndpoint {
         this.service = service;
     }
 
-    @GetMapping
+    @GetMapping("/volunteers")
     List<AdminDTO> getVolunteers() {
         return service.listAllVolunteers();
     }
 
-    @GetMapping
+    @GetMapping("/organizations")
     List<AdminDTO> getOrganizations() {
         return service.listAllOrganizations();
     }
 
-    @GetMapping
+    @GetMapping("/individuals")
     List<AdminDTO> getIndividuals() {
         return service.listAllIndividuals();
     }
 
-    @GetMapping
+    @GetMapping("/account/{username}")
     Object getAccount(@PathVariable String username) {
         return service.getAccountDataByUsername(username);
     }
