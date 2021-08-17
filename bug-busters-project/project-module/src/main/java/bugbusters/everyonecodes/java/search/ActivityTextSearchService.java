@@ -1,7 +1,6 @@
 package bugbusters.everyonecodes.java.search;
 
 import bugbusters.everyonecodes.java.activities.Activity;
-import bugbusters.everyonecodes.java.usermanagement.data.User;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -31,17 +30,12 @@ public class ActivityTextSearchService {
                 ).collect(Collectors.toList());
     }
 
-    String userToSearchString(User user) {
-        String output = user.getUsername() + ";" + user.getFullName();
-        if (user.getDescription() == null) return output.toLowerCase(Locale.ROOT);
-        output = output + ";" + user.getDescription();
-        return output.toLowerCase(Locale.ROOT);
-    }
 
     String activityToSearchString(Activity activity) {
-        User user = activity.getCreator().getUser();
-        String output = userToSearchString(user);
-        return output + ";" + activity.getTitle() + ";" +
-                activity.getDescription();
+        return activity.getCreator().getUser().getUsername() + ";" +
+                activity.getTitle() + ";" +
+                activity.getDescription() + ";" +
+                String.join(";", activity.getCategories()) + ";" +
+                String.join(";", activity.getRecommendedSkills());
     }
 }

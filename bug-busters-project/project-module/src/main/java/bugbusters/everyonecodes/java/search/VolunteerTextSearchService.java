@@ -41,7 +41,6 @@ public class VolunteerTextSearchService {
     }
 
     String volunteerToSearchString(Volunteer volunteer) {
-        if (volunteer.getSkills().isEmpty()) return userToSearchString(volunteer.getUser());
         return userToSearchString(volunteer.getUser()) + ";" + String.join(";", new HashSet<>(volunteer.getSkills())).toLowerCase(Locale.ROOT);
     }
 }
