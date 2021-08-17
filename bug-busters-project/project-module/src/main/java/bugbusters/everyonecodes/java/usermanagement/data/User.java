@@ -42,11 +42,12 @@ public class User {
     @ElementCollection
     private List<@Min(1) @Max(5) Integer> ratings = new ArrayList<>();
 
-    private List<Activity> activities;
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Activity> activities = new ArrayList<>();
 
     public User() {}
 
-    public User(String username, String password, String role, String fullName, LocalDate birthday, String address, String email, String description, List<Activity> activities) {
+    public User(String username, String password, String role, String fullName, LocalDate birthday, String address, String email, String description) {
         this.username = username;
         this.password = password;
         this.role = role;
@@ -55,7 +56,6 @@ public class User {
         this.address = address;
         this.email = email;
         this.description = description;
-        this.activities = activities;
     }
 
     public Long getId() {
