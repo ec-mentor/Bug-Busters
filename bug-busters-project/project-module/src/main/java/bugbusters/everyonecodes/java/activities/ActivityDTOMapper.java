@@ -52,7 +52,6 @@ public class ActivityDTOMapper {
     }
 
 
-
     Double calculateRating(List<Integer> ratings) {
         if (ratings.size() == 0) return null;
         return ratings.stream()

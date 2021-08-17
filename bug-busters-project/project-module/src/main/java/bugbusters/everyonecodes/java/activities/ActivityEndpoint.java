@@ -13,14 +13,19 @@ public class ActivityEndpoint {
         this.activityService = activityService;
     }
 
-    @PostMapping("/post")
-    Activity postActivity(@RequestBody Activity activity) {
-        return activityService.postActivity(activity);
+    @PostMapping("/post/new")
+    Activity saveNewActivity(@RequestBody Activity activity){
+        return activityService.saveNewActivity(activity);
     }
 
-    @PutMapping("/edit/{title}")
-    Activity editActivity(@RequestBody Activity activity, @PathVariable String title){
-        return activityService.edit(activity, title).orElse(null);
+    @PutMapping("/post/{id}")
+    Activity postDraft(@PathVariable Long id) {
+        return activityService.postDraft(id).orElse(null);
+    }
+
+    @PutMapping("/edit/{id}")
+    Activity editActivity(@RequestBody ActivityEditDTO input, @PathVariable Long id){
+        return activityService.edit(input, id).orElse(null);
     }
 
     @GetMapping()
@@ -28,10 +33,6 @@ public class ActivityEndpoint {
         return activityService.findAll();
     }
 
-    @GetMapping("/{title}")
-    Activity getByTitle(@PathVariable String title){
-        return activityService.getActivityByTitle(title).orElse(null);
-    }
 
 
 }
