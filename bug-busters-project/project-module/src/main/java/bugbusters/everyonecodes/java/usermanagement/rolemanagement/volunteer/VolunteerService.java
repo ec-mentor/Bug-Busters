@@ -1,5 +1,6 @@
 package bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer;
 
+import bugbusters.everyonecodes.java.activities.Status;
 import bugbusters.everyonecodes.java.activities.*;
 import bugbusters.everyonecodes.java.search.ActivityTextSearchService;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.Client;

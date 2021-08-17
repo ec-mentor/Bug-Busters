@@ -34,9 +34,10 @@ public class AdminEndpoint {
         return service.listAllIndividuals();
     }
 
-    @GetMapping("/account")
+    @GetMapping("/account/{username}")
     Object getAccount(@PathVariable String username) {
         return service.getAccountDataByUsername(username);
     }
+
 
 }

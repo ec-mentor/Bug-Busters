@@ -138,6 +138,14 @@ public class User {
         this.ratings = ratings;
     }
 
+    public List<Activity> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(List<Activity> activities) {
+        this.activities = activities;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

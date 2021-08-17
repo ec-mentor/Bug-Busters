@@ -2,8 +2,6 @@ package bugbusters.everyonecodes.java.search;
 
 import bugbusters.everyonecodes.java.activities.Activity;
 import bugbusters.everyonecodes.java.activities.Status;
-import bugbusters.everyonecodes.java.usermanagement.data.User;
-import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.Volunteer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

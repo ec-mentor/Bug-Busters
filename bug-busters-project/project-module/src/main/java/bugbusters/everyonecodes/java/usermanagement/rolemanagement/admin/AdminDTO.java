@@ -5,12 +5,12 @@ import java.util.Objects;
 public class AdminDTO {
 
     private String username;
-    private double rating;
+    private Double rating;
     private int activitiesPending;
     private int activitiesInProgress;
     private int activitiesCompleted;
 
-    public AdminDTO(String username, double rating, int activitiesPending, int activitiesInProgress, int activitiesCompleted) {
+    public AdminDTO(String username, Double rating, int activitiesPending, int activitiesInProgress, int activitiesCompleted) {
         this.username = username;
         this.rating = rating;
         this.activitiesPending = activitiesPending;
@@ -26,11 +26,11 @@ public class AdminDTO {
         this.username = username;
     }
 
-    public double getRating() {
+    public Double getRating() {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(Double rating) {
         this.rating = rating;
     }
 
@@ -81,4 +81,5 @@ public class AdminDTO {
                 ", activitiesCompleted=" + activitiesCompleted +
                 '}';
     }
+
 }
