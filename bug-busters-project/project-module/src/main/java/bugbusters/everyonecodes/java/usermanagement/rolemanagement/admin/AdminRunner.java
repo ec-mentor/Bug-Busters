@@ -24,6 +24,7 @@ public class AdminRunner {
                         null,
                         null,
                         "admin@bugbusters.com",
+                        null,
                         null);
                 userRepository.save(admin);
             }
