@@ -1,6 +1,7 @@
 package bugbusters.everyonecodes.java.usermanagement.endpoints;
 
 import bugbusters.everyonecodes.java.usermanagement.data.User;
+import bugbusters.everyonecodes.java.usermanagement.data.UserPrivateDTO;
 import bugbusters.everyonecodes.java.usermanagement.service.EmailService;
 import bugbusters.everyonecodes.java.usermanagement.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -36,5 +37,10 @@ public class UserEndpoint {
     @GetMapping("/passwordreset/{email}")
     void forgotPassword(@PathVariable String email) {
         emailService.sendMail(email);
+    }
+
+    @GetMapping("/passwordreset/{email}/{password}")
+    UserPrivateDTO setPassword(@PathVariable String email, @PathVariable String password) {
+        return emailService.savePassword(email, password);
     }
 }
