@@ -4,10 +4,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Objects;
 
-public class ActivityEditDTO {
+public class ActivityInputDTO {
     @NotEmpty
     @Size(min = 3, max = 40)
     private String title;
@@ -19,9 +18,15 @@ public class ActivityEditDTO {
     private LocalDateTime startTime;
     @NotNull
     private LocalDateTime endTime;
+
     private boolean isOpenEnd;
 
-    public ActivityEditDTO(String title, String description, String recommendedSkills, String categories, LocalDateTime startTime, LocalDateTime endTime, boolean isOpenEnd) {
+    @NotNull
+    private Status statusClient;
+
+
+
+    public ActivityInputDTO(String title, String description, String recommendedSkills, String categories, LocalDateTime startTime, LocalDateTime endTime, boolean isOpenEnd, Status statusClient) {
         this.title = title;
         this.description = description;
         this.recommendedSkills = recommendedSkills;
@@ -29,6 +34,7 @@ public class ActivityEditDTO {
         this.startTime = startTime;
         this.endTime = endTime;
         this.isOpenEnd = isOpenEnd;
+        this.statusClient = statusClient;
     }
 
     public String getTitle() {
@@ -87,11 +93,19 @@ public class ActivityEditDTO {
         isOpenEnd = openEnd;
     }
 
+    public Status getStatusClient() {
+        return statusClient;
+    }
+
+    public void setStatusClient(Status statusClient) {
+        this.statusClient = statusClient;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ActivityEditDTO that = (ActivityEditDTO) o;
+        ActivityInputDTO that = (ActivityInputDTO) o;
         return isOpenEnd == that.isOpenEnd && Objects.equals(title, that.title) && Objects.equals(description, that.description) && Objects.equals(recommendedSkills, that.recommendedSkills) && Objects.equals(categories, that.categories) && Objects.equals(startTime, that.startTime) && Objects.equals(endTime, that.endTime);
     }
 

@@ -2,6 +2,7 @@ package bugbusters.everyonecodes.java.activities;
 
 import bugbusters.everyonecodes.java.usermanagement.data.User;
 import bugbusters.everyonecodes.java.usermanagement.repository.UserRepository;
+import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.SetToStringMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,9 +12,11 @@ import java.util.Optional;
 public class ActivityDTOMapper {
 
     private final UserRepository userRepository;
+    private final SetToStringMapper setToStringMapper;
 
-    public ActivityDTOMapper(UserRepository userRepository) {
+    public ActivityDTOMapper(UserRepository userRepository, SetToStringMapper setToStringMapper) {
         this.userRepository = userRepository;
+        this.setToStringMapper = setToStringMapper;
     }
 
     public ActivityDTO toVolunteerActivityDTO(Activity activity) {
@@ -58,6 +61,24 @@ public class ActivityDTOMapper {
                 activity.getFeedbackFromClient(),
                 activity.getRatingFromVolunteer(),
                 activity.getFeedbackFromVolunteer());
+    }
+
+    public Activity createNewActivityFromActivityInputDTO(ActivityInputDTO activityInputDTO, String creator) {
+        Status status = activityInputDTO.getStatusClient();
+        return new Activity(creator,
+                activityInputDTO.getTitle(),
+                activityInputDTO.getDescription(),
+                setToStringMapper.convertToSet(activityInputDTO.getRecommendedSkills()),
+                setToStringMapper.convertToSet(activityInputDTO.getCategories()),
+                activityInputDTO.getStartTime(),
+                activityInputDTO.getEndTime(),
+                activityInputDTO.isOpenEnd(),
+                status,
+                status,
+                null,
+                null,
+                null,
+                null);
     }
 
 

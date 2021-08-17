@@ -2,7 +2,7 @@ package bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization
 
 import bugbusters.everyonecodes.java.activities.Activity;
 import bugbusters.everyonecodes.java.activities.ActivityDTO;
-import bugbusters.everyonecodes.java.activities.ActivityEditDTO;
+import bugbusters.everyonecodes.java.activities.ActivityInputDTO;
 import bugbusters.everyonecodes.java.activities.ActivityService;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerPublicDTO;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerSearchResultDTO;
@@ -58,7 +58,7 @@ public class OrganizationEndpoint {
     }
 
     @PostMapping("/activities/create/new")
-    Activity saveNewActivity(@Valid @RequestBody Activity activity, Authentication authentication){
+    Activity saveNewActivity(@Valid @RequestBody ActivityInputDTO activity, Authentication authentication){
         return activityService.saveNewActivity(activity, authentication.getName()).orElse(null);
     }
 
@@ -68,7 +68,7 @@ public class OrganizationEndpoint {
     }
 
     @PutMapping("/activities/edit/{id}")
-    Activity editActivity(@Valid @RequestBody ActivityEditDTO input, @PathVariable Long id, Authentication authentication){
+    Activity editActivity(@Valid @RequestBody ActivityInputDTO input, @PathVariable Long id, Authentication authentication){
         return activityService.edit(input, id, authentication.getName()).orElse(null);
     }
 

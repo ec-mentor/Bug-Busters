@@ -200,6 +200,8 @@ Content-Type: application/json
   "creator": "Individual1",
   "title": "Activity 1 of Ind1",
   "description": "Draft of Ind 1",
+  "recommendedSkills": "cooking;eating",
+  "categories": "food",
   "startTime": "2020-01-16T00:00:00",
   "endTime": "2020-01-17T00:00:00",
   "statusClient": "DRAFT"
@@ -242,6 +244,8 @@ Content-Type: application/json
   "creator": "Individual3",
   "title": "Activity 1 of Ind3",
   "description": "Pending of Ind 3",
+  "recommendedSkills": "testing",
+  "categories": "coding",
   "startTime": "2020-01-22T00:00:00",
   "endTime": "2020-01-23T00:00:00",
   "statusClient": "PENDING"
@@ -270,6 +274,8 @@ Content-Type: application/json
   "creator": "Organization1",
   "title": "Activity 2 of Org1",
   "description": "Pending of Org 1",
+  "recommendedSkills": "laughing;crying;improvisation",
+  "categories": "acting;theater",
   "startTime": "2020-01-18T00:00:00",
   "endTime": "2020-01-19T00:00:00",
   "statusClient": "PENDING"
@@ -284,6 +290,8 @@ Content-Type: application/json
   "creator": "Organization2",
   "title": "Activity 1 of Org2",
   "description": "Draft of Org 2",
+  "recommendedSkills": "testing",
+  "categories": "coding",
   "startTime": "2020-01-20T00:00:00",
   "endTime": "2020-01-21T00:00:00",
   "statusClient": "DRAFT"

@@ -1,7 +1,6 @@
 package bugbusters.everyonecodes.java.activities;
 
 import bugbusters.everyonecodes.java.usermanagement.repository.UserRepository;
-import bugbusters.everyonecodes.java.usermanagement.rolemanagement.RoleFactory;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.SetToStringMapper;
 import org.springframework.stereotype.Service;
 
@@ -13,16 +12,17 @@ public class ActivityService {
     private final ActivityRepository activityRepository;
     private final SetToStringMapper setToStringMapper;
     private final UserRepository userRepository;
+    private final ActivityDTOMapper activityDTOMapper;
 
-    public ActivityService(ActivityRepository activityRepository, SetToStringMapper setToStringMapper, UserRepository userRepository) {
+    public ActivityService(ActivityRepository activityRepository, SetToStringMapper setToStringMapper, UserRepository userRepository, ActivityDTOMapper activityDTOMapper) {
         this.activityRepository = activityRepository;
         this.setToStringMapper = setToStringMapper;
         this.userRepository = userRepository;
+        this.activityDTOMapper = activityDTOMapper;
     }
 
-    public Optional<Activity> saveNewActivity(Activity activity, String username){
-        activity.setCreator(username);
-        activity.setStatusVolunteer(activity.getStatusClient());
+    public Optional<Activity> saveNewActivity(ActivityInputDTO activityInputDTO, String username){
+        Activity activity = activityDTOMapper.createNewActivityFromActivityInputDTO(activityInputDTO, username);
         var oCreator = userRepository.findOneByUsername(username);
         if (oCreator.isPresent()) {
             activity = activityRepository.save(activity);
@@ -51,7 +51,7 @@ public class ActivityService {
         return activityRepository.findAll();
     }
 
-    public Optional<Activity> edit(ActivityEditDTO input, Long id, String username){
+    public Optional<Activity> edit(ActivityInputDTO input, Long id, String username){
         Optional<Activity> oActivity = activityRepository.findById(id);
         if (oActivity.isEmpty()){
             return Optional.empty();
