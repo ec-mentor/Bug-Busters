@@ -6,7 +6,6 @@ import java.util.Objects;
 
 public class ActivityDTO {
 
-    @NotEmpty
     private String usernameOfOtherParty;
 
     @NotEmpty
@@ -38,7 +37,7 @@ public class ActivityDTO {
 
     }
 
-    public ActivityDTO(String usernameOfOtherParty, String title, String description, Status status, LocalDateTime startDate, LocalDateTime endDate, String roleOfOtherParty, Double ratingOfOtherParty, Integer ratingFromClient, Integer ratingFromVolunteer, String feedbackFromClient, String feedbackFromVolunteer) {
+    public ActivityDTO(String usernameOfOtherParty, String title, String description, Status status, LocalDateTime startDate, LocalDateTime endDate, String roleOfOtherParty, Double ratingOfOtherParty, Integer ratingFromClient, String feedbackFromClient, Integer ratingFromVolunteer, String feedbackFromVolunteer) {
         this.usernameOfOtherParty = usernameOfOtherParty;
         this.title = title;
         this.description = description;

@@ -1,33 +1,50 @@
 package bugbusters.everyonecodes.java.activities;
 
+import bugbusters.everyonecodes.java.usermanagement.data.User;
+import bugbusters.everyonecodes.java.usermanagement.repository.UserRepository;
+
 import java.util.List;
+import java.util.Optional;
 
 public class ActivityDTOMapper {
 
+    private final UserRepository userRepository;
+
+    public ActivityDTOMapper(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     public ActivityDTO toVolunteerActivityDTO(Activity activity) {
-        return new ActivityDTO(activity.getTitle(),
+        Optional<User> oClient = userRepository.findOneByUsername(activity.getCreator());
+        if (oClient.isEmpty()) return null;
+        User client = oClient.get();
+        return new ActivityDTO(activity.getCreator(),
+                activity.getTitle(),
                 activity.getDescription(),
                 activity.getStatusVolunteer(),
                 activity.getStartTime(),
                 activity.getEndTime(),
-                activity.getCreator().getUser().getRole(),
-                activity.getCreator().getUser().getUsername(),
-                calculateRating(activity.getCreator().getUser().getRatings()),
+                client.getRole(),
+                calculateRating(client.getRatings()),
                 activity.getRatingFromVolunteer(),
                 activity.getFeedbackFromVolunteer(),
                 activity.getRatingFromClient(),
-                activity.getFeedbackFromClient());
+                activity.getFeedbackFromClient()
+                );
     }
 
-    public ClientActivityDTO toClientActivityDTO(Activity activity) {
-        return new ClientActivityDTO(activity.getTitle(),
+    public ActivityDTO toClientActivityDTO(Activity activity) {
+        Optional<User> oVolunteer = userRepository.findOneByUsername(activity.getVolunteer());
+        if (oVolunteer.isEmpty()) return null;
+        User volunteer = oVolunteer.get();
+        return new ActivityDTO(activity.getVolunteer(),
+                activity.getTitle(),
                 activity.getDescription(),
                 activity.getStatusClient(),
                 activity.getStartTime(),
                 activity.getEndTime(),
-                activity.getVolunteer().getUser().getRole(),
-                activity.getVolunteer().getUser().getUsername(),
-                calculateRating(activity.getVolunteer().getUser().getRatings()),
+                volunteer.getRole(),
+                calculateRating(volunteer.getRatings()),
                 activity.getRatingFromClient(),
                 activity.getFeedbackFromClient(),
                 activity.getRatingFromVolunteer(),
