@@ -10,9 +10,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @EnableScheduling
@@ -23,8 +21,7 @@ public class EmailService {
     private final PasswordEncoder passwordEncoder;
     private final UserDTOMapper userDTOMapper;
 
-    private final List<User> users = new ArrayList<>();
-    private final List<String> uuids = new ArrayList<>();
+    private final Map<User, String> allowedUsers = new HashMap<>();
 
     public EmailService(JavaMailSender javaMailSender, UserRepository userRepository, PasswordEncoder passwordEncoder, UserDTOMapper userDTOMapper) {
         this.javaMailSender = javaMailSender;
@@ -40,9 +37,8 @@ public class EmailService {
         if (oUser.isEmpty()) return;
         var uuid = UUID.randomUUID().toString();
 
-        // add the user and the uuid to lists that allow password change
-        users.add(oUser.get());
-        uuids.add(uuid);
+        // add the user and the uuid to map that allows password change
+        allowedUsers.put(oUser.get(), uuid);
 
         var subject = "Reset your Password";
         var message = "Please use this dummy link to create a new password:\n https://www.bugbusterseveryonecodes.com/passwordreset/" + uuid;
@@ -67,9 +63,8 @@ public class EmailService {
         var userTemp = oUser.get();
 
 
-        // check if these values have been added to lists by creating reset link and calling sendMail()
-        if (!uuids.contains(uuid) || !users.contains(userTemp)) return null;
-
+        // check if these values have been added to map by sendMail() method
+        if (!allowedUsers.containsKey(userTemp) || !allowedUsers.get(userTemp).equals(uuid)) return null;
 
         // save new password
         userTemp.setPassword(passwordEncoder.encode(newPassword));
@@ -77,18 +72,15 @@ public class EmailService {
 
         var userDTO = userDTOMapper.toUserPrivateDTO(userTemp);
 
-        // remove used entries from lists
-        uuids.remove(uuid);
-        users.remove(userTemp);
+        // remove used entry from map
+        allowedUsers.remove(userTemp);
 
         return userDTO;
     }
 
-// clear lists every day at 3am
-
+// clear map every day at 3am
     @Scheduled(cron= "0 0 3 * * *")
-    public void clearLists() {
-        users.clear();
-        uuids.clear();
+    public void clearMap() {
+        allowedUsers.clear();
     }
 }
