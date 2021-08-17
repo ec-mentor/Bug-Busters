@@ -42,6 +42,9 @@ public class User {
     @ElementCollection
     private List<@Min(1) @Max(5) Integer> ratings = new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Activity> activities = new ArrayList<>();
+    
     public User() {}
 
     public User(String username, String password, String role, String fullName, LocalDate birthday, String address, String email, String description) {

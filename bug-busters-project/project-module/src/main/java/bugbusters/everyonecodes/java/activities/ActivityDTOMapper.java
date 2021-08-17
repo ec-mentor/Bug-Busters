@@ -4,8 +4,8 @@ import java.util.List;
 
 public class ActivityDTOMapper {
 
-    public VolunteerActivityDTO toVolunteerActivityDTO(Activity activity) {
-        return new VolunteerActivityDTO(activity.getTitle(),
+    public ActivityDTO toVolunteerActivityDTO(Activity activity) {
+        return new ActivityDTO(activity.getTitle(),
                 activity.getDescription(),
                 activity.getStatusVolunteer(),
                 activity.getStartTime(),
