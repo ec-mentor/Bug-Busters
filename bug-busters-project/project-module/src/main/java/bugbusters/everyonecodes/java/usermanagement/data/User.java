@@ -1,5 +1,7 @@
 package bugbusters.everyonecodes.java.usermanagement.data;
 
+import bugbusters.everyonecodes.java.activities.Activity;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
@@ -39,6 +41,9 @@ public class User {
 
     @ElementCollection
     private List<@Min(1) @Max(5) Integer> ratings = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Activity> activities = new ArrayList<>();
 
     public User() {}
 
@@ -133,17 +138,26 @@ public class User {
         this.ratings = ratings;
     }
 
+    public List<Activity> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(List<Activity> activities) {
+        this.activities = activities;
+    }
+
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(role, user.role) && Objects.equals(fullName, user.fullName) && Objects.equals(birthday, user.birthday) && Objects.equals(address, user.address) && Objects.equals(email, user.email) && Objects.equals(description, user.description);
+        return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(role, user.role) && Objects.equals(fullName, user.fullName) && Objects.equals(birthday, user.birthday) && Objects.equals(address, user.address) && Objects.equals(email, user.email) && Objects.equals(description, user.description) && Objects.equals(ratings, user.ratings) && Objects.equals(activities, user.activities);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, role, fullName, birthday, address, email, description);
+        return Objects.hash(id, username, password, role, fullName, birthday, address, email, description, ratings, activities);
     }
 
     @Override
@@ -158,6 +172,8 @@ public class User {
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
                 ", description='" + description + '\'' +
+                ", ratings=" + ratings +
+                ", activities=" + activities +
                 '}';
     }
 }
