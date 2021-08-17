@@ -4,11 +4,9 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -26,17 +24,19 @@ public class Activity {
     private String Volunteer;
 
     @NotEmpty
+    @Size(min = 3, max = 40)
     private String title;
 
     @NotEmpty
-    @Size(min = 3, max = 40)
     private String description;
 
+    @NotNull
     @ElementCollection
-    private Set<String> recommendedSkills;
+    private Set<String> recommendedSkills = new HashSet<>();
 
+    @NotNull
     @ElementCollection
-    private Set<String> categories;
+    private Set<String> categories = new HashSet<>();
 
     @NotEmpty
     private LocalDateTime startTime;

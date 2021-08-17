@@ -24,18 +24,18 @@ class ActivityTextSearchServiceTest {
 
     @ParameterizedTest
     @MethodSource("parameters_searchVolunteersByText")
-    void searchVolunteersByText(List<Activity> input, String text, List<Activity> expected) {
+    void searchActivitiesByText(List<Activity> input, String text, List<Activity> expected) {
         var result = activityTextSearchService.searchActivitiesByText(input, text);
         Assertions.assertEquals(expected, result);
     }
 
     //Test sometimes mess up because order can be ambiguous
     private static Stream<Arguments> parameters_searchVolunteersByText() {
-        Activity test1 = new Activity("Test11", "Testt1", "Testd1", null, Set.of("testC11"), LocalDateTime.now(), LocalDateTime.now(), false, Status.PENDING, Status.PENDING, null, null, null, null);
+        Activity test1 = new Activity("Test11", "Testt1", "Testd1", Set.of(), Set.of("testC11"), LocalDateTime.now(), LocalDateTime.now(), false, Status.PENDING, Status.PENDING, null, null, null, null);
         test1.setId(1L);
-        Activity test2 = new Activity("Test2", "Test", "Testd2", Set.of("test2s", "skills2"), Set.of("testC2"), LocalDateTime.now(), LocalDateTime.now(), false, Status.PENDING, Status.PENDING, null, null, null, null);
+        Activity test2 = new Activity("Test2", "Test", "Testd2", Set.of("test2s", "skills32"), Set.of("testC2"), LocalDateTime.now(), LocalDateTime.now(), false, Status.PENDING, Status.PENDING, null, null, null, null);
         test2.setId(2L);
-        Activity test3 = new Activity("Test1", "Testt3", "Testd3", Set.of("skills23"), null, LocalDateTime.now(), LocalDateTime.now(), false, Status.PENDING, Status.PENDING, null, null, null, null);
+        Activity test3 = new Activity("Test1", "Testt3", "Testd3", Set.of("skills3"), Set.of(), LocalDateTime.now(), LocalDateTime.now(), false, Status.PENDING, Status.PENDING, null, null, null, null);
         test3.setId(3L);
         return Stream.of(
                 //empty case
@@ -66,11 +66,11 @@ class ActivityTextSearchServiceTest {
                         "test1",
                         List.of(test3, test1)
                 ),
-                //match based on skills
+                //match based on skills, test 3 comes first
                 Arguments.of(
                         List.of(test1, test2, test3),
-                        "skills",
-                        List.of(test2)
+                        "skills3",
+                        List.of(test3, test2)
                 ),
                 //match based on description
                 Arguments.of(

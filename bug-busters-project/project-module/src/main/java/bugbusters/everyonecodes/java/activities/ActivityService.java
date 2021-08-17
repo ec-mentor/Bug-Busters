@@ -1,10 +1,12 @@
 package bugbusters.everyonecodes.java.activities;
 
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.SetToStringMapper;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ActivityService {
     private final ActivityRepository activityRepository;
     private final SetToStringMapper setToStringMapper;

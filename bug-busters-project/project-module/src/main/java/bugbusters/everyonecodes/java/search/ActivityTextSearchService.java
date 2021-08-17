@@ -1,10 +1,12 @@
 package bugbusters.everyonecodes.java.search;
 
 import bugbusters.everyonecodes.java.activities.Activity;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Service
 public class ActivityTextSearchService {
 
     public List<Activity> searchActivitiesByText(List<Activity> inputList, String text) {

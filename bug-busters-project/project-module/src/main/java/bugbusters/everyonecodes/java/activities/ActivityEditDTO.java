@@ -1,14 +1,23 @@
 package bugbusters.everyonecodes.java.activities;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
 
 public class ActivityEditDTO {
+    @NotEmpty
+    @Size(min = 3, max = 40)
     private String title;
+    @NotEmpty
     private String description;
     private String recommendedSkills;
     private String categories;
+    @NotEmpty
     private LocalDateTime startTime;
+    @NotEmpty
     private LocalDateTime endTime;
     private boolean isOpenEnd;
 

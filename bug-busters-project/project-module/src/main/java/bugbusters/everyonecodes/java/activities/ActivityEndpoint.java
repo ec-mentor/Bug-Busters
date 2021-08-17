@@ -2,6 +2,7 @@ package bugbusters.everyonecodes.java.activities;
 
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -14,7 +15,7 @@ public class ActivityEndpoint {
     }
 
     @PostMapping("/post/new")
-    Activity saveNewActivity(@RequestBody Activity activity){
+    Activity saveNewActivity(@Valid @RequestBody Activity activity){
         return activityService.saveNewActivity(activity);
     }
 
@@ -24,7 +25,7 @@ public class ActivityEndpoint {
     }
 
     @PutMapping("/edit/{id}")
-    Activity editActivity(@RequestBody ActivityEditDTO input, @PathVariable Long id){
+    Activity editActivity(@Valid @RequestBody ActivityEditDTO input, @PathVariable Long id){
         return activityService.edit(input, id).orElse(null);
     }
 

@@ -1,5 +1,7 @@
 package bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer;
 
+import bugbusters.everyonecodes.java.activities.*;
+import bugbusters.everyonecodes.java.search.ActivityTextSearchService;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.Client;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.individual.Individual;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.individual.IndividualRepository;
@@ -8,10 +10,11 @@ import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.Organization;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.OrganizationRepository;
 import bugbusters.everyonecodes.java.usermanagement.service.UserService;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class VolunteerService {
@@ -22,8 +25,11 @@ public class VolunteerService {
     private final ClientDTOMapper clientMapper;
     private final VolunteerDTOMapper volunteerMapper;
     private final SetToStringMapper setToStringMapper;
+    private final ActivityDTOMapper activityDTOMapper;
+    private final ActivityTextSearchService activityTextSearchService;
+    private final ActivityRepository activityRepository;
 
-    public VolunteerService(UserService userService, VolunteerRepository volunteerRepository, OrganizationRepository organizationRepository, IndividualRepository individualRepository, ClientDTOMapper clientMapper, VolunteerDTOMapper volunteerMapper, SetToStringMapper setToStringMapper) {
+    public VolunteerService(UserService userService, VolunteerRepository volunteerRepository, OrganizationRepository organizationRepository, IndividualRepository individualRepository, ClientDTOMapper clientMapper, VolunteerDTOMapper volunteerMapper, SetToStringMapper setToStringMapper, ActivityDTOMapper activityDTOMapper, ActivityTextSearchService activityTextSearchService, ActivityRepository activityRepository) {
         this.userService = userService;
         this.volunteerRepository = volunteerRepository;
         this.organizationRepository = organizationRepository;
@@ -31,6 +37,9 @@ public class VolunteerService {
         this.clientMapper = clientMapper;
         this.volunteerMapper = volunteerMapper;
         this.setToStringMapper = setToStringMapper;
+        this.activityDTOMapper = activityDTOMapper;
+        this.activityTextSearchService = activityTextSearchService;
+        this.activityRepository = activityRepository;
     }
 
     public Optional<VolunteerPrivateDTO> editVolunteerData(VolunteerPrivateDTO edits, String username) {
@@ -71,5 +80,18 @@ public class VolunteerService {
 
     public Optional<ClientPublicDTO> viewClientPublicData(String name) {
         return getClientByUsername(name).map(client -> clientMapper.toClientPublicDTO(client));
+    }
+
+    public List<ActivityDTO> listAllPendingActivities() {
+        return activityRepository.findAllByStatusClient(Status.PENDING).stream()
+                .map(activityDTOMapper::toVolunteerActivityDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<ActivityDTO> searchPendingActivitiesByText(String text) {
+        List<Activity> filteredList = activityTextSearchService.searchActivitiesByText(activityRepository.findAllByStatusClient(Status.PENDING), text);
+        return filteredList.stream()
+                .map(activityDTOMapper::toVolunteerActivityDTO)
+                .collect(Collectors.toList());
     }
 }

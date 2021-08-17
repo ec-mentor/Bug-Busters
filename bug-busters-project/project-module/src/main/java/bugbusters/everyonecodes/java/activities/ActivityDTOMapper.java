@@ -2,10 +2,12 @@ package bugbusters.everyonecodes.java.activities;
 
 import bugbusters.everyonecodes.java.usermanagement.data.User;
 import bugbusters.everyonecodes.java.usermanagement.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ActivityDTOMapper {
 
     private final UserRepository userRepository;

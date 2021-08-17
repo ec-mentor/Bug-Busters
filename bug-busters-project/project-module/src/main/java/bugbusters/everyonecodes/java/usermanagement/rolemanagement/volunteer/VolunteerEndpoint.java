@@ -1,6 +1,7 @@
 package bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer;
 
 import bugbusters.everyonecodes.java.activities.Activity;
+import bugbusters.everyonecodes.java.activities.ActivityDTO;
 import bugbusters.everyonecodes.java.activities.ActivityService;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientPublicDTO;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,11 +18,9 @@ import java.util.List;
 public class VolunteerEndpoint {
 
     private final VolunteerService volunteerService;
-    private final ActivityService activityService;
 
-    public VolunteerEndpoint(VolunteerService volunteerService, ActivityService activityService) {
+    public VolunteerEndpoint(VolunteerService volunteerService) {
         this.volunteerService = volunteerService;
-        this.activityService = activityService;
     }
 
     @GetMapping("/login")
@@ -44,16 +43,14 @@ public class VolunteerEndpoint {
         return volunteerService.viewClientPublicData(username).orElse(null);
     }
 
-    //ToDo: refactor return value to DTO
     @GetMapping("/view/activities")
-    List<Activity> listAllActivities() {
-        return activityService.findAllPendingActivities();
+    List<ActivityDTO> listAllActivities() {
+        return volunteerService.listAllPendingActivities();
     }
 
-    //ToDo: refactor return value to DTO
     @GetMapping("/search/activities/{text}")
-    List<Activity> searchActivityByText() {
-        return null;
+    List<ActivityDTO> searchActivityByText(@PathVariable String text) {
+        return volunteerService.searchPendingActivitiesByText(text);
     }
 
     @GetMapping("/webapptree")
