@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -21,9 +20,11 @@ import java.util.List;
 public class VolunteerEndpoint {
 
     private final VolunteerService volunteerService;
+    private final ActivityService activityService;
 
-    public VolunteerEndpoint(VolunteerService volunteerService) {
+    public VolunteerEndpoint(VolunteerService volunteerService, ActivityService activityService) {
         this.volunteerService = volunteerService;
+        this.activityService = activityService;
     }
 
     @GetMapping("/login")
@@ -69,4 +70,15 @@ public class VolunteerEndpoint {
     String viewWebAppTree(@Value("${webapptree.volunteer}") String input) {
         return input;
     }
+
+    @PutMapping("/activities/complete/{id}/{rating}")
+    Activity completeActivityVolunteer(@PathVariable Long id, @PathVariable int rating, @RequestBody String feedback){
+        return activityService.completeActivityVolunteer(id, rating, feedback).orElse(null);
+    }
+
+    @PostMapping("/activities/apply/{id}")
+    Activity applyForActivity(@PathVariable Long id, Authentication authentication){
+        return activityService.applyForActivity(id, authentication.getName()).orElse(null);
+    }
+
 }

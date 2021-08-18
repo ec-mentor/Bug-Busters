@@ -94,4 +94,19 @@ public class IndividualEndpoint {
     String viewWebAppTree(@Value("${webapptree.individual}") String input) {
         return input;
     }
+
+    @PutMapping("/activities/complete/{id}/{rating}")
+    Activity completeActivityClientNotifyVolunteer(@PathVariable Long id, @PathVariable int rating, @RequestBody String feedback){
+        return activityService.completeActivityClientNotifyVolunteer(id, rating, feedback).orElse(null);
+    }
+
+    @PostMapping("/activities/approve/{id}/{userame}")
+    Activity approveApplication(@PathVariable Long id, @PathVariable String username){
+        return activityService.approveApplication(id, username).orElse(null);
+    }
+
+    @PostMapping("/activities/deny/{id}/{userame}")
+    void denyApplication(@PathVariable Long id, @PathVariable String username){
+        activityService.denyApplication(id, username);
+    }
 }
