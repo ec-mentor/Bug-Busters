@@ -1,6 +1,7 @@
 package bugbusters.everyonecodes.java.usermanagement.data;
 
 import bugbusters.everyonecodes.java.activities.Activity;
+import bugbusters.everyonecodes.java.notification.Notification;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -44,6 +45,9 @@ public class User {
 
     @OneToMany(fetch = FetchType.EAGER)
     private List<Activity> activities = new ArrayList<>();
+
+    @OneToMany
+    private List<Notification> notifications = new ArrayList<>();
 
     public User() {}
 
@@ -144,6 +148,14 @@ public class User {
 
     public void setActivities(List<Activity> activities) {
         this.activities = activities;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
     }
 
     @Override

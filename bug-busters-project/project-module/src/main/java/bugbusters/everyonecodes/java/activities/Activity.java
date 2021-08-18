@@ -6,9 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Activity {
@@ -55,6 +53,9 @@ public class Activity {
 
     private String feedbackFromVolunteer;
     private String feedbackFromClient;
+
+    @ElementCollection
+    private List<String> applicants = new ArrayList<>();
 
     public Activity(){}
 
@@ -193,6 +194,14 @@ public class Activity {
 
     public void setFeedbackFromVolunteer(String feedbackFromVolunteer) {
         this.feedbackFromVolunteer = feedbackFromVolunteer;
+    }
+
+    public List<String> getApplicants() {
+        return applicants;
+    }
+
+    public void setApplicants(List<String> applicants) {
+        this.applicants = applicants;
     }
 
     public String getFeedbackFromClient() {
