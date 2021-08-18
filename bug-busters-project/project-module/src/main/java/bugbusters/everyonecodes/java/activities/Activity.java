@@ -54,6 +54,7 @@ public class Activity {
     private String feedbackFromVolunteer;
     private String feedbackFromClient;
 
+    @ElementCollection
     private List<String> applicants = new ArrayList<>();
 
     public Activity(){}

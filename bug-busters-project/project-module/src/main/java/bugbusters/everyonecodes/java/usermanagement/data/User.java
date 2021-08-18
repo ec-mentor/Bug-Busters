@@ -46,7 +46,7 @@ public class User {
     @OneToMany(fetch = FetchType.EAGER)
     private List<Activity> activities = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany
     private List<Notification> notifications = new ArrayList<>();
 
     public User() {}
