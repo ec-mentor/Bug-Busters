@@ -4,6 +4,7 @@ import bugbusters.everyonecodes.java.usermanagement.data.User;
 import bugbusters.everyonecodes.java.usermanagement.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -19,8 +20,12 @@ public class NotificationService {
         this.userRepository = userRepository;
     }
 
-    public List<Notification> findAllNotificationsChronological(){
-        List<Notification> result = notificationRepository.findAll();
+    public List<Notification> findAllNotificationsChronologicalByUsername(String username){
+        Optional<User> oUser = userRepository.findOneByUsername(username);
+        if (oUser.isEmpty()) {
+            return new ArrayList<>();
+        }
+        List<Notification> result = oUser.get().getNotifications();
         return result.stream().sorted(Comparator.comparing(Notification::getTimestamp).reversed()).collect(Collectors.toList());
     }
 
