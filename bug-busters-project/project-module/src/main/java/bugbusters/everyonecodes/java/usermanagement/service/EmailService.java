@@ -84,4 +84,9 @@ public class EmailService {
     public void clearMap() {
         allowedUsers.clear();
     }
+
+// just for testing
+    public void addEntryToMap(String key, String value) {
+        allowedUsers.put(key, value);
+    }
 }
