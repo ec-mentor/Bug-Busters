@@ -7,6 +7,7 @@ import bugbusters.everyonecodes.java.usermanagement.repository.UserRepository;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.SetToStringMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -118,6 +119,9 @@ public class ActivityService {
             return Optional.empty();
         }
         Activity result = oResult.get();
+        if (result.getEndTime().isAfter(LocalDateTime.now())) {
+            return Optional.empty();
+        }
         if (!result.getStatusVolunteer().equals(Status.PENDING)) {
             return Optional.empty();
         }
