@@ -96,17 +96,22 @@ public class IndividualEndpoint {
     }
 
     @PutMapping("/activities/complete/{id}/{rating}")
-    Activity completeActivityClientNotifyVolunteer(@PathVariable Long id, @PathVariable int rating, @RequestBody String feedback){
+    ActivityDTO completeActivityClientNotifyVolunteer(@PathVariable Long id, @PathVariable int rating, @RequestBody String feedback){
         return activityService.completeActivityClientNotifyVolunteer(id, rating, feedback).orElse(null);
     }
 
-    @PostMapping("/activities/approve/{id}/{userame}")
-    Activity approveApplication(@PathVariable Long id, @PathVariable String username){
-        return activityService.approveApplication(id, username).orElse(null);
+    @PutMapping("/activities/approve/{id}/{username}")
+    void approveApplication(@PathVariable Long id, @PathVariable String username){
+        activityService.approveApplicationAsClient(id, username);
     }
 
-    @PostMapping("/activities/deny/{id}/{userame}")
+    @PutMapping("/activities/deny/{id}/{username}")
     void denyApplication(@PathVariable Long id, @PathVariable String username){
-        activityService.denyApplication(id, username);
+        activityService.denyApplicationAsClient(id, username);
+    }
+
+    @PutMapping("/activities/contact/{id}/{username}")
+    void contactVolunteerForActivity(@PathVariable Long id, @PathVariable String username) {
+        activityService.contactVolunteerForActivity(id, username);
     }
 }

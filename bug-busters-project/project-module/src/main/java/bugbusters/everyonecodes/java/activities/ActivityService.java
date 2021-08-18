@@ -78,7 +78,7 @@ public class ActivityService {
         return activityRepository.findAllByStatusClient(Status.PENDING);
     }
 
-    public Optional<Activity> completeActivityClientNotifyVolunteer(Long id, int rating, String feedback) {
+    public Optional<ActivityDTO> completeActivityClientNotifyVolunteer(Long id, int rating, String feedback) {
         Optional<Activity> oResult = activityRepository.findById(id);
         if (oResult.isEmpty()) {
             return Optional.empty();
@@ -93,10 +93,10 @@ public class ActivityService {
         Notification notification = new Notification(result.getCreator(), message);
         String volunteerUsername = result.getVolunteer();
         notificationService.saveNotification(notification, volunteerUsername);
-        return Optional.of(activityRepository.save(result));
+        return Optional.of(activityDTOMapper.toClientActivityDTO(activityRepository.save(result)));
     }
 
-    public Optional<Activity> completeActivityVolunteer(Long id, int rating, String feedback) {
+    public Optional<ActivityDTO> completeActivityVolunteer(Long id, int rating, String feedback) {
         Optional<Activity> oResult = activityRepository.findById(id);
         if (oResult.isEmpty()) {
             return Optional.empty();
@@ -110,24 +110,24 @@ public class ActivityService {
         if (!feedback.isEmpty()) {
             result.setFeedbackFromVolunteer(feedback);
         }
-        return Optional.of(activityRepository.save(result));
+        return Optional.of(activityDTOMapper.toVolunteerActivityDTO(activityRepository.save(result)));
     }
 
-    public Optional<Activity> applyForActivity(Long activityId, String username) {
+    public void applyForActivity(Long activityId, String username) {
         Optional<Activity> oResult = activityRepository.findById(activityId);
         if (oResult.isEmpty()) {
-            return Optional.empty();
+            return;
         }
         Activity result = oResult.get();
         if (result.getEndTime().isAfter(LocalDateTime.now())) {
-            return Optional.empty();
+            return;
         }
         if (!result.getStatusVolunteer().equals(Status.PENDING)) {
-            return Optional.empty();
+            return;
         }
         Optional<User> volunteer = userRepository.findOneByUsername(username);
         if (volunteer.isEmpty()) {
-            return Optional.empty();
+            return;
         }
         result.getApplicants().add(username);
         volunteer.get().getActivities().add(result);
@@ -135,33 +135,27 @@ public class ActivityService {
         String message = username + " applied for your activity \"" + result.getTitle() + "\"!";
         Notification notification = new Notification(username, message);
         notificationService.saveNotification(notification, result.getCreator());
-        return Optional.of(activityRepository.save(result));
+        activityRepository.save(result);
     }
 
-    public Optional<Activity> approveApplication(Long activityId, String username) {
+    public void approveApplicationAsClient(Long activityId, String username) {
         Optional<Activity> oResult = activityRepository.findById(activityId);
         if (oResult.isEmpty()) {
-            return Optional.empty();
+            return;
         }
         Activity result = oResult.get();
         if (!result.getApplicants().contains(username)) {
-            return Optional.empty();
+            return;
         }
         result.setStatusVolunteer(Status.IN_PROGRESS);
         result.setStatusClient(Status.IN_PROGRESS);
-        result.getApplicants()
-                .forEach(applicant -> {
-                            var volunteer = userRepository.findOneByUsername(applicant);
-                            volunteer.ifPresent(user -> {
-                                user.getActivities().remove(result);
-                                userRepository.save(volunteer.get());
-                            });
-                        }
-                );
-        return Optional.of(activityRepository.save(result));
+        result.setVolunteer(username);
+        result.getApplicants().remove(username);
+        removeActivityFromApplicants(result);
+        activityRepository.save(result);
     }
 
-    public void denyApplication(Long activityId, String username) {
+    public void denyApplicationAsClient(Long activityId, String username) {
         Optional<Activity> oResult = activityRepository.findById(activityId);
         if (oResult.isEmpty()) {
             return;
@@ -183,4 +177,60 @@ public class ActivityService {
         Notification notification = new Notification(result.getCreator(), message);
         notificationService.saveNotification(notification, username);
     }
+
+    public void contactVolunteerForActivity(Long activityId, String username) {
+        Optional<Activity> oResult = activityRepository.findById(activityId);
+        if (oResult.isEmpty()) {
+            return;
+        }
+        Activity result = oResult.get();
+        result.setVolunteer(username);
+        String message = result.getCreator() + " contacted you for the following activity: \"" + result.getTitle() + "\". Please approve or deny this activity!";
+        Notification notification = new Notification(result.getCreator(), message);
+        notificationService.saveNotification(notification, username);
+    }
+
+    public void approveRecommendationAsVolunteer(Long activityId, String username) {
+        Optional<Activity> oActivity = activityRepository.findById(activityId);
+        if (oActivity.isEmpty()) {
+            return;
+        }
+        Activity activity = oActivity.get();
+        if (!username.equals(activity.getVolunteer())) {
+            return;
+        }
+        activity.setStatusVolunteer(Status.IN_PROGRESS);
+        activity.setStatusClient(Status.IN_PROGRESS);
+        activity.getApplicants().remove(username);
+        removeActivityFromApplicants(activity);
+        activityRepository.save(activity);
+    }
+
+    public void denyRecommendationAsVolunteer(Long activityId, String username) {
+        Optional<Activity> oActivity = activityRepository.findById(activityId);
+        if (oActivity.isEmpty()) {
+            return;
+        }
+        Activity activity = oActivity.get();
+        if (!username.equals(activity.getVolunteer())) {
+            return;
+        }
+        activity.setVolunteer(null);
+        String message = username + " has denied your activity recommendation for \"" + activity.getTitle() + "\"!";
+        Notification notification = new Notification(activity.getCreator(), message);
+        notificationService.saveNotification(notification, activity.getCreator());
+    }
+
+    private void removeActivityFromApplicants(Activity result) {
+        result.getApplicants()
+                .forEach(applicant -> {
+                            var volunteer = userRepository.findOneByUsername(applicant);
+                            volunteer.ifPresent(user -> {
+                                user.getActivities().remove(result);
+                                userRepository.save(volunteer.get());
+                            });
+                        }
+                );
+    }
+
 }

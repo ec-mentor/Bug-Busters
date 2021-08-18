@@ -72,13 +72,23 @@ public class VolunteerEndpoint {
     }
 
     @PutMapping("/activities/complete/{id}/{rating}")
-    Activity completeActivityVolunteer(@PathVariable Long id, @PathVariable int rating, @RequestBody String feedback){
+    ActivityDTO completeActivityVolunteer(@PathVariable Long id, @PathVariable int rating, @RequestBody String feedback){
         return activityService.completeActivityVolunteer(id, rating, feedback).orElse(null);
     }
 
     @PostMapping("/activities/apply/{id}")
-    Activity applyForActivity(@PathVariable Long id, Authentication authentication){
-        return activityService.applyForActivity(id, authentication.getName()).orElse(null);
+    void applyForActivity(@PathVariable Long id, Authentication authentication){
+        activityService.applyForActivity(id, authentication.getName());
+    }
+
+    @PutMapping("/activities/approve/{id}")
+    void approveApplication(@PathVariable Long id, Authentication authentication){
+        activityService.approveRecommendationAsVolunteer(id, authentication.getName());
+    }
+
+    @PutMapping("/activities/deny/{id}")
+    void denyApplication(@PathVariable Long id, Authentication authentication){
+        activityService.denyRecommendationAsVolunteer(id, authentication.getName());
     }
 
 }
