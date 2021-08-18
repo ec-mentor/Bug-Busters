@@ -52,10 +52,10 @@ public class VolunteerEndpoint {
     }
 
     @GetMapping("/activities/search/{text}")
-    ResponseEntity<Object> searchActivityByText(@PathVariable String text) {
+    ResponseEntity<Object> searchActivitiesByText(@PathVariable String text) {
         var searchResult = volunteerService.searchPendingActivitiesByText(text);
         if (searchResult.isEmpty()) {
-            return new ResponseEntity<>("No results found for '" + text + "'", HttpStatus.OK);
+            return new ResponseEntity<>("No results found for \"" + text + "\"", HttpStatus.OK);
         }
         return new ResponseEntity<>(searchResult, HttpStatus.OK);
     }

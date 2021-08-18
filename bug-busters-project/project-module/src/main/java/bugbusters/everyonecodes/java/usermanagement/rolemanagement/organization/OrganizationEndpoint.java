@@ -58,7 +58,7 @@ public class OrganizationEndpoint {
     ResponseEntity<Object> searchVolunteersByText(@PathVariable String text) {
         var searchResult = organizationService.searchVolunteersByText(text);
         if (searchResult.isEmpty()) {
-            return new ResponseEntity<>("No results found for '" + text + "'", HttpStatus.OK);
+            return new ResponseEntity<>("No results found for \"" + text + "\"", HttpStatus.OK);
         }
         return new ResponseEntity<>(searchResult, HttpStatus.OK);
     }

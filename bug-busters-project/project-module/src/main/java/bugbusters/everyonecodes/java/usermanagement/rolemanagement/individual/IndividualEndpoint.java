@@ -60,7 +60,7 @@ public class IndividualEndpoint {
     ResponseEntity<Object> searchVolunteersByText(@PathVariable String text) {
         var searchResult = individualService.searchVolunteersByText(text);
         if (searchResult.isEmpty()) {
-            return new ResponseEntity<>("No results found for '" + text + "'", HttpStatus.OK);
+            return new ResponseEntity<>("No results found for \"" + text + "\"", HttpStatus.OK);
         }
         return new ResponseEntity<>(searchResult, HttpStatus.OK);
     }
