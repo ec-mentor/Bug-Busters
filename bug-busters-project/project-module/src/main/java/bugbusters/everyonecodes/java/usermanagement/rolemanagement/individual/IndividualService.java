@@ -2,6 +2,8 @@ package bugbusters.everyonecodes.java.usermanagement.rolemanagement.individual;
 
 import bugbusters.everyonecodes.java.activities.ActivityDTO;
 import bugbusters.everyonecodes.java.activities.ActivityDTOMapper;
+import bugbusters.everyonecodes.java.activities.ActivityRepository;
+import bugbusters.everyonecodes.java.activities.Status;
 import bugbusters.everyonecodes.java.search.VolunteerTextSearchService;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientDTOMapper;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientPrivateDTO;
@@ -23,9 +25,10 @@ public class IndividualService {
     private final VolunteerDTOMapper volunteerMapper;
     private final VolunteerTextSearchService volunteerTextSearchService;
     private final ActivityDTOMapper activityDTOMapper;
+    private final ActivityRepository activityRepository;
 
 
-    public IndividualService(VolunteerRepository volunteerRepository, IndividualRepository individualRepository, UserService userService, ClientDTOMapper clientMapper, VolunteerDTOMapper volunteerMapper, VolunteerTextSearchService volunteerTextSearchService, ActivityDTOMapper activityDTOMapper) {
+    public IndividualService(VolunteerRepository volunteerRepository, IndividualRepository individualRepository, UserService userService, ClientDTOMapper clientMapper, VolunteerDTOMapper volunteerMapper, VolunteerTextSearchService volunteerTextSearchService, ActivityDTOMapper activityDTOMapper, ActivityRepository activityRepository) {
         this.volunteerRepository = volunteerRepository;
         this.individualRepository = individualRepository;
         this.userService = userService;
@@ -33,6 +36,7 @@ public class IndividualService {
         this.volunteerMapper = volunteerMapper;
         this.volunteerTextSearchService = volunteerTextSearchService;
         this.activityDTOMapper = activityDTOMapper;
+        this.activityRepository = activityRepository;
     }
 
     public Optional<ClientPrivateDTO> editIndividualData(ClientPrivateDTO input, String username) {
@@ -74,9 +78,15 @@ public class IndividualService {
     }
 
     public List<ActivityDTO> listAllActivitiesOfIndividual(String username) {
-        var oResult = individualRepository.findOneByUser_username(username);
-        if(oResult.isEmpty()) return List.of();
-        return oResult.get().getUser().getActivities().stream()
+        var result = activityRepository.findAllByCreator(username);
+        return result.stream()
+                .map(activityDTOMapper::toClientActivityDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<ActivityDTO> listAllDraftsOfIndividual(String username) {
+        var result = activityRepository.findAllByCreatorAndStatusClient(username, Status.DRAFT);
+        return result.stream()
                 .map(activityDTOMapper::toClientActivityDTO)
                 .collect(Collectors.toList());
     }

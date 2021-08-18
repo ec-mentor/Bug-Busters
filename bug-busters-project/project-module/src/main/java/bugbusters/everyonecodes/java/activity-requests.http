@@ -3,7 +3,15 @@ GET http://localhost:8080/organization/activities/list
 Authorization: Basic Organization1 Coding12#
 
 ###
+GET http://localhost:8080/organization/activities/list/drafts
+Authorization: Basic Organization1 Coding12#
+
+###
 GET http://localhost:8080/organization/activities/list
+Authorization: Basic Organization2 Coding12#
+
+###
+GET http://localhost:8080/organization/activities/list/drafts
 Authorization: Basic Organization2 Coding12#
 
 ###
@@ -11,7 +19,15 @@ GET http://localhost:8080/organization/activities/list
 Authorization: Basic Organization3 Coding12#
 
 ###
+GET http://localhost:8080/organization/activities/list/drafts
+Authorization: Basic Organization3 Coding12#
+
+###
 GET http://localhost:8080/individual/activities/list
+Authorization: Basic Individual1 Coding12#
+
+###
+GET http://localhost:8080/organization/activities/list/drafts
 Authorization: Basic Individual1 Coding12#
 
 ###
@@ -19,11 +35,19 @@ GET http://localhost:8080/individual/activities/list
 Authorization: Basic Individual2 Coding12#
 
 ###
+GET http://localhost:8080/organization/activities/list/drafts
+Authorization: Basic Individual2 Coding12#
+
+###
 GET http://localhost:8080/individual/activities/list
 Authorization: Basic Individual3 Coding12#
 
 ###
-GET http://localhost:8080/volunteer/activities/view
+GET http://localhost:8080/organization/activities/list/drafts
+Authorization: Basic Individual3 Coding12#
+
+###
+GET http://localhost:8080/volunteer/activities/list/pending
 Authorization: Basic Volunteer1 Coding12#
 
 ### post draft as individual
@@ -91,11 +115,11 @@ Authorization: Basic Organization2 Coding12#
 GET http://localhost:8080/organization/search/volunteers/astrophysics
 Authorization: Basic Organization2 Coding12#
 
-### search for activity as an individual
-GET http://localhost:8080/volunteer/activities/search/org
+### search for activity as an volunteer
+GET http://localhost:8080/volunteer/activities/search/pend
 Authorization: Basic Volunteer1 Coding12#
 
-### search for activity as an individual - EMPTY
-GET http://localhost:8080/organization/search/search/astrophysics
+### search for activity as an volunteer - EMPTY
+GET http://localhost:8080/volunteer/activities/search/astrophysics
 Authorization: Basic Volunteer1 Coding12#
 

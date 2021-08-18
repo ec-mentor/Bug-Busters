@@ -5,9 +5,12 @@ import bugbusters.everyonecodes.java.activities.ActivityDTO;
 import bugbusters.everyonecodes.java.activities.ActivityService;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientPublicDTO;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -43,14 +46,18 @@ public class VolunteerEndpoint {
         return volunteerService.viewClientPublicData(username).orElse(null);
     }
 
-    @GetMapping("/activities/view")
+    @GetMapping("/activities/list/pending")
     List<ActivityDTO> listAllPendingActivities() {
         return volunteerService.listAllPendingActivities();
     }
 
     @GetMapping("/activities/search/{text}")
-    List<ActivityDTO> searchActivityByText(@PathVariable String text) {
-        return volunteerService.searchPendingActivitiesByText(text);
+    ResponseEntity<Object> searchActivityByText(@PathVariable String text) {
+        var searchResult = volunteerService.searchPendingActivitiesByText(text);
+        if (searchResult.isEmpty()) {
+            return new ResponseEntity<>("No results found for '" + text + "'", HttpStatus.OK);
+        }
+        return new ResponseEntity<>(searchResult, HttpStatus.OK);
     }
 
     @GetMapping("/activities/list")

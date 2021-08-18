@@ -28,11 +28,9 @@ public class Activity {
     @NotEmpty
     private String description;
 
-    @NotNull
     @ElementCollection
     private Set<String> recommendedSkills = new HashSet<>();
 
-    @NotNull
     @ElementCollection
     private Set<String> categories = new HashSet<>();
 

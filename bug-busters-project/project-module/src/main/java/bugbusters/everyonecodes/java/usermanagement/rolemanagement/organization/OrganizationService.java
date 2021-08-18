@@ -2,6 +2,8 @@ package bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization
 
 import bugbusters.everyonecodes.java.activities.ActivityDTO;
 import bugbusters.everyonecodes.java.activities.ActivityDTOMapper;
+import bugbusters.everyonecodes.java.activities.ActivityRepository;
+import bugbusters.everyonecodes.java.activities.Status;
 import bugbusters.everyonecodes.java.search.VolunteerTextSearchService;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.*;
 import bugbusters.everyonecodes.java.usermanagement.service.UserService;
@@ -21,8 +23,9 @@ public class OrganizationService {
     private final VolunteerDTOMapper volunteerMapper;
     private final VolunteerTextSearchService volunteerTextSearchService;
     private final ActivityDTOMapper activityDTOMapper;
+    private final ActivityRepository activityRepository;
 
-    public OrganizationService(OrganizationRepository organizationRepository, UserService userService, VolunteerRepository volunteerRepository, ClientDTOMapper clientMapper, VolunteerDTOMapper volunteerMapper, VolunteerTextSearchService volunteerTextSearchService, ActivityDTOMapper activityDTOMapper) {
+    public OrganizationService(OrganizationRepository organizationRepository, UserService userService, VolunteerRepository volunteerRepository, ClientDTOMapper clientMapper, VolunteerDTOMapper volunteerMapper, VolunteerTextSearchService volunteerTextSearchService, ActivityDTOMapper activityDTOMapper, ActivityRepository activityRepository) {
         this.organizationRepository = organizationRepository;
         this.userService = userService;
         this.volunteerRepository = volunteerRepository;
@@ -30,6 +33,7 @@ public class OrganizationService {
         this.volunteerMapper = volunteerMapper;
         this.volunteerTextSearchService = volunteerTextSearchService;
         this.activityDTOMapper = activityDTOMapper;
+        this.activityRepository = activityRepository;
     }
 
     public Optional<ClientPrivateDTO> editOrganizationData(ClientPrivateDTO input, String username) {
@@ -72,9 +76,15 @@ public class OrganizationService {
     }
 
     public List<ActivityDTO> listAllActivitiesOfOrganization(String username) {
-        var oResult = organizationRepository.findOneByUser_username(username);
-        if(oResult.isEmpty()) return List.of();
-        return oResult.get().getUser().getActivities().stream()
+        var result = activityRepository.findAllByCreator(username);
+        return result.stream()
+                .map(activityDTOMapper::toClientActivityDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<ActivityDTO> listAllDraftsOfOrganization(String username) {
+        var result = activityRepository.findAllByCreatorAndStatusClient(username, Status.DRAFT);
+        return result.stream()
                 .map(activityDTOMapper::toClientActivityDTO)
                 .collect(Collectors.toList());
     }

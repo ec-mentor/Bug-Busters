@@ -9,6 +9,8 @@ import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerPublicDTO;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerSearchResultDTO;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -55,8 +57,12 @@ public class IndividualEndpoint {
     }
 
     @GetMapping("/search/volunteers/{text}")
-    List<VolunteerSearchResultDTO> searchVolunteersByText(@PathVariable String text) {
-        return individualService.searchVolunteersByText(text);
+    ResponseEntity<Object> searchVolunteersByText(@PathVariable String text) {
+        var searchResult = individualService.searchVolunteersByText(text);
+        if (searchResult.isEmpty()) {
+            return new ResponseEntity<>("No results found for '" + text + "'", HttpStatus.OK);
+        }
+        return new ResponseEntity<>(searchResult, HttpStatus.OK);
     }
 
     @PostMapping("/activities/create/new")
@@ -77,6 +83,11 @@ public class IndividualEndpoint {
     @GetMapping("/activities/list")
     List<ActivityDTO> listAllOfUsersActivities(Authentication authentication) {
         return individualService.listAllActivitiesOfIndividual(authentication.getName());
+    }
+
+    @GetMapping("/activities/list/drafts")
+    List<ActivityDTO> listAllOfUsersDrafts(Authentication authentication) {
+        return individualService.listAllDraftsOfIndividual(authentication.getName());
     }
 
     @GetMapping("/webapptree")
