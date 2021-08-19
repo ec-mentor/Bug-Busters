@@ -63,7 +63,6 @@ public class ActivityServiceTest {
                 "test", "test");
     }
 
-
     //save a new activity
     @Test
     void saveNewActivity() {
@@ -183,5 +182,6 @@ public class ActivityServiceTest {
         verify(notificationService, times(1)).saveNotification(any(Notification.class), any(String.class));
         Assertions.assertNull(activity.getVolunteer());
     }
+
 
 }

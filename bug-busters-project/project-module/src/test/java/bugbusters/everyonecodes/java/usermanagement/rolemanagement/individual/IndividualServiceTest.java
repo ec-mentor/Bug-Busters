@@ -220,5 +220,5 @@ class IndividualServiceTest {
         Assertions.assertEquals(List.of(), result);
         Mockito.verify(activityRepository).findAllByCreator(username);
     }
-    
+
 }
