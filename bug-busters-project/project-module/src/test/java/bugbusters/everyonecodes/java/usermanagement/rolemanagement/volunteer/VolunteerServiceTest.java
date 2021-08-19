@@ -118,7 +118,7 @@ class VolunteerServiceTest {
         Mockito.verify(volunteerMapper, Mockito.never()).toVolunteerPrivateDTO(Mockito.any(Volunteer.class));
     }
 
-    @Test
+    @Test //this tests getClientByUsername private helper method as well
     void viewClientPublicData_OrganizationFound() {
         Mockito.when(organizationRepository.findOneByUser_username(username)).thenReturn(Optional.of(organization));
         Mockito.when(clientMapper.toClientPublicDTO(organization)).thenReturn(new ClientPublicDTO(userPublicDTO));
