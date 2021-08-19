@@ -63,6 +63,7 @@ public class ActivityServiceTest {
                 "test", "test");
     }
 
+
     //save a new activity
     @Test
     void saveNewActivity() {
