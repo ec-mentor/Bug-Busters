@@ -70,6 +70,7 @@ public class VolunteerService {
         return getVolunteerByUsername(username).map(volunteer -> volunteerMapper.toVolunteerPublicDTO(volunteer));
     }
 
+    //ToDo: Tests
     public Optional<Client> getClientByUsername(String username) {
         Optional<Organization> oOrganization = organizationRepository.findOneByUser_username(username);
         if (oOrganization.isPresent()) {

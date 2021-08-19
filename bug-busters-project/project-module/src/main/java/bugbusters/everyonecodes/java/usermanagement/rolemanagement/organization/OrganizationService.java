@@ -82,6 +82,7 @@ public class OrganizationService {
                 .collect(Collectors.toList());
     }
 
+    //ToDO: Tests
     public List<ActivityDTO> listAllDraftsOfOrganization(String username) {
         var result = activityRepository.findAllByCreatorAndStatusClient(username, Status.DRAFT);
         return result.stream()

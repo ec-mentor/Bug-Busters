@@ -183,7 +183,7 @@ class IndividualServiceTest {
     }
 
     @Test
-    void listAllMyActivities() {
+    void listAllActivitiesOfIndividual() {
         individual.getUser().setActivities(List.of(activity));
         Mockito.when(individualRepository.findOneByUser_username("test")).thenReturn(Optional.of(individual));
         Mockito.when(activityDTOMapper.toClientActivityDTO(activity)).thenReturn(activityDTO);
@@ -192,7 +192,7 @@ class IndividualServiceTest {
     }
 
     @Test
-    void listAllMyActivities_Empty() {
+    void listAllActivitiesOfIndividual_Empty() {
         individual.getUser().setActivities(List.of(activity));
         Mockito.when(individualRepository.findOneByUser_username("test")).thenReturn(Optional.empty());
         var result = individualService.listAllActivitiesOfIndividual("test");
