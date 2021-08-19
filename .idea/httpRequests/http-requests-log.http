@@ -1,3 +1,331 @@
+GET http://localhost:8080/individual/webapptree
+Authorization: Basic Tester Coding12#
+
+<> 2021-08-19T183302.200.txt
+
+###
+
+GET http://localhost:8080/organization/webapptree
+Authorization: Basic BigO Coding12#
+
+<> 2021-08-19T183258.200.txt
+
+###
+
+GET http://localhost:8080/volunteer/webapptree
+Authorization: Basic LeSchoki Coding12#
+
+<> 2021-08-19T183251.200.txt
+
+###
+
+GET http://localhost:8080/organization/search/volunteers/les
+Authorization: Basic BigO Coding12#
+
+<> 2021-08-19T183245-4.200.json
+
+###
+
+GET http://localhost:8080/organization/view/volunteers
+Authorization: Basic BigO Coding12#
+
+<> 2021-08-19T183245-3.200.json
+
+###
+
+GET http://localhost:8080/individual/search/volunteers/description
+Authorization: Basic Tester Coding12#
+
+<> 2021-08-19T183245-2.200.json
+
+###
+
+GET http://localhost:8080/individual/search/volunteers/e
+Authorization: Basic Tester Coding12#
+
+<> 2021-08-19T183245-1.200.json
+
+###
+
+GET http://localhost:8080/individual/view/volunteers
+Authorization: Basic Tester Coding12#
+
+<> 2021-08-19T183245.200.json
+
+###
+
+GET http://localhost:8080/individual/webapptree
+Authorization: Basic Tester Coding12#
+
+<> 2021-08-19T183245-1.200.txt
+
+###
+
+GET http://localhost:8080/organization/webapptree
+Authorization: Basic BigO Coding12#
+
+<> 2021-08-19T183245.200.txt
+
+###
+
+GET http://localhost:8080/volunteer/webapptree
+Authorization: Basic LeSchoki Coding12#
+
+<> 2021-08-19T183244.200.txt
+
+###
+
+PUT http://localhost:8080/volunteer/edit
+Authorization: Basic LeSchoki Coding12#
+Content-Type: application/json
+
+{
+  "user": {
+    "username": "LeSchoki",
+    "role": "ROLE_VOLUNTEER",
+    "fullName": "Georg Soher",
+    "birthday": "1993-03-11",
+    "address": null,
+    "email": "totallyValidEmail",
+    "description": "This description is added later on"
+  },
+  "skills": "cooking;testing;a lot of laughing"
+}
+
+<> 2021-08-19T183244.400.json
+
+###
+
+PUT http://localhost:8080/volunteer/edit
+Authorization: Basic LeSchoki Coding12#
+Content-Type: application/json
+
+{
+  "user": {
+    "username": "LeSchoki",
+    "role": "ROLE_VOLUNTEER",
+    "fullName": "Georg Soher",
+    "birthday": "1993-03-11",
+    "address": null,
+    "email": "georg.soher@bugbusters.com",
+    "description": "This description is added later on"
+  },
+  "skills": "cooking;testing;a lot of laughing"
+}
+
+<> 2021-08-19T183244-5.200.json
+
+###
+
+GET http://localhost:8080/individual/login
+Authorization: Basic Tester Coding12#
+
+<> 2021-08-19T183244-4.200.json
+
+###
+
+GET http://localhost:8080/volunteer/login
+Authorization: Basic Tester Coding12#
+
+<> 2021-08-19T183244.403.json
+
+###
+
+GET http://localhost:8080/individual/view/BigO
+Authorization: Basic Tester Coding12#
+
+###
+
+GET http://localhost:8080/individual/view/LeSchoki
+Authorization: Basic Tester Coding12#
+
+<> 2021-08-19T183244-3.200.json
+
+###
+
+GET http://localhost:8080/organization/view/LeSchoki
+Authorization: Basic BigO Coding12#
+
+<> 2021-08-19T183244-2.200.json
+
+###
+
+GET http://localhost:8080/volunteer/view/LeSchoki
+Authorization: Basic Meli Coding12#
+
+###
+
+GET http://localhost:8080/volunteer/view/BigO
+Authorization: Basic LeSchoki Coding12#
+
+<> 2021-08-19T183244-1.200.json
+
+###
+
+GET http://localhost:8080/volunteer/view/Tester
+Authorization: Basic LeSchoki Coding12#
+
+<> 2021-08-19T183244.200.json
+
+###
+
+GET http://localhost:8080/volunteer/view
+Authorization: Basic Meli Coding12#
+
+<> 2021-08-19T183243-6.200.json
+
+###
+
+GET http://localhost:8080/volunteer/view
+Authorization: Basic LeSchoki Coding12#
+
+<> 2021-08-19T183243-5.200.json
+
+###
+
+GET http://localhost:8080/volunteer/login
+Authorization: Basic LeSchoki Coding12#
+
+<> 2021-08-19T183243-4.200.json
+
+###
+
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Meli",
+  "password": "Coding12#",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Melanie",
+  "birthday": null,
+  "address": null,
+  "email": "melanie.huett@bugbusters.com",
+  "description": null
+}
+
+<> 2021-08-19T183243-3.200.json
+
+###
+
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "BigO",
+  "password": "Coding12#",
+  "role": "ROLE_ORGANIZATION",
+  "fullName": "Big Organization",
+  "birthday": null,
+  "address": null,
+  "email": "big.o@bo.com",
+  "description": null
+}
+
+<> 2021-08-19T183243-2.200.json
+
+###
+
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Tester",
+  "password": "Coding12#",
+  "role": "ROLE_INDIVIDUAL",
+  "fullName": "Test Testington",
+  "birthday": "1990-01-01",
+  "address": "Teststreet 5, Testville, Tennessee",
+  "email": "test.testington@bugbusters.com",
+  "description": "Tester that tests"
+}
+
+<> 2021-08-19T183243-1.200.json
+
+###
+
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "LeSchoki",
+  "password": "Coding12#",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Georg Soher",
+  "birthday": null,
+  "address": null,
+  "email": "georg.soher@bugbusters.com",
+  "description": null
+}
+
+<> 2021-08-19T183243.200.json
+
+###
+
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "LeSchoki",
+  "password": "invalidPassword",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Georg Soher",
+  "birthday": null,
+  "address": null,
+  "email": "totallyValidEmail",
+  "description": null
+}
+
+<> 2021-08-19T183242-2.400.json
+
+###
+
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "LeSchoki",
+  "password": "Coding12#",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": null,
+  "birthday": null,
+  "address": null,
+  "email": "georg.soher@bugbusters.com",
+  "description": null
+}
+
+<> 2021-08-19T183242-1.400.json
+
+###
+
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "LeSchoki",
+  "password": "invalidPassword",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Georg Soher",
+  "birthday": null,
+  "address": null,
+  "email": "georg.soher@bugbusters.com",
+  "description": null
+}
+
+<> 2021-08-19T183242.400.json
+
+###
+
+GET http://localhost:8080/volunteer/webapptree
+Authorization: Basic LeSchoki Coding12#
+
+###
+
+GET http://localhost:8080/volunteer/webapptree
+Authorization: Basic LeSchoki Coding12#
+
+###
+
 GET http://localhost:8080/volunteer/view
 Authorization: Basic Volunteer1 Password12#
 
@@ -114,217 +442,6 @@ GET http://localhost:8080/volunteer/activities/list
 Authorization: Basic Volunteer1 Password12#
 
 <> 2021-08-19T150816.200.json
-
-###
-
-PUT http://localhost:8080/individual/activities/deny/2/Volunteer1
-Authorization: Basic Individual1 Coding12#
-
-###
-
-GET http://localhost:8080/volunteer/activities/list
-Authorization: Basic Volunteer1 Password12#
-
-<> 2021-08-19T150757.200.json
-
-###
-
-PUT http://localhost:8080/volunteer/activities/apply/2
-Authorization: Basic Volunteer3 Coding12#
-
-###
-
-PUT http://localhost:8080/volunteer/activities/apply/2
-Authorization: Basic Volunteer2 Coding12#
-
-###
-
-PUT http://localhost:8080/volunteer/activities/apply/2
-Authorization: Basic Volunteer1 Password12#
-
-###
-
-GET http://localhost:8080/users/notifications
-Authorization: Basic Organization1 Coding12#
-
-<> 2021-08-19T150714.200.json
-
-###
-
-GET http://localhost:8080/volunteer/activities/list
-Authorization: Basic Volunteer2 Coding12#
-
-<> 2021-08-19T150705.200.json
-
-###
-
-GET http://localhost:8080/volunteer/activities
-Authorization: Basic Volunteer2 Coding12#
-
-<> 2021-08-19T150624.404.json
-
-###
-
-GET http://localhost:8080/volunteer/activities/list
-Authorization: Basic Volunteer2 Coding12#
-
-<> 2021-08-19T150619.200.json
-
-###
-
-GET http://localhost:8080/volunteer/activities/list
-Authorization: Basic Volunteer2 Coding12#
-
-<> 2021-08-19T150500.200.json
-
-###
-
-GET http://localhost:8080/volunteer/activities/list
-Authorization: Basic Volunteer2 Coding12#
-
-<> 2021-08-19T150358.200.json
-
-###
-
-PUT http://localhost:8080/volunteer/activities/approve/9
-Authorization: Basic Volunteer2 Coding12#
-
-###
-
-GET http://localhost:8080/volunteer/activities/list
-Authorization: Basic Volunteer2 Coding12#
-
-<> 2021-08-19T150324.200.json
-
-###
-
-GET http://localhost:8080/volunteer/activities/list/pending
-Authorization: Basic Volunteer2 Coding12#
-
-<> 2021-08-19T150219.200.json
-
-###
-
-GET http://localhost:8080/users/notifications
-Authorization: Basic Organization1 Coding12#
-
-<> 2021-08-19T150057.200.json
-
-###
-
-GET http://localhost:8080/users/notifications
-Authorization: Basic Organization2 Coding12#
-
-<> 2021-08-19T150044.200.json
-
-###
-
-PUT http://localhost:8080/volunteer/activities/deny/10
-Authorization: Basic Volunteer2 Coding12#
-
-###
-
-PUT http://localhost:8080/volunteer/activities/approve/10
-Authorization: Basic Volunteer3 Coding12#
-
-###
-
-PUT http://localhost:8080/volunteer/activities/approve/9
-Authorization: Basic Volunteer2 Coding12#
-
-###
-
-GET http://localhost:8080/users/notifications
-Authorization: Basic Volunteer2 Coding12#
-
-<> 2021-08-19T145930.200.json
-
-###
-
-PUT http://localhost:8080/individual/activities/contact/9/Volunteer2
-Authorization: Basic Individual3 Coding12#
-
-###
-
-PUT http://localhost:8080/organization/activities/contact/10/Volunteer2
-Authorization: Basic Organization1 Coding12#
-
-###
-
-GET http://localhost:8080/volunteer/activities/search/coding
-Authorization: Basic Volunteer2 Coding12#
-
-<> 2021-08-19T145627.200.json
-
-###
-
-GET http://localhost:8080/volunteer/activities/search/nurse
-Authorization: Basic Volunteer2 Coding12#
-
-<> 2021-08-19T145613.200.txt
-
-###
-
-GET http://localhost:8080/volunteer/activities/search/coding
-Authorization: Basic Volunteer2 Coding12#
-
-<> 2021-08-19T145320.200.json
-
-###
-
-GET http://localhost:8080/organization/search/volunteers/COOK
-Authorization: Basic Organization2 Coding12#
-
-<> 2021-08-19T145259.200.json
-
-###
-
-GET http://localhost:8080/organization/search/volunteers/garden
-Authorization: Basic Organization2 Coding12#
-
-<> 2021-08-19T145148.200.txt
-
-###
-
-GET http://localhost:8080/individual/search/volunteers/nurse
-Authorization: Basic Individual1 Coding12#
-
-<> 2021-08-19T145141.200.txt
-
-###
-
-GET http://localhost:8080/individual/search/volunteers/cook
-Authorization: Basic Individual1 Coding12#
-
-<> 2021-08-19T145132.200.json
-
-###
-
-GET http://localhost:8080/volunteer/activities/list/pending
-Authorization: Basic Volunteer2 Coding12#
-
-<> 2021-08-19T145113.200.json
-
-###
-
-GET http://localhost:8080/organization/view/volunteers
-Authorization: Basic Organization2 Coding12#
-
-<> 2021-08-19T145102.200.json
-
-###
-
-GET http://localhost:8080/individual/view/volunteers
-Authorization: Basic Individual1 Coding12#
-
-<> 2021-08-19T145049.200.json
-
-###
-
-GET http://localhost:8080/organization/activities/list
-Authorization: Basic Organization1 Coding12#
-
-<> 2021-08-19T145034.200.json
 
 ###
 
