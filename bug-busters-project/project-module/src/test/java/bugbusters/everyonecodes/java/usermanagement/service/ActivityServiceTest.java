@@ -6,6 +6,9 @@ import bugbusters.everyonecodes.java.notification.NotificationService;
 import bugbusters.everyonecodes.java.usermanagement.data.User;
 import bugbusters.everyonecodes.java.usermanagement.repository.UserRepository;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.SetToStringMapper;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,10 +16,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
-import static java.time.ZoneOffset.UTC;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 public class ActivityServiceTest {
@@ -40,23 +42,27 @@ public class ActivityServiceTest {
     NotificationService notificationService;
 
     // for testing
+    private final Long id = 1L;
     private final String username = "test";
-    private final User user = new User("test", "test", "test",
+    private User user = new User("test", "test", "test",
             "test", LocalDate.of(2000, 1, 1), "test",
             "test", "test");
-    private final Notification notification1 = new Notification("note1","some message");
-    private final Notification notification2 = new Notification("note2","some message");
+    private Notification notification1 = new Notification("note1","some message");
+    private Notification notification2 = new Notification("note2","some message");
+    private Activity activity = new Activity("test", "test", "test", null, null, LocalDateTime.now(), LocalDateTime.now(), false, Status.PENDING, Status.PENDING, null, null, null, null);
+    private ActivityDTO activityDTO = new ActivityDTO("test", "test", "test", Status.PENDING, LocalDateTime.now(), LocalDateTime.now(), null, null, null, null, null, null);
 
-    private final Activity pending = new Activity("test", "test", "test", null, null, LocalDateTime.now(), LocalDateTime.now(), false, Status.PENDING, Status.PENDING, null, null, null, null);
-    private final Activity draft = new Activity("test", "test", "test", null, null, LocalDateTime.now(), LocalDateTime.now(), false, Status.DRAFT, Status.DRAFT, null, null, null, null);
-    private final Activity inProgress = new Activity("test", "test", "test", null, null, LocalDateTime.now(), LocalDateTime.now(), false, Status.IN_PROGRESS, Status.IN_PROGRESS, null, null, null, null);
-    private final Activity completed = new Activity("test", "test", "test", null, null, LocalDateTime.now(), LocalDateTime.now(), false, Status.COMPLETED, Status.COMPLETED, null, null, null, null);
 
-    private final ActivityDTO pendingDTO = new ActivityDTO("test", "test", "test", Status.PENDING, LocalDateTime.now(), LocalDateTime.now(), null, null, null, null, null, null);
-    private final ActivityDTO draftDTO = new ActivityDTO("test", "test", "test", Status.DRAFT, LocalDateTime.now(), LocalDateTime.now(), null, null, null, null, null, null);
-    private final ActivityDTO inProgressDTO =  new ActivityDTO("test", "test", "test", Status.IN_PROGRESS, LocalDateTime.now(), LocalDateTime.now(), null, null, null, null, null, null);
-    private final ActivityDTO completedDTO =  new ActivityDTO("test", "test", "test", Status.COMPLETED, LocalDateTime.now(), LocalDateTime.now(), null, null, null, null, null, null);
-
+    @BeforeEach
+    void setUp() {
+        activity = new Activity("test", "test", "test", null, null, LocalDateTime.now(), LocalDateTime.now(), false, Status.PENDING, Status.PENDING, null, null, null, null);
+        activityDTO = new ActivityDTO("test", "test", "test", Status.PENDING, LocalDateTime.now(), LocalDateTime.now(), null, null, null, null, null, null);
+        notification1 = new Notification("test","some message");
+        notification2 = new Notification("note2","some message");
+        user = new User("test", "test", "test",
+                "test", LocalDate.of(2000, 1, 1), "test",
+                "test", "test");
+    }
 
 
 
@@ -122,15 +128,30 @@ public class ActivityServiceTest {
 
     //deny a recommendation as a volunteer
     @Test
-    void denyRecommendationAsVolunteer() {
+    void denyRecommendationAsVolunteer_noActivityFound() {
 
+        when(activityRepository.findById(id)).thenReturn(Optional.empty());
+        activityService.denyRecommendationAsVolunteer(id, username);
+        verify(notificationService, never()).saveNotification(any(Notification.class), any(String.class));
     }
 
-    //remove an activity from applicants
     @Test
-    void removeActivityFromApplicants() {
-
+    @Order(1)
+    void denyRecommendationAsVolunteer_wrongUsername() {
+        when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
+        activityService.denyRecommendationAsVolunteer(id, "wrongUsername");
+        verify(notificationService, never()).saveNotification(any(Notification.class), any(String.class));
     }
+
+    @Test
+    void denyRecommendationAsVolunteer_success() {
+        activity.setVolunteer(username);
+        when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
+        activityService.denyRecommendationAsVolunteer(id, username);
+        verify(notificationService, times(1)).saveNotification(any(Notification.class), any(String.class));
+        Assertions.assertNull(activity.getVolunteer());
+    }
+
 
 
 }
