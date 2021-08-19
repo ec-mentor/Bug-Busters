@@ -81,12 +81,12 @@ public class ActivityServiceTest {
 
     }
 
+
     //complete an activity as a client and notify a volunteer
     @Test
     void completeActivityClientNotifyVolunteer() {
 
     }
-
     //complete an activity as a volunteer
     @Test
     void completeActivityVolunteer() {
@@ -133,8 +133,6 @@ public class ActivityServiceTest {
         verify(notificationService, times(1)).saveNotification(any(Notification.class), any(String.class));
     }
 
-
-
     //approve a recommendation as a volunteer
     @Test
     void approveRecommendationAsVolunteer_ActivityNotFound() {
@@ -156,8 +154,6 @@ public class ActivityServiceTest {
         activityService.approveRecommendationAsVolunteer(id, username);
         verify(activityRepository, times(1)).save(any(Activity.class));
     }
-
-
 
     //deny a recommendation as a volunteer
     @Test
@@ -182,6 +178,5 @@ public class ActivityServiceTest {
         verify(notificationService, times(1)).saveNotification(any(Notification.class), any(String.class));
         Assertions.assertNull(activity.getVolunteer());
     }
-
 
 }
