@@ -46,10 +46,6 @@ Authorization: Basic Individual3 Coding12#
 GET http://localhost:8080/organization/activities/list/drafts
 Authorization: Basic Individual3 Coding12#
 
-### List all pending acitivies as volunteer
-GET http://localhost:8080/volunteer/activities/list/pending
-Authorization: Basic Volunteer1 Coding12#
-
 ### post draft as individual
 PUT http://localhost:8080/individual/activities/post/1
 Authorization: Basic Individual1 Coding12#
@@ -90,6 +86,10 @@ Content-Type: application/json
   "endTime": "2020-01-21T00:00:00",
   "statusClient": "DRAFT"
 }
+
+###
+GET http://localhost:8080/volunteer/activities/list/pending
+Authorization: Basic Volunteer1 Coding12#
 
 ### list all volunteers as individual
 GET http://localhost:8080/individual/view/volunteers

@@ -98,6 +98,11 @@ public class OrganizationEndpoint {
         return activityService.completeActivityClientNotifyVolunteer(id, rating, feedback).orElse(null);
     }
 
+    @PutMapping("/activities/contact/{id}/{username}")
+    void contactVolunteerForActivity(@PathVariable Long id, @PathVariable String username) {
+        activityService.contactVolunteerForActivity(id, username);
+    }
+
     @PutMapping("/activities/approve/{id}/{username}")
     void approveApplication(@PathVariable Long id, @PathVariable String username){
         activityService.approveApplicationAsClient(id, username);
@@ -107,10 +112,4 @@ public class OrganizationEndpoint {
     void denyApplication(@PathVariable Long id, @PathVariable String username){
         activityService.denyApplicationAsClient(id, username);
     }
-
-    @PutMapping("/activities/contact/{id}/{username}")
-    void contactVolunteerForActivity(@PathVariable Long id, @PathVariable String username) {
-        activityService.contactVolunteerForActivity(id, username);
-    }
-
 }
