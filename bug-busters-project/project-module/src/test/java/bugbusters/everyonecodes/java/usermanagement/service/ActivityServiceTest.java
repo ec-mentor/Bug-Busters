@@ -72,11 +72,15 @@ public class ActivityServiceTest {
 
     }
 
+
+
     //post a draft
     @Test
     void postDraft() {
 
     }
+
+
 
     //edit activity
     @Test
@@ -84,11 +88,15 @@ public class ActivityServiceTest {
 
     }
 
+
+
     //complete an activity as a client and notify a volunteer
     @Test
     void completeActivityClientNotifyVolunteer() {
 
     }
+
+
 
     //complete an activity as a volunteer
     @Test
@@ -96,11 +104,15 @@ public class ActivityServiceTest {
 
     }
 
+
+
     //apply for an activity as a volunteer
     @Test
     void applyForActivity() {
 
     }
+
+
 
     //approve application as a client
     @Test
@@ -108,35 +120,73 @@ public class ActivityServiceTest {
 
     }
 
+
+
     //deny application as a client
     @Test
     void denyApplicationAsClient() {
 
     }
 
+
+
     //contact a volunteer for an activity
     @Test
-    void contactVolunteerForActivity() {
-
+    void contactVolunteerForActivity_ActivityNotFound() {
+        when(activityRepository.findById(id)).thenReturn(Optional.empty());
+        activityService.contactVolunteerForActivity(id, username);
+        verify(notificationService, never()).saveNotification(any(Notification.class), any(String.class));
     }
+
+    @Test
+    void contactVolunteerForActivity_wrongUsername() {
+        when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
+        activityService.contactVolunteerForActivity(id, "username");
+        verify(notificationService, never()).saveNotification(any(Notification.class), any(String.class));
+    }
+
+    @Test
+    void contactVolunteerForActivity_success() {
+        when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
+        activityService.contactVolunteerForActivity(id, username);
+        verify(notificationService, times(1)).saveNotification(any(Notification.class), any(String.class));
+    }
+
+
 
     //approve a recommendation as a volunteer
     @Test
-    void approveRecommendationAsVolunteer() {
-
+    void approveRecommendationAsVolunteer_ActivityNotFound() {
+        when(activityRepository.findById(id)).thenReturn(Optional.empty());
+        activityService.approveRecommendationAsVolunteer(id, username);
+        verify(activityRepository, never()).save(any(Activity.class));
     }
+
+    @Test
+    void approveRecommendationAsVolunteer_wrongUsername() {
+        when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
+        activityService.approveRecommendationAsVolunteer(id, "username");
+        verify(activityRepository, never()).save(any(Activity.class));
+    }
+
+    @Test
+    void approveRecommendationAsVolunteer_success() {
+        when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
+        activityService.approveRecommendationAsVolunteer(id, username);
+        verify(activityRepository, times(1)).save(any(Activity.class));
+    }
+
+
 
     //deny a recommendation as a volunteer
     @Test
     void denyRecommendationAsVolunteer_noActivityFound() {
-
         when(activityRepository.findById(id)).thenReturn(Optional.empty());
         activityService.denyRecommendationAsVolunteer(id, username);
         verify(notificationService, never()).saveNotification(any(Notification.class), any(String.class));
     }
 
     @Test
-    @Order(1)
     void denyRecommendationAsVolunteer_wrongUsername() {
         when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
         activityService.denyRecommendationAsVolunteer(id, "wrongUsername");
@@ -151,7 +201,4 @@ public class ActivityServiceTest {
         verify(notificationService, times(1)).saveNotification(any(Notification.class), any(String.class));
         Assertions.assertNull(activity.getVolunteer());
     }
-
-
-
 }
