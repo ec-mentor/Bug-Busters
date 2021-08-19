@@ -96,8 +96,27 @@ public class ActivityServiceTest {
 
     //post a draft
     @Test
-    void postDraft() {
+    void postDraft_ActivityNotFound() {
+        when(activityRepository.findById(id)).thenReturn(Optional.empty());
+        activityService.postDraft(id, username);
+        verify(activityRepository, never()).save(any(Activity.class));
+    }
 
+    @Test
+    void postDraft_AuthenticationNameDoesNotMatch() {
+        when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
+        activityService.postDraft(id, "wrongName");
+        verify(activityRepository, never()).save(any(Activity.class));
+    }
+
+    @Test
+    void postDraft_success() {
+        when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
+        when(activityDTOMapper.toClientActivityDTO(any(Activity.class))).thenReturn(activityDTO);
+        activityService.postDraft(id, username);
+        Assertions.assertEquals(Status.PENDING, activity.getStatusClient());
+        Assertions.assertEquals(Status.PENDING, activity.getStatusVolunteer());
+        verify(activityRepository, times(1)).save(activity);
     }
 
 
