@@ -185,7 +185,7 @@ class IndividualServiceTest {
     }
 
     @Test
-    void listAllActivitiesOfOrganization() {
+    void listAllActivitiesOfIndividual() {
         Mockito.when(activityRepository.findAllByCreator(username)).thenReturn(List.of(activity, draft));
         Mockito.when(activityDTOMapper.toClientActivityDTO(activity)).thenReturn(activityDTO);
         Mockito.when(activityDTOMapper.toClientActivityDTO(draft)).thenReturn(draftDTO);
@@ -195,7 +195,7 @@ class IndividualServiceTest {
     }
 
     @Test
-    void listAllActivitiesOfOrganization_Empty() {
+    void listAllActivitiesOfIndividual_Empty() {
         Mockito.when(activityRepository.findAllByCreator(username)).thenReturn(List.of());
         Mockito.when(activityDTOMapper.toClientActivityDTO(Mockito.any(Activity.class))).thenReturn(activityDTO);
         var result = individualService.listAllActivitiesOfIndividual(username);
@@ -204,7 +204,7 @@ class IndividualServiceTest {
     }
 
     @Test
-    void listAllDraftsOfOrganization() {
+    void listAllDraftsOfIndividual() {
         Mockito.when(activityRepository.findAllByCreatorAndStatusClient(username, Status.DRAFT)).thenReturn(List.of(draft));
         Mockito.when(activityDTOMapper.toClientActivityDTO(draft)).thenReturn(draftDTO);
         var result = individualService.listAllDraftsOfIndividual(username);
@@ -213,7 +213,7 @@ class IndividualServiceTest {
     }
 
     @Test
-    void listAllDraftsOfOrganization_Empty() {
+    void listAllDraftsOfIndividual_Empty() {
         Mockito.when(activityRepository.findAllByCreatorAndStatusClient(username, Status.DRAFT)).thenReturn(List.of());
         Mockito.when(activityDTOMapper.toClientActivityDTO(Mockito.any(Activity.class))).thenReturn(draftDTO);
         var result = individualService.listAllDraftsOfIndividual(username);

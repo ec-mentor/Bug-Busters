@@ -85,6 +85,7 @@ public class IndividualService {
                 .collect(Collectors.toList());
     }
 
+    //ToDo: tests
     public List<ActivityDTO> listAllDraftsOfIndividual(String username) {
         var result = activityRepository.findAllByCreatorAndStatusClient(username, Status.DRAFT);
         return result.stream()
