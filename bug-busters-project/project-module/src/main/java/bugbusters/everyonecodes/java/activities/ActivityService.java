@@ -71,6 +71,8 @@ public class ActivityService {
         result.setStartTime(input.getStartTime());
         result.setEndTime(input.getEndTime());
         result.setOpenEnd(input.isOpenEnd());
+        result.setStatusClient(input.getStatusClient());
+        result.setStatusVolunteer(input.getStatusClient());
         return Optional.of(activityRepository.save(result));
     }
 
