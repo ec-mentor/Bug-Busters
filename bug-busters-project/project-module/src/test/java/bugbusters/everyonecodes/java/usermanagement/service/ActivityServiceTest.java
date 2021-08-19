@@ -8,7 +8,6 @@ import bugbusters.everyonecodes.java.usermanagement.repository.UserRepository;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.SetToStringMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -64,15 +63,11 @@ public class ActivityServiceTest {
                 "test", "test");
     }
 
-
-
     //save a new activity
     @Test
     void saveNewActivity() {
 
     }
-
-
 
     //post a draft
     @Test
@@ -80,15 +75,11 @@ public class ActivityServiceTest {
 
     }
 
-
-
     //edit activity
     @Test
     void edit() {
 
     }
-
-
 
     //complete an activity as a client and notify a volunteer
     @Test
@@ -96,15 +87,11 @@ public class ActivityServiceTest {
 
     }
 
-
-
     //complete an activity as a volunteer
     @Test
     void completeActivityVolunteer() {
 
     }
-
-
 
     //apply for an activity as a volunteer
     @Test
@@ -112,23 +99,17 @@ public class ActivityServiceTest {
 
     }
 
-
-
     //approve application as a client
     @Test
     void approveApplicationAsClient() {
 
     }
 
-
-
     //deny application as a client
     @Test
     void denyApplicationAsClient() {
 
     }
-
-
 
     //contact a volunteer for an activity
     @Test
@@ -201,4 +182,5 @@ public class ActivityServiceTest {
         verify(notificationService, times(1)).saveNotification(any(Notification.class), any(String.class));
         Assertions.assertNull(activity.getVolunteer());
     }
+
 }
