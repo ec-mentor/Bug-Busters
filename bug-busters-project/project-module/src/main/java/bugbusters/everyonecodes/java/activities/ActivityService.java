@@ -27,7 +27,8 @@ public class ActivityService {
         this.notificationService = notificationService;
     }
 
-    public Optional<Activity> saveNewActivity(ActivityInputDTO activityInputDTO, String username) {
+    public Optional<ActivityDTO> saveNewActivity(ActivityInputDTO activityInputDTO, String username) {
+        if (!activityInputDTO.getStatusClient().equals(Status.PENDING) && !activityInputDTO.getStatusClient().equals(Status.DRAFT)) return Optional.empty();
         Activity activity = activityDTOMapper.createNewActivityFromActivityInputDTO(activityInputDTO, username);
         var oCreator = userRepository.findOneByUsername(username);
         if (oCreator.isPresent()) {
@@ -35,13 +36,13 @@ public class ActivityService {
             var creator = oCreator.get();
             creator.getActivities().add(activity);
             userRepository.save(creator);
-            return Optional.of(activity);
+            return Optional.of(activityDTOMapper.toClientActivityDTO(activity));
         }
         return Optional.empty();
     }
 
 
-    public Optional<Activity> postDraft(Long id) {
+    public Optional<ActivityDTO> postDraft(Long id) {
         var oActivity = activityRepository.findById(id);
         if (oActivity.isEmpty()) {
             return Optional.empty();
@@ -49,7 +50,8 @@ public class ActivityService {
         Activity result = oActivity.get();
         result.setStatusClient(Status.PENDING);
         result.setStatusVolunteer(Status.PENDING);
-        return Optional.of(activityRepository.save(result));
+        activityRepository.save(result);
+        return Optional.of(activityDTOMapper.toClientActivityDTO(result));
     }
 
 
@@ -57,7 +59,7 @@ public class ActivityService {
         return activityRepository.findAll();
     }
 
-    public Optional<Activity> edit(ActivityInputDTO input, Long id, String username) {
+    public Optional<ActivityDTO> edit(ActivityInputDTO input, Long id, String username) {
         Optional<Activity> oActivity = activityRepository.findById(id);
         if (oActivity.isEmpty()) {
             return Optional.empty();
@@ -71,7 +73,8 @@ public class ActivityService {
         result.setStartTime(input.getStartTime());
         result.setEndTime(input.getEndTime());
         result.setOpenEnd(input.isOpenEnd());
-        return Optional.of(activityRepository.save(result));
+        activityRepository.save(result);
+        return Optional.of(activityDTOMapper.toClientActivityDTO(result));
     }
 
     public List<Activity> findAllPendingActivities() {

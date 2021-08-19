@@ -64,17 +64,17 @@ public class OrganizationEndpoint {
     }
 
     @PostMapping("/activities/create/new")
-    Activity saveNewActivity(@Valid @RequestBody ActivityInputDTO activity, Authentication authentication){
+    ActivityDTO saveNewActivity(@Valid @RequestBody ActivityInputDTO activity, Authentication authentication){
         return activityService.saveNewActivity(activity, authentication.getName()).orElse(null);
     }
 
     @PutMapping("/activities/post/{id}")
-    Activity postDraft(@PathVariable Long id) {
+    ActivityDTO postDraft(@PathVariable Long id) {
         return activityService.postDraft(id).orElse(null);
     }
 
     @PutMapping("/activities/edit/{id}")
-    Activity editActivity(@Valid @RequestBody ActivityInputDTO input, @PathVariable Long id, Authentication authentication){
+    ActivityDTO editActivity(@Valid @RequestBody ActivityInputDTO input, @PathVariable Long id, Authentication authentication){
         return activityService.edit(input, id, authentication.getName()).orElse(null);
     }
 
