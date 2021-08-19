@@ -60,6 +60,7 @@ public class IndividualService {
     public Optional<ClientPublicDTO> viewIndividualPublicData(String username) {
         return getIndividualByUsername(username).map(organization -> clientMapper.toClientPublicDTO(organization));
     }
+
     public Optional<VolunteerPublicDTO> viewVolunteerPublicData(String username) {
         return volunteerRepository.findOneByUser_username(username).map(volunteer -> volunteerMapper.toVolunteerPublicDTO(volunteer));
     }
@@ -80,14 +81,14 @@ public class IndividualService {
     public List<ActivityDTO> listAllActivitiesOfIndividual(String username) {
         var result = activityRepository.findAllByCreator(username);
         return result.stream()
-                .map(activityDTOMapper::toClientActivityDTO)
+                .map(activity -> activityDTOMapper.toClientActivityDTO(activity))
                 .collect(Collectors.toList());
     }
 
     public List<ActivityDTO> listAllDraftsOfIndividual(String username) {
         var result = activityRepository.findAllByCreatorAndStatusClient(username, Status.DRAFT);
         return result.stream()
-                .map(activityDTOMapper::toClientActivityDTO)
+                .map(activity -> activityDTOMapper.toClientActivityDTO(activity))
                 .collect(Collectors.toList());
     }
 }

@@ -1,9 +1,6 @@
 package bugbusters.everyonecodes.java.usermanagement.rolemanagement.individual;
 
-import bugbusters.everyonecodes.java.activities.Activity;
-import bugbusters.everyonecodes.java.activities.ActivityDTO;
-import bugbusters.everyonecodes.java.activities.ActivityDTOMapper;
-import bugbusters.everyonecodes.java.activities.Status;
+import bugbusters.everyonecodes.java.activities.*;
 import bugbusters.everyonecodes.java.search.VolunteerTextSearchService;
 import bugbusters.everyonecodes.java.usermanagement.data.User;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPrivateDTO;
@@ -39,6 +36,9 @@ class IndividualServiceTest {
     IndividualRepository individualRepository;
 
     @MockBean
+    ActivityRepository activityRepository;
+
+    @MockBean
     UserService userService;
 
     @MockBean
@@ -64,7 +64,9 @@ class IndividualServiceTest {
     private final Volunteer volunteer = new Volunteer(user);
     private final VolunteerSearchResultDTO volunteerSearchResultDTO = new VolunteerSearchResultDTO("test", null, null);
     private final Activity activity = new Activity("test", "test", "test", Set.of("test"), Set.of("test"), LocalDateTime.now(), LocalDateTime.now(), true, Status.PENDING, Status.PENDING, null, null, null, null);
+    private final Activity draft = new Activity("test", "test", "test", Set.of("test"), Set.of("test"), LocalDateTime.now(), LocalDateTime.now(), true, Status.DRAFT, Status.DRAFT, null, null, null, null);
     private final ActivityDTO activityDTO = new ActivityDTO("test", "test", "test", Status.PENDING, LocalDateTime.now(), LocalDateTime.now(), null, null, null, null, null, null);
+    private final ActivityDTO draftDTO = new ActivityDTO("test", "test", "test", Status.DRAFT, LocalDateTime.now(), LocalDateTime.now(), null, null, null, null, null, null);
 
     @Test
     void getIndividualByUsername() {
@@ -183,19 +185,39 @@ class IndividualServiceTest {
     }
 
     @Test
-    void listAllMyActivities() {
-        individual.getUser().setActivities(List.of(activity));
-        Mockito.when(individualRepository.findOneByUser_username("test")).thenReturn(Optional.of(individual));
+    void listAllActivitiesOfOrganization() {
+        Mockito.when(activityRepository.findAllByCreator(username)).thenReturn(List.of(activity, draft));
         Mockito.when(activityDTOMapper.toClientActivityDTO(activity)).thenReturn(activityDTO);
-        var result = individualService.listAllActivitiesOfIndividual("test");
-        Assertions.assertEquals(List.of(activityDTO), result);
+        Mockito.when(activityDTOMapper.toClientActivityDTO(draft)).thenReturn(draftDTO);
+        var result = individualService.listAllActivitiesOfIndividual(username);
+        Assertions.assertEquals(List.of(activityDTO, draftDTO), result);
+        Mockito.verify(activityRepository).findAllByCreator(username);
     }
 
     @Test
-    void listAllMyActivities_Empty() {
-        individual.getUser().setActivities(List.of(activity));
-        Mockito.when(individualRepository.findOneByUser_username("test")).thenReturn(Optional.empty());
-        var result = individualService.listAllActivitiesOfIndividual("test");
+    void listAllActivitiesOfOrganization_Empty() {
+        Mockito.when(activityRepository.findAllByCreator(username)).thenReturn(List.of());
+        Mockito.when(activityDTOMapper.toClientActivityDTO(Mockito.any(Activity.class))).thenReturn(activityDTO);
+        var result = individualService.listAllActivitiesOfIndividual(username);
         Assertions.assertEquals(List.of(), result);
+        Mockito.verify(activityRepository).findAllByCreator(username);
+    }
+
+    @Test
+    void listAllDraftsOfOrganization() {
+        Mockito.when(activityRepository.findAllByCreatorAndStatusClient(username, Status.DRAFT)).thenReturn(List.of(draft));
+        Mockito.when(activityDTOMapper.toClientActivityDTO(draft)).thenReturn(draftDTO);
+        var result = individualService.listAllDraftsOfIndividual(username);
+        Assertions.assertEquals(List.of(draftDTO), result);
+        Mockito.verify(activityRepository).findAllByCreatorAndStatusClient(username, Status.DRAFT);
+    }
+
+    @Test
+    void listAllDraftsOfOrganization_Empty() {
+        Mockito.when(activityRepository.findAllByCreatorAndStatusClient(username, Status.DRAFT)).thenReturn(List.of());
+        Mockito.when(activityDTOMapper.toClientActivityDTO(Mockito.any(Activity.class))).thenReturn(draftDTO);
+        var result = individualService.listAllDraftsOfIndividual(username);
+        Assertions.assertEquals(List.of(), result);
+        Mockito.verify(activityRepository).findAllByCreatorAndStatusClient(username, Status.DRAFT);
     }
 }
