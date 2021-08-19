@@ -81,15 +81,14 @@ public class IndividualService {
     public List<ActivityDTO> listAllActivitiesOfIndividual(String username) {
         var result = activityRepository.findAllByCreator(username);
         return result.stream()
-                .map(activityDTOMapper::toClientActivityDTO)
+                .map(activity -> activityDTOMapper.toClientActivityDTO(activity))
                 .collect(Collectors.toList());
     }
 
-    //ToDo: tests
     public List<ActivityDTO> listAllDraftsOfIndividual(String username) {
         var result = activityRepository.findAllByCreatorAndStatusClient(username, Status.DRAFT);
         return result.stream()
-                .map(activityDTOMapper::toClientActivityDTO)
+                .map(activity -> activityDTOMapper.toClientActivityDTO(activity))
                 .collect(Collectors.toList());
     }
 }
