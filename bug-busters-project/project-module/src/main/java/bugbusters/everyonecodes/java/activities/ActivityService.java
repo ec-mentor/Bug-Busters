@@ -8,7 +8,6 @@ import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.Set
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,7 +40,6 @@ public class ActivityService {
         return Optional.empty();
     }
 
-
     public Optional<ActivityDTO> postDraft(Long id) {
         var oActivity = activityRepository.findById(id);
         if (oActivity.isEmpty()) {
@@ -52,11 +50,6 @@ public class ActivityService {
         result.setStatusVolunteer(Status.PENDING);
         activityRepository.save(result);
         return Optional.of(activityDTOMapper.toClientActivityDTO(result));
-    }
-
-
-    public List<Activity> findAll() {
-        return activityRepository.findAll();
     }
 
     public Optional<ActivityDTO> edit(ActivityInputDTO input, Long id, String username) {
@@ -75,10 +68,6 @@ public class ActivityService {
         result.setOpenEnd(input.isOpenEnd());
         activityRepository.save(result);
         return Optional.of(activityDTOMapper.toClientActivityDTO(result));
-    }
-
-    public List<Activity> findAllPendingActivities() {
-        return activityRepository.findAllByStatusClient(Status.PENDING);
     }
 
     public Optional<ActivityDTO> completeActivityClientNotifyVolunteer(Long id, int rating, String feedback) {
