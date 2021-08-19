@@ -1,5 +1,7 @@
 package bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer;
 
+import bugbusters.everyonecodes.java.activities.*;
+import bugbusters.everyonecodes.java.search.ActivityTextSearchService;
 import bugbusters.everyonecodes.java.usermanagement.data.User;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPrivateDTO;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPublicDTO;
@@ -10,13 +12,17 @@ import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.
 import bugbusters.everyonecodes.java.usermanagement.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,6 +43,9 @@ class VolunteerServiceTest {
     IndividualRepository individualRepository;
 
     @MockBean
+    ActivityRepository activityRepository;
+
+    @MockBean
     UserService userService;
 
     @MockBean
@@ -44,6 +53,12 @@ class VolunteerServiceTest {
 
     @MockBean
     VolunteerDTOMapper volunteerMapper;
+
+    @MockBean
+    ActivityTextSearchService activityTextSearchService;
+
+    @MockBean
+    ActivityDTOMapper activityDTOMapper;
 
     // for testing
     private final String username = "test";
@@ -55,7 +70,9 @@ class VolunteerServiceTest {
     private final Individual individual = new Individual(user);
     private final Organization organization = new Organization(user);
     private final Volunteer volunteer = new Volunteer(user);
-
+    private final Activity activity = new Activity("test", "test", "test", Set.of("test"), Set.of("test"), LocalDateTime.now(), LocalDateTime.now(), true, Status.PENDING, Status.PENDING, null, null, null, null);
+    private final ActivityDTO activityDTO = new ActivityDTO("test", "test", "test", Status.PENDING, LocalDateTime.now(), LocalDateTime.now(), null, null, null, null, null, null);
+    private Object ActivityDTO;
 
     @Test
     void getVolunteerByUsername() {
@@ -124,9 +141,6 @@ class VolunteerServiceTest {
         Mockito.verify(clientMapper, Mockito.times(1)).toClientPublicDTO(individual);
     }
 
-
-
-
     @Test
     void viewClientPublicData_UserNotFound() {
         Mockito.when(individualRepository.findOneByUser_username(username)).thenReturn(Optional.empty());
@@ -156,4 +170,51 @@ class VolunteerServiceTest {
         Mockito.verify(volunteerRepository, Mockito.never()).save(Mockito.any(Volunteer.class));
     }
 
+    @Test
+    void listPendingActivities() {
+        Mockito.when(activityRepository.findAllByStatusClient(Status.PENDING)).thenReturn(List.of(activity));
+        Mockito.when(activityDTOMapper.toVolunteerActivityDTO(activity)).thenReturn(activityDTO);
+        var result = volunteerService.listAllPendingActivities();
+        Assertions.assertEquals(List.of(activityDTO), result);
+    }
+
+    @Test
+    void listPendingActivities_Empty() {
+        Mockito.when(activityRepository.findAllByStatusClient(Status.PENDING)).thenReturn(List.of());
+        var result = volunteerService.listAllPendingActivities();
+        Assertions.assertEquals(List.of(), result);
+    }
+
+    @Test
+    void searchPendingActivitiesByText() {
+        Mockito.when(activityRepository.findAllByStatusClient(Status.PENDING)).thenReturn(List.of(activity));
+        Mockito.when(activityTextSearchService.searchActivitiesByText(List.of(activity), "test")).thenReturn(List.of(activity));
+        Mockito.when(activityDTOMapper.toVolunteerActivityDTO(activity)).thenReturn(activityDTO);
+        var result = volunteerService.searchPendingActivitiesByText("test");
+        Assertions.assertEquals(List.of(activityDTO), result);
+    }
+
+    @Test
+    void searchPendingActivitiesByText_Empty() {
+        Mockito.when(activityTextSearchService.searchActivitiesByText(List.of(activity), "test")).thenReturn(List.of());
+        var result = volunteerService.searchPendingActivitiesByText("test");
+        Assertions.assertEquals(List.of(), result);
+    }
+
+    @Test
+    void listAllActivitiesOfVolunteer() {
+        volunteer.getUser().setActivities(List.of(activity));
+        Mockito.when(volunteerRepository.findOneByUser_username("test")).thenReturn(Optional.of(volunteer));
+        Mockito.when(activityDTOMapper.toVolunteerActivityDTO(activity)).thenReturn(activityDTO);
+        var result = volunteerService.listAllActivitiesOfVolunteer("test");
+        Assertions.assertEquals(List.of(activityDTO), result);
+    }
+
+    @Test
+    void listAllActivitiesOfVolunteer_Empty() {
+        volunteer.getUser().setActivities(List.of(activity));
+        Mockito.when(volunteerRepository.findOneByUser_username("test")).thenReturn(Optional.empty());
+        var result = volunteerService.listAllActivitiesOfVolunteer("test");
+        Assertions.assertEquals(List.of(), result);
+    }
 }
