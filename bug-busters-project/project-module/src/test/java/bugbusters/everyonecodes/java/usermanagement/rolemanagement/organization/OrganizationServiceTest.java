@@ -181,7 +181,7 @@ class OrganizationServiceTest {
     }
 
     @Test
-    void listAllMyActivities() {
+    void listAllActivitiesOfOrganization() {
         organization.getUser().setActivities(List.of(activity));
         Mockito.when(organizationRepository.findOneByUser_username("test")).thenReturn(Optional.of(organization));
         Mockito.when(activityDTOMapper.toClientActivityDTO(activity)).thenReturn(activityDTO);
@@ -190,7 +190,7 @@ class OrganizationServiceTest {
     }
 
     @Test
-    void listAllMyActivities_Empty() {
+    void listAllActivitiesOfOrganization_Empty() {
         organization.getUser().setActivities(List.of(activity));
         Mockito.when(organizationRepository.findOneByUser_username("test")).thenReturn(Optional.empty());
         var result = organizationService.listAllActivitiesOfOrganization("test");
