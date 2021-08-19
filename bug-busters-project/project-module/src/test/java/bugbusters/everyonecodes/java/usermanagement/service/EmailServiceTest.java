@@ -2,6 +2,7 @@ package bugbusters.everyonecodes.java.usermanagement.service;
 
 import bugbusters.everyonecodes.java.usermanagement.data.User;
 import bugbusters.everyonecodes.java.usermanagement.repository.UserRepository;
+import bugbusters.everyonecodes.java.usermanagement.rolemanagement.admin.AdminRunner;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -38,6 +39,9 @@ class EmailServiceTest {
     @MockBean
     UserDTOMapper userDTOMapper;
 
+    @MockBean
+    AdminRunner adminRunner;
+
     private final User user = new User("test", "test", "test",
             "test", LocalDate.of(2000, 1, 1), "test",
             "test", "test");
@@ -55,8 +59,8 @@ class EmailServiceTest {
         Mockito.when(userRepository.findOneByEmail("test")).thenReturn(Optional.of(user));
         emailService.addEntryToMap("test", "test");
         emailService.savePassword("test", "test", "Coding12#");
-        Mockito.verify(passwordEncoder, Mockito.times(2)).encode("Coding12#");
-        Mockito.verify(userRepository, Mockito.times(2)).save(ArgumentMatchers.any(User.class));
+        Mockito.verify(passwordEncoder).encode("Coding12#");
+        Mockito.verify(userRepository).save(ArgumentMatchers.any(User.class));
     }
 
     @Test
