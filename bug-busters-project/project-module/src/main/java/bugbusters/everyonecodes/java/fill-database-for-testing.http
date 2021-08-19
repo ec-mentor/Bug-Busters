@@ -9,7 +9,7 @@ Content-Type: application/json
   "fullName": "Volunteer1",
   "birthday": "1990-01-01",
   "address": "Volunteer Street 213",
-  "email": "vol.unteer1@bugbusters.com",
+  "email": "melanie.huetterer@gmail.com",
   "description": "first Volunteer"
 }
 
@@ -27,7 +27,7 @@ Content-Type: application/json
     "fullName": "Volunteer1",
     "birthday": "1990-01-01",
     "address": "Volunteer Street 213",
-    "email": "vol.unteer1@bugbusters.com",
+    "email": "melanie.huetterer@gmail.com",
     "description": "first Volunteer"
   },
   "skills": "cooking;testing;a lot of laughing"
@@ -190,6 +190,8 @@ Content-Type: application/json
   "email": "org.anization3@bugbusters.com",
   "description": null
 }
+
+################################## CREATE ACTIVITIES ##################################
 
 ###
 POST http://localhost:8080/individual/activities/create/new

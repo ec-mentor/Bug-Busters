@@ -1,0 +1,16 @@
+### Send forgotten password link
+GET http://localhost:8080/users/passwordreset/melanie.huetterer@gmail.com
+
+### Set a new password
+POST http://localhost:8080/users/passwordreset/melanie.huetterer@gmail.com/1a3597aa-647e-4e9a-8ca1-63ae7e6c7382
+Content-Type: text/plain
+
+Password12#
+
+### View own profile as seen by others, only mandatory info -FAIL
+GET http://localhost:8080/volunteer/view
+Authorization: Basic Volunteer1 Coding12#
+
+### View own profile as seen by others, only mandatory info -FAIL
+GET http://localhost:8080/volunteer/view
+Authorization: Basic Volunteer1 Password12#
