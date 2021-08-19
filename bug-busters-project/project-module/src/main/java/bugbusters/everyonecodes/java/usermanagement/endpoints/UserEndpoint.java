@@ -8,6 +8,7 @@ import bugbusters.everyonecodes.java.usermanagement.service.EmailService;
 import bugbusters.everyonecodes.java.usermanagement.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -51,7 +52,7 @@ public class UserEndpoint {
 
     @Secured({"ROLE_VOLUNTEER", "ROLE_INDIVIDUAL", "ROLE_ORGANIZATION"})
     @GetMapping("/notifications")
-    List<Notification> getNotifications(){
-        return notificationService.findAllNotificationsChronological();
+    List<Notification> getNotifications(Authentication authentication){
+        return notificationService.findAllNotificationsChronologicalByUsername(authentication.getName());
     }
 }
