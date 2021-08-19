@@ -214,10 +214,11 @@ class IndividualServiceTest {
 
     @Test
     void listAllDraftsOfIndividual_Empty() {
-        Mockito.when(activityRepository.findAllByCreatorAndStatusClient(username, Status.DRAFT)).thenReturn(List.of());
-        Mockito.when(activityDTOMapper.toClientActivityDTO(Mockito.any(Activity.class))).thenReturn(draftDTO);
-        var result = individualService.listAllDraftsOfIndividual(username);
+        Mockito.when(activityRepository.findAllByCreator(username)).thenReturn(List.of());
+        Mockito.when(activityDTOMapper.toClientActivityDTO(Mockito.any(Activity.class))).thenReturn(activityDTO);
+        var result = individualService.listAllActivitiesOfIndividual(username);
         Assertions.assertEquals(List.of(), result);
-        Mockito.verify(activityRepository).findAllByCreatorAndStatusClient(username, Status.DRAFT);
+        Mockito.verify(activityRepository).findAllByCreator(username);
     }
+    
 }
