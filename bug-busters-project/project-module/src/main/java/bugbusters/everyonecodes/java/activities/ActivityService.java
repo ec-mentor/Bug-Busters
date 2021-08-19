@@ -40,12 +40,15 @@ public class ActivityService {
         return Optional.empty();
     }
 
-    public Optional<ActivityDTO> postDraft(Long id) {
+    public Optional<ActivityDTO> postDraft(Long id, String creatorAuthName) {
         var oActivity = activityRepository.findById(id);
         if (oActivity.isEmpty()) {
             return Optional.empty();
         }
         Activity result = oActivity.get();
+        if (!creatorAuthName.equals(result.getCreator())) {
+            return Optional.empty();
+        }
         result.setStatusClient(Status.PENDING);
         result.setStatusVolunteer(Status.PENDING);
         activityRepository.save(result);
@@ -70,12 +73,15 @@ public class ActivityService {
         return Optional.of(activityDTOMapper.toClientActivityDTO(result));
     }
 
-    public Optional<ActivityDTO> completeActivityClientNotifyVolunteer(Long id, int rating, String feedback) {
+    public Optional<ActivityDTO> completeActivityClientNotifyVolunteer(Long id, int rating, String feedback, String creatorAuthName) {
         Optional<Activity> oResult = activityRepository.findById(id);
         if (oResult.isEmpty()) {
             return Optional.empty();
         }
         Activity result = oResult.get();
+        if (!creatorAuthName.equals(result.getCreator())) {
+            return Optional.empty();
+        }
         String volunteerUsername = result.getVolunteer();
         var oUser = userRepository.findOneByUsername(volunteerUsername);
         if (oUser.isEmpty()) return Optional.empty();
@@ -92,13 +98,13 @@ public class ActivityService {
         return Optional.of(activityDTOMapper.toClientActivityDTO(activityRepository.save(result)));
     }
 
-    public Optional<ActivityDTO> completeActivityVolunteer(Long id, int rating, String feedback) {
+    public Optional<ActivityDTO> completeActivityVolunteer(Long id, int rating, String feedback, String volunteerAuthName) {
         Optional<Activity> oResult = activityRepository.findById(id);
         if (oResult.isEmpty()) {
             return Optional.empty();
         }
         Activity result = oResult.get();
-        if (!result.getStatusClient().equals(Status.COMPLETED)) {
+        if (!result.getStatusClient().equals(Status.COMPLETED) || !volunteerAuthName.equals(result.getVolunteer())) {
             return Optional.empty();
         }
         var oUser = userRepository.findOneByUsername(result.getCreator());
@@ -138,12 +144,15 @@ public class ActivityService {
         notificationService.saveNotification(notification, result.getCreator());
     }
 
-    public void approveApplicationAsClient(Long activityId, String username) {
+    public void approveApplicationAsClient(Long activityId, String username, String creatorAuthName) {
         Optional<Activity> oResult = activityRepository.findById(activityId);
         if (oResult.isEmpty()) {
             return;
         }
         Activity result = oResult.get();
+        if (!creatorAuthName.equals(result.getCreator())) {
+            return;
+        }
         if (!result.getApplicants().contains(username)) {
             return;
         }
@@ -155,12 +164,15 @@ public class ActivityService {
         activityRepository.save(result);
     }
 
-    public void denyApplicationAsClient(Long activityId, String username) {
+    public void denyApplicationAsClient(Long activityId, String username, String creatorAuthName) {
         Optional<Activity> oResult = activityRepository.findById(activityId);
         if (oResult.isEmpty()) {
             return;
         }
         Activity result = oResult.get();
+        if (!creatorAuthName.equals(result.getCreator())) {
+            return;
+        }
         if (!result.getApplicants().contains(username)) {
             return;
         }
@@ -178,12 +190,15 @@ public class ActivityService {
         notificationService.saveNotification(notification, username);
     }
 
-    public void contactVolunteerForActivity(Long activityId, String username) {
+    public void contactVolunteerForActivity(Long activityId, String username, String creatorAuthName) {
         Optional<Activity> oResult = activityRepository.findById(activityId);
         if (oResult.isEmpty()) {
             return;
         }
         Activity result = oResult.get();
+        if (!creatorAuthName.equals(result.getCreator())) {
+            return;
+        }
         result.setVolunteer(username);
         String message = result.getCreator() + " contacted you for the following activity: \"" + result.getTitle() + "\" (ID: " + result.getId() + "). Please approve or deny this activity!";
         Notification notification = new Notification(result.getCreator(), message);

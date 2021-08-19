@@ -72,8 +72,8 @@ public class VolunteerEndpoint {
     }
 
     @PutMapping("/activities/complete/{id}/{rating}")
-    ActivityDTO completeActivityVolunteer(@PathVariable Long id, @PathVariable int rating, @RequestBody String feedback){
-        return activityService.completeActivityVolunteer(id, rating, feedback).orElse(null);
+    ActivityDTO completeActivityVolunteer(@PathVariable Long id, @PathVariable int rating, @RequestBody String feedback, Authentication authentication){
+        return activityService.completeActivityVolunteer(id, rating, feedback, authentication.getName()).orElse(null);
     }
 
     @PutMapping("/activities/apply/{id}")

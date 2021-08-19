@@ -71,8 +71,8 @@ public class IndividualEndpoint {
     }
 
     @PutMapping("/activities/post/{id}")
-    ActivityDTO postDraft(@PathVariable Long id) {
-        return activityService.postDraft(id).orElse(null);
+    ActivityDTO postDraft(@PathVariable Long id, Authentication authentication) {
+        return activityService.postDraft(id, authentication.getName()).orElse(null);
     }
 
     @PutMapping("/activities/edit/{id}")
@@ -96,22 +96,24 @@ public class IndividualEndpoint {
     }
 
     @PutMapping("/activities/complete/{id}/{rating}")
-    ActivityDTO completeActivityClientNotifyVolunteer(@PathVariable Long id, @PathVariable int rating, @RequestBody String feedback){
-        return activityService.completeActivityClientNotifyVolunteer(id, rating, feedback).orElse(null);
-    }
-
-    @PutMapping("/activities/approve/{id}/{username}")
-    void approveApplication(@PathVariable Long id, @PathVariable String username){
-        activityService.approveApplicationAsClient(id, username);
-    }
-
-    @PutMapping("/activities/deny/{id}/{username}")
-    void denyApplication(@PathVariable Long id, @PathVariable String username){
-        activityService.denyApplicationAsClient(id, username);
+    ActivityDTO completeActivityClientNotifyVolunteer(@PathVariable Long id, @PathVariable int rating, @RequestBody String feedback, Authentication authentication){
+        return activityService.completeActivityClientNotifyVolunteer(id, rating, feedback, authentication.getName()).orElse(null);
     }
 
     @PutMapping("/activities/contact/{id}/{username}")
-    void contactVolunteerForActivity(@PathVariable Long id, @PathVariable String username) {
-        activityService.contactVolunteerForActivity(id, username);
+    void contactVolunteerForActivity(@PathVariable Long id, @PathVariable String username, Authentication authentication) {
+        activityService.contactVolunteerForActivity(id, username, authentication.getName());
     }
+
+    @PutMapping("/activities/approve/{id}/{username}")
+    void approveApplication(@PathVariable Long id, @PathVariable String username, Authentication authentication){
+        activityService.approveApplicationAsClient(id, username, authentication.getName());
+    }
+
+    @PutMapping("/activities/deny/{id}/{username}")
+    void denyApplication(@PathVariable Long id, @PathVariable String username, Authentication authentication){
+        activityService.denyApplicationAsClient(id, username, authentication.getName());
+    }
+
+
 }

@@ -123,21 +123,21 @@ public class ActivityServiceTest {
     @Test
     void contactVolunteerForActivity_ActivityNotFound() {
         when(activityRepository.findById(id)).thenReturn(Optional.empty());
-        activityService.contactVolunteerForActivity(id, username);
+        activityService.contactVolunteerForActivity(id, username, activity.getCreator());
         verify(notificationService, never()).saveNotification(any(Notification.class), any(String.class));
     }
 
     @Test
     void contactVolunteerForActivity_wrongUsername() {
         when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
-        activityService.contactVolunteerForActivity(id, "username");
+        activityService.contactVolunteerForActivity(id, username, "wrongCreator");
         verify(notificationService, never()).saveNotification(any(Notification.class), any(String.class));
     }
 
     @Test
     void contactVolunteerForActivity_success() {
         when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
-        activityService.contactVolunteerForActivity(id, username);
+        activityService.contactVolunteerForActivity(id, username, activity.getCreator());
         verify(notificationService, times(1)).saveNotification(any(Notification.class), any(String.class));
     }
 
@@ -159,6 +159,7 @@ public class ActivityServiceTest {
 
     @Test
     void approveRecommendationAsVolunteer_success() {
+        activity.setVolunteer(username);
         when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
         activityService.approveRecommendationAsVolunteer(id, username);
         verify(activityRepository, times(1)).save(any(Activity.class));
