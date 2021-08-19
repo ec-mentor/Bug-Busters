@@ -201,6 +201,7 @@ class IndividualServiceTest {
         var result = individualService.listAllActivitiesOfIndividual(username);
         Assertions.assertEquals(List.of(), result);
         Mockito.verify(activityRepository).findAllByCreator(username);
+
     }
 
     @Test
@@ -220,5 +221,4 @@ class IndividualServiceTest {
         Assertions.assertEquals(List.of(), result);
         Mockito.verify(activityRepository).findAllByCreator(username);
     }
-
 }
