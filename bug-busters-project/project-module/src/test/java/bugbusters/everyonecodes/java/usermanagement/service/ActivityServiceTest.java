@@ -15,6 +15,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -43,6 +44,7 @@ public class ActivityServiceTest {
     // for testing
     private final Long id = 1L;
     private final String username = "test";
+    private final String username2 = "test2";
     private User user = new User("test", "test", "test",
             "test", LocalDate.of(2000, 1, 1), "test",
             "test", "test");
@@ -150,15 +152,85 @@ public class ActivityServiceTest {
 
     //approve application as a client
     @Test
-    void approveApplicationAsClient() {
+    void approveApplicationAsClient_NoActivityFound() {
+        when(activityRepository.findById(id)).thenReturn(Optional.empty());
+        activityService.approveApplicationAsClient(id, username, username2);
+        verify(activityRepository, never()).save(any(Activity.class));
+    }
 
+    @Test
+    void approveApplicationAsClient_wrongAuthName() {
+        activity.setCreator(username2);
+        activity.getApplicants().add(username);
+        when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
+        activityService.approveApplicationAsClient(id, username, "wrongCreator");
+        verify(activityRepository, never()).save(any(Activity.class));
+    }
+
+    @Test
+    void approveApplicationAsClient_VolunteerNotApplied() {
+        activity.setCreator(username2);
+        when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
+        activityService.approveApplicationAsClient(id, username, username2);
+        verify(activityRepository, never()).save(any(Activity.class));
+    }
+
+    @Test
+    void approveApplicationAsClient_success() {
+        activity.setCreator(username2);
+        activity.getApplicants().add(username);
+        when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
+        activityService.approveApplicationAsClient(id, username, username2);
+        Assertions.assertFalse(activity.getApplicants().contains(username));
+        verify(activityRepository, times(1)).save(any(Activity.class));
     }
 
 
     //deny application as a client
     @Test
-    void denyApplicationAsClient() {
+    void denyApplicationAsClient_NoActivityFound() {
+        when(activityRepository.findById(id)).thenReturn(Optional.empty());
+        activityService.denyApplicationAsClient(id, username, username2);
+        verify(userRepository, never()).findOneByUsername(any(String.class));
+    }
 
+    @Test
+    void denyApplicationAsClient_wrongAuthName() {
+        activity.setCreator(username2);
+        activity.getApplicants().add(username);
+        when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
+        activityService.denyApplicationAsClient(id, username, "wrongCreator");
+        verify(userRepository, never()).findOneByUsername(any(String.class));
+    }
+
+    @Test
+    void denyApplicationAsClient_VolunteerNotApplied() {
+        activity.setCreator(username2);
+        when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
+        activityService.denyApplicationAsClient(id, username, username2);
+        verify(userRepository, never()).findOneByUsername(any(String.class));
+    }
+
+    @Test
+    void denyApplicationAsClient_VolunteerNotFound() {
+        activity.setCreator(username2);
+        activity.getApplicants().add(username);
+        when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
+        when(userRepository.findOneByUsername(username)).thenReturn(Optional.empty());
+        activityService.denyApplicationAsClient(id, username, username2);
+        verify(userRepository, never()).save(any(User.class));
+    }
+
+    @Test
+    void denyApplicationAsClient_success() {
+        activity.setCreator(username2);
+        activity.getApplicants().add(username);
+        when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
+        when(userRepository.findOneByUsername(username)).thenReturn(Optional.of(user));
+        activityService.denyApplicationAsClient(id, username, username2);
+        verify(userRepository, times(1)).save(user);
+        Assertions.assertFalse(activity.getApplicants().contains(username));
+        verify(activityRepository, times(1)).save(activity);
     }
 
 
