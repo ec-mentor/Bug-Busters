@@ -50,7 +50,7 @@ public class ActivityServiceTest {
     private Notification notification2 = new Notification("note2","some message");
     private Activity activity = new Activity("test", "test", "test", null, null, LocalDateTime.now(), LocalDateTime.now(), false, Status.PENDING, Status.PENDING, null, null, null, null);
     private ActivityDTO activityDTO = new ActivityDTO("test", "test", "test", Status.PENDING, LocalDateTime.now(), LocalDateTime.now(), null, null, null, null, null, null);
-
+    private ActivityInputDTO activityInputDTO = new ActivityInputDTO("test", "test", "test", null, LocalDateTime.now(), LocalDateTime.now(), false, Status.PENDING);
 
     @BeforeEach
     void setUp() {
@@ -65,8 +65,32 @@ public class ActivityServiceTest {
 
     //save a new activity
     @Test
-    void saveNewActivity() {
+    void saveNewActivity_statusPendingAndUserFound() {
+        activityInputDTO.setStatusClient(Status.PENDING);
+        when(userRepository.findOneByUsername(username)).thenReturn(Optional.of(user));
+        when(activityDTOMapper.createNewActivityFromActivityInputDTO(activityInputDTO, username)).thenReturn(activity);
+        when(activityRepository.save(activity)).thenReturn(activity);
+        when(activityDTOMapper.toClientActivityDTO(activity)).thenReturn(activityDTO);
+        activityService.saveNewActivity(activityInputDTO, username);
+        verify(activityDTOMapper, times(1)).createNewActivityFromActivityInputDTO(activityInputDTO, username);
+        verify(activityRepository, times(1)).save(any(Activity.class));
+        Assertions.assertEquals(1, user.getActivities().size());
+    }
 
+    @Test
+    void saveNewActivity_statusDraftAndUserNotFound() {
+        activityInputDTO.setStatusClient(Status.DRAFT);
+        when(userRepository.findOneByUsername(username)).thenReturn(Optional.empty());
+        activityService.saveNewActivity(activityInputDTO, username);
+        verify(activityDTOMapper, times(1)).createNewActivityFromActivityInputDTO(activityInputDTO, username);
+        verify(activityRepository, never()).save(any(Activity.class));
+    }
+
+    @Test
+    void saveNewActivity_statusOther() {
+        activityInputDTO.setStatusClient(Status.IN_PROGRESS);
+        activityService.saveNewActivity(activityInputDTO, username);
+        verify(activityDTOMapper, never()).createNewActivityFromActivityInputDTO(activityInputDTO, username);
     }
 
 

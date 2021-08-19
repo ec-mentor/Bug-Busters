@@ -26,10 +26,10 @@ public class ActivityService {
         this.notificationService = notificationService;
     }
 
-    public Optional<ActivityDTO> saveNewActivity(ActivityInputDTO activityInputDTO, String username) {
+    public Optional<ActivityDTO> saveNewActivity(ActivityInputDTO activityInputDTO, String creatorAuthName) {
         if (!activityInputDTO.getStatusClient().equals(Status.PENDING) && !activityInputDTO.getStatusClient().equals(Status.DRAFT)) return Optional.empty();
-        Activity activity = activityDTOMapper.createNewActivityFromActivityInputDTO(activityInputDTO, username);
-        var oCreator = userRepository.findOneByUsername(username);
+        Activity activity = activityDTOMapper.createNewActivityFromActivityInputDTO(activityInputDTO, creatorAuthName);
+        var oCreator = userRepository.findOneByUsername(creatorAuthName);
         if (oCreator.isPresent()) {
             activity = activityRepository.save(activity);
             var creator = oCreator.get();
