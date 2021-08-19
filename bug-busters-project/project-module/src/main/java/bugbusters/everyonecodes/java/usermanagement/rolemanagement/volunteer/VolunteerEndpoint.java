@@ -76,7 +76,7 @@ public class VolunteerEndpoint {
         return activityService.completeActivityVolunteer(id, rating, feedback).orElse(null);
     }
 
-    @PostMapping("/activities/apply/{id}")
+    @PutMapping("/activities/apply/{id}")
     void applyForActivity(@PathVariable Long id, Authentication authentication){
         activityService.applyForActivity(id, authentication.getName());
     }

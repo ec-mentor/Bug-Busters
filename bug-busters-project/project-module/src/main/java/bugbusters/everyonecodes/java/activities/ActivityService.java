@@ -84,14 +84,18 @@ public class ActivityService {
             return Optional.empty();
         }
         Activity result = oResult.get();
+        String volunteerUsername = result.getVolunteer();
+        var oUser = userRepository.findOneByUsername(volunteerUsername);
+        if (oUser.isEmpty()) return Optional.empty();
         result.setStatusClient(Status.COMPLETED);
         result.setRatingFromClient(rating);
+        oUser.get().getRatings().add(rating);
+        userRepository.save(oUser.get());
         if (!feedback.isEmpty()) {
             result.setFeedbackFromClient(feedback);
         }
         String message = "Congratulations, you have completed the activity: " + result.getTitle() + " from " + result.getCreator() + ". You have been rated: " + rating + ". To finish the process you have to rate the organization and you can give optional feedback!";
         Notification notification = new Notification(result.getCreator(), message);
-        String volunteerUsername = result.getVolunteer();
         notificationService.saveNotification(notification, volunteerUsername);
         return Optional.of(activityDTOMapper.toClientActivityDTO(activityRepository.save(result)));
     }
@@ -105,8 +109,12 @@ public class ActivityService {
         if (!result.getStatusClient().equals(Status.COMPLETED)) {
             return Optional.empty();
         }
+        var oUser = userRepository.findOneByUsername(result.getCreator());
+        if (oUser.isEmpty()) return Optional.empty();
         result.setStatusVolunteer(Status.COMPLETED);
         result.setRatingFromVolunteer(rating);
+        oUser.get().getRatings().add(rating);
+        userRepository.save(oUser.get());
         if (!feedback.isEmpty()) {
             result.setFeedbackFromVolunteer(feedback);
         }
@@ -130,12 +138,12 @@ public class ActivityService {
             return;
         }
         result.getApplicants().add(username);
+        activityRepository.save(result);
         volunteer.get().getActivities().add(result);
         userRepository.save(volunteer.get());
         String message = username + " applied for your activity \"" + result.getTitle() + "\"!";
         Notification notification = new Notification(username, message);
         notificationService.saveNotification(notification, result.getCreator());
-        activityRepository.save(result);
     }
 
     public void approveApplicationAsClient(Long activityId, String username) {
@@ -185,7 +193,7 @@ public class ActivityService {
         }
         Activity result = oResult.get();
         result.setVolunteer(username);
-        String message = result.getCreator() + " contacted you for the following activity: \"" + result.getTitle() + "\". Please approve or deny this activity!";
+        String message = result.getCreator() + " contacted you for the following activity: \"" + result.getTitle() + "\" (ID: " + result.getId() + "). Please approve or deny this activity!";
         Notification notification = new Notification(result.getCreator(), message);
         notificationService.saveNotification(notification, username);
     }

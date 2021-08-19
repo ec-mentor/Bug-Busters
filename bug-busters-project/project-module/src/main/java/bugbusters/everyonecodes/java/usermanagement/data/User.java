@@ -43,10 +43,10 @@ public class User {
     @ElementCollection
     private List<@Min(1) @Max(5) Integer> ratings = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Activity> activities = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Notification> notifications = new ArrayList<>();
 
     public User() {}

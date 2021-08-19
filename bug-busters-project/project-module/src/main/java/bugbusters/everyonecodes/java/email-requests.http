@@ -2,7 +2,7 @@
 GET http://localhost:8080/users/passwordreset/melanie.huetterer@gmail.com
 
 ### Set a new password
-POST http://localhost:8080/users/passwordreset/melanie.huetterer@gmail.com/1a3597aa-647e-4e9a-8ca1-63ae7e6c7382
+POST http://localhost:8080/users/passwordreset/melanie.huetterer@gmail.com/d1108340-1451-4238-9886-fde4549a7f2a
 Content-Type: text/plain
 
 Password12#

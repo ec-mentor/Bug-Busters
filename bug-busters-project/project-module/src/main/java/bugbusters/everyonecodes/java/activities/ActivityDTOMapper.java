@@ -31,10 +31,10 @@ public class ActivityDTOMapper {
                 activity.getEndTime(),
                 client.getRole(),
                 calculateRating(client.getRatings()),
-                activity.getRatingFromVolunteer(),
-                activity.getFeedbackFromVolunteer(),
                 activity.getRatingFromClient(),
-                activity.getFeedbackFromClient()
+                activity.getFeedbackFromClient(),
+                activity.getRatingFromVolunteer(),
+                activity.getFeedbackFromVolunteer()
                 );
     }
 
