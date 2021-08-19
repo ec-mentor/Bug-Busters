@@ -245,7 +245,7 @@ Content-Type: application/json
 {
   "creator": "Individual3",
   "title": "Activity 1 of Ind3",
-  "description": "Pending of Ind 3",
+  "description": "Help with computer",
   "recommendedSkills": "testing",
   "categories": "coding",
   "startTime": "2020-01-22T00:00:00",
