@@ -5,6 +5,7 @@ import bugbusters.everyonecodes.java.notification.Notification;
 import bugbusters.everyonecodes.java.notification.NotificationService;
 import bugbusters.everyonecodes.java.usermanagement.data.User;
 import bugbusters.everyonecodes.java.usermanagement.repository.UserRepository;
+import bugbusters.everyonecodes.java.usermanagement.rolemanagement.admin.AdminRunner;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.SetToStringMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,27 +41,33 @@ public class ActivityServiceTest {
     @MockBean
     NotificationService notificationService;
 
+    @MockBean
+    LocalDateNowProvider localDateNowProvider;
+
+    @MockBean
+    AdminRunner adminRunner;
+
     // for testing
     private final Long id = 1L;
     private final String username = "test";
     private final String username2 = "test2";
-    private User user = new User("test", "test", "test",
+    private User user = new User(username, "test", "test",
             "test", LocalDate.of(2000, 1, 1), "test",
             "test", "test");
     private Notification notification1 = new Notification("note1","some message");
     private Notification notification2 = new Notification("note2","some message");
-    private Activity activity = new Activity("test", "test", "test", null, null, LocalDateTime.now(), LocalDateTime.now(), false, Status.PENDING, Status.PENDING, null, null, null, null);
-    private ActivityDTO activityDTO = new ActivityDTO("testDTO", "testDTO", "testDTO", Status.PENDING, LocalDateTime.now(), LocalDateTime.now(), null, null, null, null, null, null);
-    private ActivityInputDTO activityInputDTO = new ActivityInputDTO("testInputDTO", "testInputDTO", "testInputDTO", null, LocalDateTime.now(), LocalDateTime.now(), false, Status.PENDING);
+    private Activity activity = new Activity("test", "test", "test", null, null, LocalDateTime.now(), LocalDateTime.now().plusYears(1), false, Status.PENDING, Status.PENDING, null, null, null, null);
+    private ActivityDTO activityDTO = new ActivityDTO("testDTO", "testDTO", "testDTO", Status.PENDING, LocalDateTime.now(), LocalDateTime.now().plusYears(1), null, null, null, null, null, null);
+    private ActivityInputDTO activityInputDTO = new ActivityInputDTO("testInputDTO", "testInputDTO", "testInputDTO", null, LocalDateTime.now(), LocalDateTime.now().plusYears(1), false, Status.PENDING);
 
     @BeforeEach
     void setUp() {
-        activity = new Activity("test", "test", "test", null, null, LocalDateTime.now(), LocalDateTime.now(), false, Status.PENDING, Status.PENDING, null, null, null, null);
-        activityDTO = new ActivityDTO("testDTO", "testDTO", "testDTO", Status.PENDING, LocalDateTime.now(), LocalDateTime.now(), null, null, null, null, null, null);
-        activityInputDTO = new ActivityInputDTO("testInputDTO", "testInputDTO", "testInputDTO", null, LocalDateTime.now(), LocalDateTime.now(), false, Status.PENDING);
+        activity = new Activity("test", "test", "test", null, null, LocalDateTime.now(), LocalDateTime.now().plusYears(1), false, Status.PENDING, Status.PENDING, null, null, null, null);
+        activityDTO = new ActivityDTO("testDTO", "testDTO", "testDTO", Status.PENDING, LocalDateTime.now(), LocalDateTime.now().plusYears(1), null, null, null, null, null, null);
+        activityInputDTO = new ActivityInputDTO("testInputDTO", "testInputDTO", "testInputDTO", null, LocalDateTime.now(), LocalDateTime.now().plusYears(1), false, Status.PENDING);
         notification1 = new Notification("test","some message");
         notification2 = new Notification("note2","some message");
-        user = new User("test", "test", "test",
+        user = new User(username, "test", "test",
                 "test", LocalDate.of(2000, 1, 1), "test",
                 "test", "test");
     }
@@ -167,8 +174,40 @@ public class ActivityServiceTest {
 
     //apply for an activity as a volunteer
     @Test
-    void applyForActivity() {
+    void applyForActivity_ActivityNotFound() {
+        when(activityRepository.findById(id)).thenReturn(Optional.empty());
+        activityService.applyForActivity(id, username);
+        verify(activityRepository, never()).save(any(Activity.class));
+    }
 
+    @Test
+    void applyForActivity_EndTimeInThePast() {
+        activity.setEndTime(LocalDateTime.of(1999, 1, 1, 0, 0));
+        when(localDateNowProvider.getLocalDateTimeNow()).thenReturn(LocalDateTime.now());
+        when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
+        activityService.applyForActivity(id, username);
+        verify(activityRepository, never()).save(any(Activity.class));
+    }
+
+    @Test
+    void applyForActivity_StatusNotPending() {
+        activity.setStatusVolunteer(Status.IN_PROGRESS);
+        when(localDateNowProvider.getLocalDateTimeNow()).thenReturn(LocalDateTime.now());
+        when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
+        activityService.applyForActivity(id, username);
+        verify(activityRepository, never()).save(any(Activity.class));
+    }
+
+    @Test
+    void applyForActivity_Success() {
+        LocalDateTime localDateTime = LocalDateTime.now();
+        when(localDateNowProvider.getLocalDateTimeNow()).thenReturn(LocalDateTime.now());
+        when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
+        when(userRepository.findOneByUsername(username)).thenReturn(Optional.of(user));
+        activityService.applyForActivity(id, username);
+        verify(activityRepository, times(1)).save(any(Activity.class));
+        verify(userRepository, times(1)).save(any(User.class));
+        Assertions.assertTrue(activity.getApplicants().contains(username));
     }
 
 

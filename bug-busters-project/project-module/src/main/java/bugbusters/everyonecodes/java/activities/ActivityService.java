@@ -5,9 +5,9 @@ import bugbusters.everyonecodes.java.notification.NotificationService;
 import bugbusters.everyonecodes.java.usermanagement.data.User;
 import bugbusters.everyonecodes.java.usermanagement.repository.UserRepository;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.SetToStringMapper;
+import bugbusters.everyonecodes.java.usermanagement.service.LocalDateNowProvider;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -17,13 +17,15 @@ public class ActivityService {
     private final UserRepository userRepository;
     private final ActivityDTOMapper activityDTOMapper;
     private final NotificationService notificationService;
+    private final LocalDateNowProvider localDateNowProvider;
 
-    public ActivityService(ActivityRepository activityRepository, SetToStringMapper setToStringMapper, UserRepository userRepository, ActivityDTOMapper activityDTOMapper, NotificationService notificationService) {
+    public ActivityService(ActivityRepository activityRepository, SetToStringMapper setToStringMapper, UserRepository userRepository, ActivityDTOMapper activityDTOMapper, NotificationService notificationService, LocalDateNowProvider localDateNowProvider) {
         this.activityRepository = activityRepository;
         this.setToStringMapper = setToStringMapper;
         this.userRepository = userRepository;
         this.activityDTOMapper = activityDTOMapper;
         this.notificationService = notificationService;
+        this.localDateNowProvider = localDateNowProvider;
     }
 
     public Optional<ActivityDTO> saveNewActivity(ActivityInputDTO activityInputDTO, String creatorAuthName) {
@@ -125,7 +127,7 @@ public class ActivityService {
             return;
         }
         Activity result = oResult.get();
-        if (result.getEndTime().isAfter(LocalDateTime.now())) {
+        if (localDateNowProvider.getLocalDateTimeNow().isAfter(result.getEndTime())) {
             return;
         }
         if (!result.getStatusVolunteer().equals(Status.PENDING)) {
