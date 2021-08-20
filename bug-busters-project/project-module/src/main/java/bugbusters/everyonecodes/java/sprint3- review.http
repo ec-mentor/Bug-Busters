@@ -4,7 +4,7 @@
 GET http://localhost:8080/users/passwordreset/melanie.huetterer@gmail.com
 
 ### Set a new password
-POST http://localhost:8080/users/passwordreset/melanie.huetterer@gmail.com/7a412d2e-a381-4b79-9387-f3c768688ea0
+POST http://localhost:8080/users/passwordreset/melanie.huetterer@gmail.com/61faeecd-2ece-4b6f-80f7-d7c022c677b2
 Content-Type: text/plain
 
 Password12#
@@ -153,11 +153,11 @@ Authorization: Basic Volunteer2 Coding12#
 ############ Contact a volunteer for an activity ############
 
 ### Contact a volunteer as an organization - activity id
-PUT http://localhost:8080/organization/activities/contact/10/Volunteer2
+PUT http://localhost:8080/organization/activities/contact/9/Volunteer2
 Authorization: Basic Organization1 Coding12#
 
 ### Contact a volunteer as an individual
-PUT http://localhost:8080/individual/activities/contact/9/Volunteer2
+PUT http://localhost:8080/individual/activities/contact/3/Volunteer2
 Authorization: Basic Individual3 Coding12#
 
 ### View all notifications as volunteer
@@ -165,11 +165,11 @@ GET http://localhost:8080/users/notifications
 Authorization: Basic Volunteer2 Coding12#
 
 ### Accept an actitivy as a volunteer
-PUT http://localhost:8080/volunteer/activities/approve/9
+PUT http://localhost:8080/volunteer/activities/approve/3
 Authorization: Basic Volunteer2 Coding12#
 
 ### Deny an activity as a volunteer
-PUT http://localhost:8080/volunteer/activities/deny/10
+PUT http://localhost:8080/volunteer/activities/deny/9
 Authorization: Basic Volunteer2 Coding12#
 
 ### View all notifications as organization
@@ -222,13 +222,13 @@ Authorization: Basic Volunteer3 Coding12#
 
 ### View all notifications as volunteer
 GET http://localhost:8080/users/notifications
-Authorization: Basic Volunteer1 Password12#
+Authorization: Basic Volunteer2 Coding12#
 
 ############ Complete activity ############
 
 ### Complete activity as individual- volunteer gets notified
 PUT http://localhost:8080/individual/activities/complete/2/3
-Authorization: Basic Individual2 Coding12#
+Authorization: Basic Individual1 Coding12#
 Content-Type: application/json
 
 {}
