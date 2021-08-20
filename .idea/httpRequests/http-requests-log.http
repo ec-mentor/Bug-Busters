@@ -1,3 +1,390 @@
+PUT http://localhost:8080/volunteer/activities/apply/2
+Authorization: Basic Volunteer3 Coding12#
+
+###
+
+PUT http://localhost:8080/volunteer/activities/apply/2
+Authorization: Basic Volunteer3 Coding12#
+
+###
+
+PUT http://localhost:8080/volunteer/activities/apply/2
+Authorization: Basic Volunteer2 Coding12#
+
+###
+
+POST http://localhost:8080/organization/activities/create/new
+Authorization: Basic Organization3 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Organization1",
+  "title": "Activity 1 of Org3",
+  "description": "Pending of Org 3",
+  "startTime": "2020-01-22T00:00:00",
+  "endTime": "2020-01-23T00:00:00",
+  "statusClient": "PENDING"
+}
+
+<> 2021-08-20T101946.200.json
+
+###
+
+POST http://localhost:8080/organization/activities/create/new
+Authorization: Basic Organization2 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Organization2",
+  "title": "Activity 1 of Org2",
+  "description": "Draft of Org 2",
+  "recommendedSkills": "testing",
+  "categories": "coding",
+  "startTime": "2020-01-20T00:00:00",
+  "endTime": "2020-01-21T00:00:00",
+  "statusClient": "DRAFT"
+}
+
+<> 2021-08-20T101945-1.200.json
+
+###
+
+POST http://localhost:8080/organization/activities/create/new
+Authorization: Basic Organization1 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Organization1",
+  "title": "Activity 2 of Org1",
+  "description": "Pending of Org 1",
+  "recommendedSkills": "laughing;crying;improvisation",
+  "categories": "acting;theater",
+  "startTime": "2020-01-18T00:00:00",
+  "endTime": "2020-01-19T00:00:00",
+  "statusClient": "PENDING"
+}
+
+<> 2021-08-20T101945.200.json
+
+###
+
+POST http://localhost:8080/organization/activities/create/new
+Authorization: Basic Organization1 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Organization1",
+  "title": "Activity 1 of Org1",
+  "description": "Draft of Org 1",
+  "startTime": "2020-01-16T00:00:00",
+  "endTime": "2020-01-17T00:00:00",
+  "statusClient": "DRAFT"
+}
+
+<> 2021-08-20T101944-2.200.json
+
+###
+
+POST http://localhost:8080/individual/activities/create/new
+Authorization: Basic Individual3 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Individual3",
+  "title": "Activity 1 of Ind3",
+  "description": "Help with computer",
+  "recommendedSkills": "testing",
+  "categories": "coding",
+  "startTime": "2020-01-22T00:00:00",
+  "endTime": "2020-01-23T00:00:00",
+  "statusClient": "PENDING"
+}
+
+<> 2021-08-20T101944-1.200.json
+
+###
+
+POST http://localhost:8080/individual/activities/create/new
+Authorization: Basic Individual2 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Individual2",
+  "title": "Activity 1 of Ind2",
+  "description": "Draft of Ind 2",
+  "startTime": "2020-01-20T00:00:00",
+  "endTime": "2020-01-21T00:00:00",
+  "statusClient": "DRAFT"
+}
+
+<> 2021-08-20T101944.200.json
+
+###
+
+POST http://localhost:8080/individual/activities/create/new
+Authorization: Basic Individual1 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Individual1",
+  "title": "Activity 2 of Ind1",
+  "description": "Pending of Ind 1",
+  "startTime": "2020-01-18T00:00:00",
+  "endTime": "2020-01-19T00:00:00",
+  "statusClient": "PENDING"
+}
+
+<> 2021-08-20T101943-1.200.json
+
+###
+
+POST http://localhost:8080/individual/activities/create/new
+Authorization: Basic Individual1 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Individual1",
+  "title": "Activity 1 of Ind1",
+  "description": "Draft of Ind 1",
+  "recommendedSkills": "cooking;eating",
+  "categories": "food",
+  "startTime": "2020-01-16T00:00:00",
+  "endTime": "2020-01-17T00:00:00",
+  "statusClient": "DRAFT"
+}
+
+<> 2021-08-20T101943.200.json
+
+###
+
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Organization3",
+  "password": "Coding12#",
+  "role": "ROLE_ORGANIZATION",
+  "fullName": "Organization3",
+  "birthday": null,
+  "address": null,
+  "email": "org.anization3@bugbusters.com",
+  "description": null
+}
+
+<> 2021-08-20T101942-2.200.json
+
+###
+
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Organization2",
+  "password": "Coding12#",
+  "role": "ROLE_ORGANIZATION",
+  "fullName": "Organization2",
+  "birthday": null,
+  "address": null,
+  "email": "org.anization2@bugbusters.com",
+  "description": null
+}
+
+<> 2021-08-20T101942-1.200.json
+
+###
+
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Organization1",
+  "password": "Coding12#",
+  "role": "ROLE_ORGANIZATION",
+  "fullName": "Organization1",
+  "birthday": null,
+  "address": null,
+  "email": "org.anization1@bugbusters.com",
+  "description": null
+}
+
+<> 2021-08-20T101942.200.json
+
+###
+
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Individual3",
+  "password": "Coding12#",
+  "role": "ROLE_INDIVIDUAL",
+  "fullName": "Individual3",
+  "birthday": null,
+  "address": null,
+  "email": "ind.ividual3@bugbusters.com",
+  "description": null
+}
+
+<> 2021-08-20T101941-2.200.json
+
+###
+
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Individual2",
+  "password": "Coding12#",
+  "role": "ROLE_INDIVIDUAL",
+  "fullName": "Individual2",
+  "birthday": null,
+  "address": null,
+  "email": "ind.ividual2@bugbusters.com",
+  "description": null
+}
+
+<> 2021-08-20T101941-1.200.json
+
+###
+
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Individual1",
+  "password": "Coding12#",
+  "role": "ROLE_INDIVIDUAL",
+  "fullName": "Individual1",
+  "birthday": null,
+  "address": null,
+  "email": "ind.ividual1@bugbusters.com",
+  "description": null
+}
+
+<> 2021-08-20T101941.200.json
+
+###
+
+PUT http://localhost:8080/volunteer/edit
+Authorization: Basic Volunteer3 Coding12#
+Content-Type: application/json
+
+{
+  "user": {
+    "username": "Volunteer3",
+    "password": "Coding12#",
+    "role": "ROLE_VOLUNTEER",
+    "fullName": "Volunteer3",
+    "birthday": null,
+    "address": null,
+    "email": "vol.unteer3@bugbusters.com",
+    "description": "Tester that tests"
+  },
+  "skills": "plumbing;tester"
+}
+
+<> 2021-08-20T101940.200.json
+
+###
+
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Volunteer3",
+  "password": "Coding12#",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Volunteer3",
+  "birthday": null,
+  "address": null,
+  "email": "vol.unteer3@bugbusters.com",
+  "description": null
+}
+
+<> 2021-08-20T101939-3.200.json
+
+###
+
+PUT http://localhost:8080/volunteer/edit
+Authorization: Basic Volunteer2 Coding12#
+Content-Type: application/json
+
+{
+  "user": {
+    "username": "Volunteer2",
+    "password": "Coding12#",
+    "role": "ROLE_VOLUNTEER",
+    "fullName": "Volunteer2",
+    "birthday": null,
+    "address": null,
+    "email": "vol.unteer2@bugbusters.com",
+    "description": "second Volunteer"
+  },
+  "skills": "professional cook"
+}
+
+<> 2021-08-20T101939-2.200.json
+
+###
+
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Volunteer2",
+  "password": "Coding12#",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Volunteer2",
+  "birthday": null,
+  "address": null,
+  "email": "vol.unteer2@bugbusters.com",
+  "description": "second Volunteer"
+}
+
+<> 2021-08-20T101939-1.200.json
+
+###
+
+PUT http://localhost:8080/volunteer/edit
+Authorization: Basic Volunteer1 Coding12#
+Content-Type: application/json
+
+{
+  "user": {
+    "username": "Volunteer1",
+    "password": "Coding12#",
+    "role": "ROLE_VOLUNTEER",
+    "fullName": "Volunteer1",
+    "birthday": "1990-01-01",
+    "address": "Volunteer Street 213",
+    "email": "melanie.huetterer@gmail.com",
+    "description": "first Volunteer"
+  },
+  "skills": "cooking;testing;a lot of laughing"
+}
+
+<> 2021-08-20T101939.200.json
+
+###
+
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Volunteer1",
+  "password": "Coding12#",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Volunteer1",
+  "birthday": "1990-01-01",
+  "address": "Volunteer Street 213",
+  "email": "melanie.huetterer@gmail.com",
+  "description": "first Volunteer"
+}
+
+<> 2021-08-20T101938.200.json
+
+###
+
 GET http://localhost:8080/volunteer/activities/list
 Authorization: Basic Volunteer2 Coding12#
 
@@ -414,235 +801,6 @@ GET http://localhost:8080/organization/view/volunteers
 Authorization: Basic BigO Coding12#
 
 <> 2021-08-19T183245-3.200.json
-
-###
-
-GET http://localhost:8080/individual/search/volunteers/description
-Authorization: Basic Tester Coding12#
-
-<> 2021-08-19T183245-2.200.json
-
-###
-
-GET http://localhost:8080/individual/search/volunteers/e
-Authorization: Basic Tester Coding12#
-
-<> 2021-08-19T183245-1.200.json
-
-###
-
-GET http://localhost:8080/individual/view/volunteers
-Authorization: Basic Tester Coding12#
-
-<> 2021-08-19T183245.200.json
-
-###
-
-GET http://localhost:8080/individual/webapptree
-Authorization: Basic Tester Coding12#
-
-<> 2021-08-19T183245-1.200.txt
-
-###
-
-GET http://localhost:8080/organization/webapptree
-Authorization: Basic BigO Coding12#
-
-<> 2021-08-19T183245.200.txt
-
-###
-
-GET http://localhost:8080/volunteer/webapptree
-Authorization: Basic LeSchoki Coding12#
-
-<> 2021-08-19T183244.200.txt
-
-###
-
-PUT http://localhost:8080/volunteer/edit
-Authorization: Basic LeSchoki Coding12#
-Content-Type: application/json
-
-{
-  "user": {
-    "username": "LeSchoki",
-    "role": "ROLE_VOLUNTEER",
-    "fullName": "Georg Soher",
-    "birthday": "1993-03-11",
-    "address": null,
-    "email": "totallyValidEmail",
-    "description": "This description is added later on"
-  },
-  "skills": "cooking;testing;a lot of laughing"
-}
-
-<> 2021-08-19T183244.400.json
-
-###
-
-PUT http://localhost:8080/volunteer/edit
-Authorization: Basic LeSchoki Coding12#
-Content-Type: application/json
-
-{
-  "user": {
-    "username": "LeSchoki",
-    "role": "ROLE_VOLUNTEER",
-    "fullName": "Georg Soher",
-    "birthday": "1993-03-11",
-    "address": null,
-    "email": "georg.soher@bugbusters.com",
-    "description": "This description is added later on"
-  },
-  "skills": "cooking;testing;a lot of laughing"
-}
-
-<> 2021-08-19T183244-5.200.json
-
-###
-
-GET http://localhost:8080/individual/login
-Authorization: Basic Tester Coding12#
-
-<> 2021-08-19T183244-4.200.json
-
-###
-
-GET http://localhost:8080/volunteer/login
-Authorization: Basic Tester Coding12#
-
-<> 2021-08-19T183244.403.json
-
-###
-
-GET http://localhost:8080/individual/view/BigO
-Authorization: Basic Tester Coding12#
-
-###
-
-GET http://localhost:8080/individual/view/LeSchoki
-Authorization: Basic Tester Coding12#
-
-<> 2021-08-19T183244-3.200.json
-
-###
-
-GET http://localhost:8080/organization/view/LeSchoki
-Authorization: Basic BigO Coding12#
-
-<> 2021-08-19T183244-2.200.json
-
-###
-
-GET http://localhost:8080/volunteer/view/LeSchoki
-Authorization: Basic Meli Coding12#
-
-###
-
-GET http://localhost:8080/volunteer/view/BigO
-Authorization: Basic LeSchoki Coding12#
-
-<> 2021-08-19T183244-1.200.json
-
-###
-
-GET http://localhost:8080/volunteer/view/Tester
-Authorization: Basic LeSchoki Coding12#
-
-<> 2021-08-19T183244.200.json
-
-###
-
-GET http://localhost:8080/volunteer/view
-Authorization: Basic Meli Coding12#
-
-<> 2021-08-19T183243-6.200.json
-
-###
-
-GET http://localhost:8080/volunteer/view
-Authorization: Basic LeSchoki Coding12#
-
-<> 2021-08-19T183243-5.200.json
-
-###
-
-GET http://localhost:8080/volunteer/login
-Authorization: Basic LeSchoki Coding12#
-
-<> 2021-08-19T183243-4.200.json
-
-###
-
-POST http://localhost:8080/users/register
-Content-Type: application/json
-
-{
-  "username": "Meli",
-  "password": "Coding12#",
-  "role": "ROLE_VOLUNTEER",
-  "fullName": "Melanie",
-  "birthday": null,
-  "address": null,
-  "email": "melanie.huett@bugbusters.com",
-  "description": null
-}
-
-<> 2021-08-19T183243-3.200.json
-
-###
-
-POST http://localhost:8080/users/register
-Content-Type: application/json
-
-{
-  "username": "BigO",
-  "password": "Coding12#",
-  "role": "ROLE_ORGANIZATION",
-  "fullName": "Big Organization",
-  "birthday": null,
-  "address": null,
-  "email": "big.o@bo.com",
-  "description": null
-}
-
-<> 2021-08-19T183243-2.200.json
-
-###
-
-POST http://localhost:8080/users/register
-Content-Type: application/json
-
-{
-  "username": "Tester",
-  "password": "Coding12#",
-  "role": "ROLE_INDIVIDUAL",
-  "fullName": "Test Testington",
-  "birthday": "1990-01-01",
-  "address": "Teststreet 5, Testville, Tennessee",
-  "email": "test.testington@bugbusters.com",
-  "description": "Tester that tests"
-}
-
-<> 2021-08-19T183243-1.200.json
-
-###
-
-POST http://localhost:8080/users/register
-Content-Type: application/json
-
-{
-  "username": "LeSchoki",
-  "password": "Coding12#",
-  "role": "ROLE_VOLUNTEER",
-  "fullName": "Georg Soher",
-  "birthday": null,
-  "address": null,
-  "email": "georg.soher@bugbusters.com",
-  "description": null
-}
-
-<> 2021-08-19T183243.200.json
 
 ###
 

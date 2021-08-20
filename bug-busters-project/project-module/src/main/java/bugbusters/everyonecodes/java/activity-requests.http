@@ -62,7 +62,7 @@ Content-Type: application/json
   "recommendedSkills": "cooking;eating",
   "categories": "food",
   "startTime": "2020-01-16T00:00:00",
-  "endTime": "2020-01-19T00:00:00",
+  "endTime": "2050-01-19T00:00:00",
   "statusClient": "DRAFT"
 }
 
@@ -83,7 +83,7 @@ Content-Type: application/json
   "recommendedSkills": "testing",
   "categories": "coding",
   "startTime": "2020-01-20T00:00:00",
-  "endTime": "2020-01-21T00:00:00",
+  "endTime": "2050-01-21T00:00:00",
   "statusClient": "DRAFT"
 }
 
