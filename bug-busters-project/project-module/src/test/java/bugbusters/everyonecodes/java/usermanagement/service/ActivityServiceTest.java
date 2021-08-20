@@ -15,7 +15,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -51,13 +50,14 @@ public class ActivityServiceTest {
     private Notification notification1 = new Notification("note1","some message");
     private Notification notification2 = new Notification("note2","some message");
     private Activity activity = new Activity("test", "test", "test", null, null, LocalDateTime.now(), LocalDateTime.now(), false, Status.PENDING, Status.PENDING, null, null, null, null);
-    private ActivityDTO activityDTO = new ActivityDTO("test", "test", "test", Status.PENDING, LocalDateTime.now(), LocalDateTime.now(), null, null, null, null, null, null);
-    private ActivityInputDTO activityInputDTO = new ActivityInputDTO("test", "test", "test", null, LocalDateTime.now(), LocalDateTime.now(), false, Status.PENDING);
+    private ActivityDTO activityDTO = new ActivityDTO("testDTO", "testDTO", "testDTO", Status.PENDING, LocalDateTime.now(), LocalDateTime.now(), null, null, null, null, null, null);
+    private ActivityInputDTO activityInputDTO = new ActivityInputDTO("testInputDTO", "testInputDTO", "testInputDTO", null, LocalDateTime.now(), LocalDateTime.now(), false, Status.PENDING);
 
     @BeforeEach
     void setUp() {
         activity = new Activity("test", "test", "test", null, null, LocalDateTime.now(), LocalDateTime.now(), false, Status.PENDING, Status.PENDING, null, null, null, null);
-        activityDTO = new ActivityDTO("test", "test", "test", Status.PENDING, LocalDateTime.now(), LocalDateTime.now(), null, null, null, null, null, null);
+        activityDTO = new ActivityDTO("testDTO", "testDTO", "testDTO", Status.PENDING, LocalDateTime.now(), LocalDateTime.now(), null, null, null, null, null, null);
+        activityInputDTO = new ActivityInputDTO("testInputDTO", "testInputDTO", "testInputDTO", null, LocalDateTime.now(), LocalDateTime.now(), false, Status.PENDING);
         notification1 = new Notification("test","some message");
         notification2 = new Notification("note2","some message");
         user = new User("test", "test", "test",
@@ -124,14 +124,36 @@ public class ActivityServiceTest {
 
     //edit activity
     @Test
-    void edit() {
+    void edit_ActivityNotFound() {
+        activity.setCreator(username2);
+        when(activityRepository.findById(id)).thenReturn(Optional.empty());
+        activityService.edit(activityInputDTO, id, username2);
+        verify(activityRepository, never()).save(any(Activity.class));
+    }
 
+    @Test
+    void edit_WrongUser() {
+        activity.setCreator(username2);
+        when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
+        activityService.edit(activityInputDTO, id, "wrongCreator");
+        verify(activityRepository, never()).save(any(Activity.class));
+    }
+
+    @Test
+    void edit_success() {
+        activity.setCreator(username2);
+        when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
+        when(activityDTOMapper.toClientActivityDTO(any(Activity.class))).thenReturn(activityDTO);
+        activityService.edit(activityInputDTO, id, username2);
+        verify(activityRepository, times(1)).save(any(Activity.class));
+        Assertions.assertEquals(activityInputDTO.getDescription(), activity.getDescription());
     }
 
 
     //complete an activity as a client and notify a volunteer
     @Test
     void completeActivityClientNotifyVolunteer() {
+
 
     }
 
