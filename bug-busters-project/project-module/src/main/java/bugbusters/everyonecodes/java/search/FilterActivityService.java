@@ -1,8 +1,75 @@
 package bugbusters.everyonecodes.java.search;
 
+import bugbusters.everyonecodes.java.activities.Activity;
+import bugbusters.everyonecodes.java.usermanagement.repository.UserRepository;
+import bugbusters.everyonecodes.java.usermanagement.service.UserDTOMapper;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class FilterActivityService {
+
+    private final UserDTOMapper userDTOMapper;
+    private final ActivityTextSearchService activityTextSearchService;
+    private final UserRepository userRepository;
+
+    public FilterActivityService(UserDTOMapper userDTOMapper, ActivityTextSearchService activityTextSearchService, UserRepository userRepository) {
+        this.userDTOMapper = userDTOMapper;
+        this.activityTextSearchService = activityTextSearchService;
+        this.userRepository = userRepository;
+    }
+
+    public List<Activity> filterSearchResults(List<Activity> searchResults, FilterActivity filterActivity){
+        return searchResults.stream()
+                .filter(searchResult -> filterDate(searchResult.getStartTime(), filterActivity.getDate()))
+                .filter(searchResult -> filterCategories(searchResult.getCategories(), filterActivity.getCategory()))
+                .filter(searchResult -> filterSkills(searchResult.getRecommendedSkills(), filterActivity.getSkills()))
+                .filter(searchResult -> filterCreator(searchResult.getCreator(), filterActivity.getCreator()))
+                .filter(searchResult -> filterRating(searchResult.getCreator(), filterActivity.getRating()))
+                .collect(Collectors.toList());
+    }
+
+    private boolean filterDate(LocalDateTime startDate, LocalDate inputDate) {
+        if (inputDate == null) return true;
+        return startDate.toLocalDate().equals(inputDate);
+    }
+
+    private boolean filterCategories(Set<String> categories, String input) {
+        if(input == null){
+            return true;
+        }
+        String x = String.join(";", categories);
+        return x.contains(input);
+    }
+
+    private boolean filterSkills(Set<String> skills, String input){
+        if(input == null){
+            return true;
+        }
+        String x = String.join(";", skills);
+        return x.contains(input);
+    }
+
+    private boolean filterCreator(String creator, String inputCreator) {
+        if(inputCreator == null){
+            return true;
+        }
+        return creator.equals(inputCreator);
+    }
+
+    private boolean filterRating(String creatorName, Integer input){
+        if(input == null){
+            return true;
+        }
+        var creator = userRepository.findOneByUsername(creatorName);
+        if (creator.isEmpty()) return false;
+        var ratings = creator.get().getRatings();
+        return (userDTOMapper.calculateRating(ratings) >= Double.valueOf(input));
+    }
 
 }

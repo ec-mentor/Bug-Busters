@@ -1,10 +1,11 @@
 package bugbusters.everyonecodes.java.search;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class FilterActivity {
-    private LocalDateTime date;
+    private LocalDate date;
     private String category;
     private String skills;
     private String creator;
@@ -12,7 +13,7 @@ public class FilterActivity {
 
     public FilterActivity(){}
 
-    public FilterActivity(LocalDateTime date, String category, String skills, String creator, Integer rating) {
+    public FilterActivity(LocalDate date, String category, String skills, String creator, Integer rating) {
         this.date = date;
         this.category = category;
         this.skills = skills;
@@ -20,11 +21,11 @@ public class FilterActivity {
         this.rating = rating;
     }
 
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
@@ -71,16 +72,5 @@ public class FilterActivity {
     @Override
     public int hashCode() {
         return Objects.hash(date, category, skills, creator, rating);
-    }
-
-    @Override
-    public String toString() {
-        return "FilterActivity{" +
-                "date=" + date +
-                ", category='" + category + '\'' +
-                ", skills='" + skills + '\'' +
-                ", creator='" + creator + '\'' +
-                ", rating=" + rating +
-                '}';
     }
 }

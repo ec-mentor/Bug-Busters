@@ -3,6 +3,8 @@ package bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer;
 import bugbusters.everyonecodes.java.activities.Status;
 import bugbusters.everyonecodes.java.activities.*;
 import bugbusters.everyonecodes.java.search.ActivityTextSearchService;
+import bugbusters.everyonecodes.java.search.FilterActivity;
+import bugbusters.everyonecodes.java.search.FilterActivityService;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.Client;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.individual.Individual;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.individual.IndividualRepository;
@@ -29,8 +31,9 @@ public class VolunteerService {
     private final ActivityDTOMapper activityDTOMapper;
     private final ActivityTextSearchService activityTextSearchService;
     private final ActivityRepository activityRepository;
+    private final FilterActivityService filterActivityService;
 
-    public VolunteerService(UserService userService, VolunteerRepository volunteerRepository, OrganizationRepository organizationRepository, IndividualRepository individualRepository, ClientDTOMapper clientMapper, VolunteerDTOMapper volunteerMapper, SetToStringMapper setToStringMapper, ActivityDTOMapper activityDTOMapper, ActivityTextSearchService activityTextSearchService, ActivityRepository activityRepository) {
+    public VolunteerService(UserService userService, VolunteerRepository volunteerRepository, OrganizationRepository organizationRepository, IndividualRepository individualRepository, ClientDTOMapper clientMapper, VolunteerDTOMapper volunteerMapper, SetToStringMapper setToStringMapper, ActivityDTOMapper activityDTOMapper, ActivityTextSearchService activityTextSearchService, ActivityRepository activityRepository, FilterActivityService filterActivityService) {
         this.userService = userService;
         this.volunteerRepository = volunteerRepository;
         this.organizationRepository = organizationRepository;
@@ -41,6 +44,7 @@ public class VolunteerService {
         this.activityDTOMapper = activityDTOMapper;
         this.activityTextSearchService = activityTextSearchService;
         this.activityRepository = activityRepository;
+        this.filterActivityService = filterActivityService;
     }
 
     public Optional<VolunteerPrivateDTO> editVolunteerData(VolunteerPrivateDTO edits, String username) {
@@ -91,6 +95,14 @@ public class VolunteerService {
 
     public List<ActivityDTO> searchPendingActivitiesByText(String text) {
         List<Activity> filteredList = activityTextSearchService.searchActivitiesByText(activityRepository.findAllByStatusClient(Status.PENDING), text);
+        return filteredList.stream()
+                .map(activityDTOMapper::toVolunteerActivityDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<ActivityDTO> searchPendingActivitiesByTextFiltered(String text, FilterActivity filterActivity) {
+        List<Activity> filteredList = activityTextSearchService.searchActivitiesByText(activityRepository.findAllByStatusClient(Status.PENDING), text);
+        filteredList = filterActivityService.filterSearchResults(filteredList, filterActivity);
         return filteredList.stream()
                 .map(activityDTOMapper::toVolunteerActivityDTO)
                 .collect(Collectors.toList());
