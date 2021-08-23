@@ -1,0 +1,723 @@
+########## Fill database sprint4 ##########
+### 10 volunteers, 3 organizations, 3 individuals -> 17 activities in progress
+
+########## Add volunteers with skills ##########
+
+###ID 2
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Derek",
+  "password": "Coding12#",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Derek Mastermind",
+  "birthday": "1990-01-01",
+  "address": "Volunteer Street 213",
+  "email": "derek@mail.com",
+  "description": "I want to help"
+}
+
+
+###ID 2
+PUT http://localhost:8080/volunteer/edit
+Authorization: Basic Derek Coding12#
+Content-Type: application/json
+
+{
+  "user": {
+    "username": "Derek",
+    "password": "Coding12#",
+    "role": "ROLE_VOLUNTEER",
+    "fullName": "Derek Mastermind",
+    "birthday": "1990-01-01",
+    "address": "Volunteer Street 213",
+    "email": "derek@mail.com",
+    "description": "I want to help"
+  },
+  "skills": "cooking;grocery shopping"
+}
+
+###ID 3
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Hansel",
+  "password": "Coding12#",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Hansel Hansington",
+  "birthday": "1992-05-01",
+  "address": "Volunteer Street 213",
+  "email": "hansel@mail.com",
+  "description": "I am a good cook"
+}
+
+
+###ID 3
+PUT http://localhost:8080/volunteer/edit
+Authorization: Basic Hansel Coding12#
+Content-Type: application/json
+
+{
+  "user": {
+    "username": "Hansel",
+    "password": "Coding12#",
+    "role": "ROLE_VOLUNTEER",
+    "fullName": "Hansel Hansington",
+    "birthday": "1992-05-01",
+    "address": "Volunteer Street 213",
+    "email": "hansel@mail.com",
+    "description": "I am a good cook"
+  },
+  "skills": "professional cook;hobby baker"
+}
+
+###ID 4
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Mugatu",
+  "password": "Coding12#",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Mugatu",
+  "birthday": "1999-04-12",
+  "address": "Volunteer Street 213",
+  "email": "mugatu@mail.com",
+  "description": "I am technically gifted"
+}
+
+
+###ID 4
+PUT http://localhost:8080/volunteer/edit
+Authorization: Basic Mugatu Coding12#
+Content-Type: application/json
+
+{
+  "user": {
+    "username": "Mugatu",
+    "password": "Coding12#",
+    "role": "ROLE_VOLUNTEER",
+    "fullName": "Mugatu",
+    "birthday": "1999-04-12",
+    "address": "Volunteer Street 213",
+    "email": "mugatu@mail.com",
+    "description": "I am technically gifted, can use tools."
+  },
+  "skills": "handyman;craftsman"
+}
+
+###ID 5
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Sarah",
+  "password": "Coding12#",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Sarah Smith",
+  "birthday": "2000-01-12",
+  "address": "Volunteer Street 213",
+  "email": "sarah@mail.com",
+  "description": "I want to help children."
+}
+
+
+###ID 5
+PUT http://localhost:8080/volunteer/edit
+Authorization: Basic Sarah Coding12#
+Content-Type: application/json
+
+{
+  "user": {
+    "username": "Sarah",
+    "password": "Coding12#",
+    "role": "ROLE_VOLUNTEER",
+    "fullName": "Sarah Smith",
+    "birthday": "2000-01-12",
+    "address": "Volunteer Street 213",
+    "email": "sarah@mail.com",
+    "description": "I want to help children."
+  },
+  "skills": "babysitting;tutoring"
+}
+
+###ID 6
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Matilda",
+  "password": "Coding12#",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Matilda Jeffries",
+  "birthday": "1996-01-12",
+  "address": "Volunteer Street 213",
+  "email": "matilda@mail.com",
+  "description": "I am a good listener and baker."
+}
+
+
+###ID 6
+PUT http://localhost:8080/volunteer/edit
+Authorization: Basic Matilda Coding12#
+Content-Type: application/json
+
+{
+  "user": {
+    "username": "Matilda",
+    "password": "Coding12#",
+    "role": "ROLE_VOLUNTEER",
+    "fullName": "Matilda Jeffries",
+    "birthday": "1996-01-12",
+    "address": "Volunteer Street 213",
+    "email": "matilda@mail.com",
+    "description": "I am a good listener and baker."
+  },
+  "skills": "baking"
+}
+
+###ID 7
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Katinka",
+  "password": "Coding12#",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Katinka",
+  "birthday": null,
+  "address": null,
+  "email": "volunteer@bugbusters.com",
+  "description": null
+}
+
+###ID 7
+PUT http://localhost:8080/volunteer/edit
+Authorization: Basic Katinka Coding12#
+Content-Type: application/json
+
+{
+  "user": {
+    "username": "Katinka",
+    "password": "Coding12#",
+    "role": "ROLE_VOLUNTEER",
+    "fullName": "Katinka",
+    "birthday": null,
+    "address": null,
+    "email": "volunteer@bugbusters.com",
+    "description": null
+  },
+  "skills": "nurse;babysit"
+}
+
+###ID 8
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Maury",
+  "password": "Coding12#",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Maury Ballstein",
+  "birthday": null,
+  "address": null,
+  "email": "volunteer2@bugbusters.com",
+  "description": null
+}
+
+###ID 8
+PUT http://localhost:8080/volunteer/edit
+Authorization: Basic Maury Coding12#
+Content-Type: application/json
+
+{
+  "user": {
+    "username": "Maury",
+    "password": "Coding12#",
+    "role": "ROLE_VOLUNTEER",
+    "fullName": "Maury Ballstein",
+    "birthday": null,
+    "address": null,
+    "email": "volunteer2@bugbusters.com",
+    "description": null
+  },
+  "skills": "strong;gardening;moving"
+}
+
+###ID 9
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Larry",
+  "password": "Coding12#",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Larry Zoolander",
+  "birthday": null,
+  "address": null,
+  "email": "zoolander@mail.com",
+  "description": null
+}
+
+###ID 9
+PUT http://localhost:8080/volunteer/edit
+Authorization: Basic Larry Coding12#
+Content-Type: application/json
+
+{
+  "user": {
+    "username": "Larry",
+    "password": "Coding12#",
+    "role": "ROLE_VOLUNTEER",
+    "fullName": "Larry Zoolander",
+    "birthday": null,
+    "address": null,
+    "email": "zoolander@mail.com",
+    "description": null
+  },
+  "skills": "gardener;plants;tutoring"
+}
+
+###ID 10
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Todd",
+  "password": "Coding12#",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Todd T",
+  "birthday": null,
+  "address": null,
+  "email": "toddy@mail.com",
+  "description": null
+}
+
+###ID 10
+PUT http://localhost:8080/volunteer/edit
+Authorization: Basic Todd Coding12#
+Content-Type: application/json
+
+{
+  "user": {
+    "username": "Todd",
+    "password": "Coding12#",
+    "role": "ROLE_VOLUNTEER",
+    "fullName": "Todd T",
+    "birthday": null,
+    "address": null,
+    "email": "toddy@mail.com",
+    "description": null
+  },
+  "skills": "moving;babysitting;coding"
+}
+
+###ID 11
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "John",
+  "password": "Coding12#",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "John Wilkes Booth",
+  "birthday": null,
+  "address": null,
+  "email": "little.johnny@mail.com",
+  "description": null
+}
+
+###ID 11
+PUT http://localhost:8080/volunteer/edit
+Authorization: Basic John Coding12#
+Content-Type: application/json
+
+{
+  "user": {
+    "username": "John",
+    "password": "Coding12#",
+    "role": "ROLE_VOLUNTEER",
+    "fullName": "John Wilkes Booth",
+    "birthday": null,
+    "address": null,
+    "email": "little.johnny@mail.com",
+    "description": null
+  },
+  "skills": "cooking;tutoring"
+}
+
+
+########## Add organizations with activities ##########
+
+###ID 12
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Organization1",
+  "password": "Coding12#",
+  "role": "ROLE_ORGANIZATION",
+  "fullName": "Organization1",
+  "birthday": null,
+  "address": null,
+  "email": "organization1@bugbusters.com",
+  "description": null
+}
+
+###Activity ID 1
+POST http://localhost:8080/organization/activities/create/new
+Authorization: Basic Organization1 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Organization1",
+  "title": "Soup Kitchen",
+  "description": "We provide food to people in need.",
+  "recommendedSkills": "cooking",
+  "categories": "cooking;people;kitchen",
+  "startTime": "2020-01-18T00:00:00",
+  "endTime": "2050-01-19T00:00:00",
+  "statusClient": "PENDING"
+}
+
+###Activity ID 2
+POST http://localhost:8080/organization/activities/create/new
+Authorization: Basic Organization1 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Organization1",
+  "title": "Bake with grannies",
+  "description": "Socialize with grannies and bake.",
+  "recommendedSkills": "baking",
+  "categories": "baking;people;social",
+  "startTime": "2020-01-18T00:00:00",
+  "endTime": "2050-01-19T00:00:00",
+  "statusClient": "PENDING"
+}
+
+###Activity ID 3
+POST http://localhost:8080/organization/activities/create/new
+Authorization: Basic Organization1 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Organization1",
+  "title": "tba",
+  "description": "Something in the kitchen",
+  "startTime": "2020-01-16T00:00:00",
+  "endTime": "2050-01-17T00:00:00",
+  "statusClient": "DRAFT"
+}
+
+###ID 13
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Organization2",
+  "password": "Coding12#",
+  "role": "ROLE_ORGANIZATION",
+  "fullName": "Organization2",
+  "birthday": null,
+  "address": null,
+  "email": "organization2@bugbusters.com",
+  "description": null
+}
+
+###Activity ID 4
+POST http://localhost:8080/organization/activities/create/new
+Authorization: Basic Organization2 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Organization2",
+  "title": "School Tutors",
+  "description": "We help students learn.",
+  "recommendedSkills": "tutoring",
+  "categories": "tutoring;people;children",
+  "startTime": "2020-01-18T00:00:00",
+  "endTime": "2050-01-19T00:00:00",
+  "statusClient": "PENDING"
+}
+
+###Activity ID 5
+POST http://localhost:8080/organization/activities/create/new
+Authorization: Basic Organization2 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Organization2",
+  "title": "Babysitters",
+  "description": "Help us babysitting",
+  "recommendedSkills": "babysitting",
+  "categories": "children;social",
+  "startTime": "2020-01-18T00:00:00",
+  "endTime": "2050-01-19T00:00:00",
+  "statusClient": "PENDING"
+}
+
+###Activity ID 6
+POST http://localhost:8080/organization/activities/create/new
+Authorization: Basic Organization2 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Organization2",
+  "title": "tba",
+  "description": "We don't know yet",
+  "startTime": "2020-01-16T00:00:00",
+  "endTime": "2050-01-17T00:00:00",
+  "statusClient": "DRAFT"
+}
+
+###ID 14
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Organization3",
+  "password": "Coding12#",
+  "role": "ROLE_ORGANIZATION",
+  "fullName": "Organization3",
+  "birthday": null,
+  "address": null,
+  "email": "organization3@bugbusters.com",
+  "description": null
+}
+
+###Activity ID 7
+POST http://localhost:8080/organization/activities/create/new
+Authorization: Basic Organization3 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Organization3",
+  "title": "Learning aid",
+  "description": "We help students learn.",
+  "recommendedSkills": "tutoring",
+  "categories": "tutoring;people;children",
+  "startTime": "2020-01-18T00:00:00",
+  "endTime": "2050-01-19T00:00:00",
+  "statusClient": "PENDING"
+}
+
+###Activity ID 8
+POST http://localhost:8080/organization/activities/create/new
+Authorization: Basic Organization3 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Organization3",
+  "title": "Food on wheels",
+  "description": "We provide food to people in need.",
+  "recommendedSkills": "cooking;baking;driving",
+  "categories": "cooking;people;kitchen",
+  "startTime": "2020-01-18T00:00:00",
+  "endTime": "2050-01-19T00:00:00",
+  "statusClient": "PENDING"
+}
+
+###Activity ID 9
+POST http://localhost:8080/organization/activities/create/new
+Authorization: Basic Organization3 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Organization3",
+  "title": "Moving helpers",
+  "description": "We help people move",
+  "recommendedSkills": "strong;moving;craftsmen",
+  "categories": "moving;people;handyman",
+  "startTime": "2020-01-18T00:00:00",
+  "endTime": "2050-01-19T00:00:00",
+  "statusClient": "PENDING"
+}
+
+########## Add individuals with activities ##########
+
+###ID 15
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Granny",
+  "password": "Coding12#",
+  "role": "ROLE_INDIVIDUAL",
+  "fullName": "Granny Gisi",
+  "birthday": null,
+  "address": null,
+  "email": "grandchild@bugbusters.com",
+  "description": null
+}
+
+###Activity ID 10
+POST http://localhost:8080/individual/activities/create/new
+Authorization: Basic Granny Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Granny",
+  "title": "Grocery shopping",
+  "description": "Need help shopping groceries",
+  "recommendedSkills": "shopping;strong",
+  "categories": "assistance",
+  "startTime": "2020-01-22T00:00:00",
+  "endTime": "2050-01-23T00:00:00",
+  "statusClient": "PENDING"
+}
+
+###Activity ID 11
+POST http://localhost:8080/individual/activities/create/new
+Authorization: Basic Granny Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Granny",
+  "title": "Help in the kitchen",
+  "description": "Need help preparing some meals",
+  "recommendedSkills": "cooking;baking",
+  "categories": "assistance;kitchen;social",
+  "startTime": "2020-01-22T00:00:00",
+  "endTime": "2050-01-23T00:00:00",
+  "statusClient": "PENDING"
+}
+
+###Activity ID 12
+POST http://localhost:8080/individual/activities/create/new
+Authorization: Basic Granny Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Granny",
+  "title": "Garden",
+  "description": "Need help with my flowers in the garden",
+  "recommendedSkills": "gardening;strong",
+  "categories": "assistance;garden;strong",
+  "startTime": "2020-01-22T00:00:00",
+  "endTime": "2050-01-23T00:00:00",
+  "statusClient": "PENDING"
+}
+
+###ID 16
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "MisterW",
+  "password": "Coding12#",
+  "role": "ROLE_INDIVIDUAL",
+  "fullName": "Mr. Wilson",
+  "birthday": null,
+  "address": null,
+  "email": "wilson@bugbusters.com",
+  "description": null
+}
+
+###Activity ID 13
+POST http://localhost:8080/individual/activities/create/new
+Authorization: Basic MisterW Coding12#
+Content-Type: application/json
+
+{
+  "creator": "MisterW",
+  "title": "Garden",
+  "description": "Need help in my garden",
+  "recommendedSkills": "gardening;craftsman",
+  "categories": "assistance;garden;strong",
+  "startTime": "2020-01-22T00:00:00",
+  "endTime": "2050-01-23T00:00:00",
+  "statusClient": "PENDING"
+}
+
+###Activity ID 14
+POST http://localhost:8080/individual/activities/create/new
+Authorization: Basic MisterW Coding12#
+Content-Type: application/json
+
+{
+  "creator": "MisterW",
+  "title": "Computer",
+  "description": "Need help with my computer",
+  "recommendedSkills": "computer;coding",
+  "categories": "assistance;computer",
+  "startTime": "2020-01-22T00:00:00",
+  "endTime": "2050-01-23T00:00:00",
+  "statusClient": "PENDING"
+}
+
+###ID 17
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Individual",
+  "password": "Coding12#",
+  "role": "ROLE_INDIVIDUAL",
+  "fullName": "Individual",
+  "birthday": null,
+  "address": null,
+  "email": "individual@bugbusters.com",
+  "description": null
+}
+
+###Activity ID 15
+POST http://localhost:8080/individual/activities/create/new
+Authorization: Basic Individual Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Individual",
+  "title": "School problems",
+  "description": "Need a tutor",
+  "recommendedSkills": "tutoring",
+  "categories": "people;children",
+  "startTime": "2020-01-22T00:00:00",
+  "endTime": "2050-01-23T00:00:00",
+  "statusClient": "PENDING"
+}
+
+###Activity ID 16
+POST http://localhost:8080/individual/activities/create/new
+Authorization: Basic Individual Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Individual",
+  "title": "Babysitter",
+  "description": "Need a babysitter",
+  "recommendedSkills": "babysitting;nurse",
+  "categories": "people;children;social",
+  "startTime": "2020-01-22T00:00:00",
+  "endTime": "2050-01-23T00:00:00",
+  "statusClient": "PENDING"
+}
+
+###Activity ID 17
+POST http://localhost:8080/individual/activities/create/new
+Authorization: Basic Individual Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Individual",
+  "title": "Moving to new house",
+  "description": "Need help moving",
+  "recommendedSkills": "moving;strong;handyman",
+  "categories": "people;moving;strong",
+  "startTime": "2020-01-22T00:00:00",
+  "endTime": "2050-01-23T00:00:00",
+  "statusClient": "PENDING"
+}
+
+
+
+
+
+
+
+
+
+
+
