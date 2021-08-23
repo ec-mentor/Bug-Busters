@@ -26,7 +26,6 @@ public class ActivityDTO {
     @NotEmpty
     private LocalDateTime endDate;
 
-    @NotEmpty
     private String roleOfOtherParty;
 
     private Double ratingOfOtherParty;

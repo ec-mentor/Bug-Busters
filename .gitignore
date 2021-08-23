@@ -14,6 +14,7 @@
 
 # Generated files
 .idea/**/contentModel.xml
+.idea/**/http-requests-log.http
 
 # Sensitive or high-churn files
 .idea/**/dataSources/

@@ -53,10 +53,10 @@ public class VolunteerEndpoint {
     }
 
     @GetMapping("/activities/search/{text}")
-    ResponseEntity<Object> searchActivityByText(@PathVariable String text) {
+    ResponseEntity<Object> searchActivitiesByText(@PathVariable String text) {
         var searchResult = volunteerService.searchPendingActivitiesByText(text);
         if (searchResult.isEmpty()) {
-            return new ResponseEntity<>("No results found for '" + text + "'", HttpStatus.OK);
+            return new ResponseEntity<>("No results found for \"" + text + "\"", HttpStatus.OK);
         }
         return new ResponseEntity<>(searchResult, HttpStatus.OK);
     }
@@ -72,11 +72,11 @@ public class VolunteerEndpoint {
     }
 
     @PutMapping("/activities/complete/{id}/{rating}")
-    ActivityDTO completeActivityVolunteer(@PathVariable Long id, @PathVariable int rating, @RequestBody String feedback){
-        return activityService.completeActivityVolunteer(id, rating, feedback).orElse(null);
+    ActivityDTO completeActivityVolunteer(@PathVariable Long id, @PathVariable int rating, @RequestBody String feedback, Authentication authentication){
+        return activityService.completeActivityVolunteer(id, rating, feedback, authentication.getName()).orElse(null);
     }
 
-    @PostMapping("/activities/apply/{id}")
+    @PutMapping("/activities/apply/{id}")
     void applyForActivity(@PathVariable Long id, Authentication authentication){
         activityService.applyForActivity(id, authentication.getName());
     }

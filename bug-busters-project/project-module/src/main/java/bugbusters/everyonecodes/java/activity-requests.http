@@ -1,54 +1,50 @@
-###
+### List all own activities as organization
 GET http://localhost:8080/organization/activities/list
 Authorization: Basic Organization1 Coding12#
 
-###
+### List all own drafts as organization
 GET http://localhost:8080/organization/activities/list/drafts
 Authorization: Basic Organization1 Coding12#
 
-###
+### List all own activities as organization
 GET http://localhost:8080/organization/activities/list
 Authorization: Basic Organization2 Coding12#
 
-###
+### List all own drafts as organization
 GET http://localhost:8080/organization/activities/list/drafts
 Authorization: Basic Organization2 Coding12#
 
-###
+### List all own activities as organization
 GET http://localhost:8080/organization/activities/list
 Authorization: Basic Organization3 Coding12#
 
-###
+### List all own drafts as organization
 GET http://localhost:8080/organization/activities/list/drafts
 Authorization: Basic Organization3 Coding12#
 
-###
+### List all own activities as individual
 GET http://localhost:8080/individual/activities/list
 Authorization: Basic Individual1 Coding12#
 
-###
+### List all own drafts as individual
 GET http://localhost:8080/organization/activities/list/drafts
 Authorization: Basic Individual1 Coding12#
 
-###
+### List all own activities as individual
 GET http://localhost:8080/individual/activities/list
 Authorization: Basic Individual2 Coding12#
 
-###
+### List all own drafts as individual
 GET http://localhost:8080/organization/activities/list/drafts
 Authorization: Basic Individual2 Coding12#
 
-###
+### List all own activities as individual
 GET http://localhost:8080/individual/activities/list
 Authorization: Basic Individual3 Coding12#
 
-###
+### List all own drafts as individual
 GET http://localhost:8080/organization/activities/list/drafts
 Authorization: Basic Individual3 Coding12#
-
-###
-GET http://localhost:8080/volunteer/activities/list/pending
-Authorization: Basic Volunteer1 Coding12#
 
 ### post draft as individual
 PUT http://localhost:8080/individual/activities/post/1
@@ -62,11 +58,11 @@ Content-Type: application/json
 {
   "creator": "Individual1",
   "title": "Activity 1 of Ind1",
-  "description": "Posted and edited Draft of Ind 1",
+  "description": "Posted and edited and unposted Draft of Ind 1",
   "recommendedSkills": "cooking;eating",
   "categories": "food",
   "startTime": "2020-01-16T00:00:00",
-  "endTime": "2020-01-19T00:00:00",
+  "endTime": "2050-01-19T00:00:00",
   "statusClient": "DRAFT"
 }
 
@@ -87,9 +83,13 @@ Content-Type: application/json
   "recommendedSkills": "testing",
   "categories": "coding",
   "startTime": "2020-01-20T00:00:00",
-  "endTime": "2020-01-21T00:00:00",
+  "endTime": "2050-01-21T00:00:00",
   "statusClient": "DRAFT"
 }
+
+### list all pending activities as volunteer
+GET http://localhost:8080/volunteer/activities/list/pending
+Authorization: Basic Volunteer2 Coding12#
 
 ### list all volunteers as individual
 GET http://localhost:8080/individual/view/volunteers
@@ -116,10 +116,87 @@ GET http://localhost:8080/organization/search/volunteers/astrophysics
 Authorization: Basic Organization2 Coding12#
 
 ### search for activity as an volunteer
-GET http://localhost:8080/volunteer/activities/search/pend
-Authorization: Basic Volunteer1 Coding12#
+GET http://localhost:8080/volunteer/activities/search/coding
+Authorization: Basic Volunteer2 Coding12#
 
 ### search for activity as an volunteer - EMPTY
 GET http://localhost:8080/volunteer/activities/search/astrophysics
-Authorization: Basic Volunteer1 Coding12#
+Authorization: Basic Volunteer2 Coding12#
 
+### contact a volunteer as an organization
+PUT http://localhost:8080/organization/activities/contact/7/Volunteer2
+Authorization: Basic Organization2 Coding12#
+
+### contact a volunteer as an individual
+PUT http://localhost:8080/individual/activities/contact/4/Volunteer2
+Authorization: Basic Individual3 Coding12#
+
+### view all notifications as volunteer
+GET http://localhost:8080/users/notifications
+Authorization: Basic Volunteer2 Coding12#
+
+### accept an actitivy as a volunteer
+PUT http://localhost:8080/volunteer/activities/approve/4
+Authorization: Basic Volunteer2 Coding12#
+
+### accept an actitivy as a volunteer - FAIL
+PUT http://localhost:8080/volunteer/activities/approve/7
+Authorization: Basic Volunteer3 Coding12#
+
+### deny an activity as a volunteer
+PUT http://localhost:8080/volunteer/activities/deny/7
+Authorization: Basic Volunteer2 Coding12#
+
+### view all notifications as organization
+GET http://localhost:8080/users/notifications
+Authorization: Basic Organization2 Coding12#
+
+### apply for an activity as a volunteer
+PUT http://localhost:8080/volunteer/activities/apply/2
+Authorization: Basic Volunteer1 Password12#
+
+### apply for an activity as a volunteer
+PUT http://localhost:8080/volunteer/activities/apply/2
+Authorization: Basic Volunteer2 Coding12#
+
+### apply for an activity as a volunteer
+PUT http://localhost:8080/volunteer/activities/apply/2
+Authorization: Basic Volunteer3 Coding12#
+
+### view activities as volunteer
+GET http://localhost:8080/volunteer/activities/list
+Authorization: Basic Volunteer1 Password12#
+
+### deny an application
+PUT http://localhost:8080/individual/activities/deny/2/Volunteer1
+Authorization: Basic Individual1 Coding12#
+
+### approve an application
+PUT http://localhost:8080/individual/activities/approve/2/Volunteer2
+Authorization: Basic Individual1 Coding12#
+
+### view activities as volunteer - IN PROGRESS
+GET http://localhost:8080/volunteer/activities/list
+Authorization: Basic Volunteer2 Coding12#
+
+### view activities as volunteer - EMPTY
+GET http://localhost:8080/volunteer/activities/list
+Authorization: Basic Volunteer3 Coding12#
+
+### view activities as volunteer - EMPTY/DENIED
+GET http://localhost:8080/volunteer/activities/list
+Authorization: Basic Volunteer1 Password12#
+
+### complete activity as individual
+PUT http://localhost:8080/individual/activities/complete/2/3
+Authorization: Basic Individual2 Coding12#
+Content-Type: application/json
+
+{}
+
+### complete activity as volunteer
+PUT http://localhost:8080/volunteer/activities/complete/2/5
+Authorization: Basic Volunteer2 Coding12#
+Content-Type: text/plain
+
+alles super

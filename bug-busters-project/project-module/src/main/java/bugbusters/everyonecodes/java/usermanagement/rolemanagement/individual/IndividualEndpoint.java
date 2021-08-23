@@ -61,7 +61,7 @@ public class IndividualEndpoint {
     ResponseEntity<Object> searchVolunteersByText(@PathVariable String text) {
         var searchResult = individualService.searchVolunteersByText(text);
         if (searchResult.isEmpty()) {
-            return new ResponseEntity<>("No results found for '" + text + "'", HttpStatus.OK);
+            return new ResponseEntity<>("No results found for \"" + text + "\"", HttpStatus.OK);
         }
         return new ResponseEntity<>(searchResult, HttpStatus.OK);
     }
@@ -76,17 +76,17 @@ public class IndividualEndpoint {
     }
 
     @PostMapping("/activities/create/new")
-    Activity saveNewActivity(@Valid @RequestBody ActivityInputDTO activity, Authentication authentication){
+    ActivityDTO saveNewActivity(@Valid @RequestBody ActivityInputDTO activity, Authentication authentication){
         return activityService.saveNewActivity(activity, authentication.getName()).orElse(null);
     }
 
     @PutMapping("/activities/post/{id}")
-    Activity postDraft(@PathVariable Long id) {
-        return activityService.postDraft(id).orElse(null);
+    ActivityDTO postDraft(@PathVariable Long id, Authentication authentication) {
+        return activityService.postDraft(id, authentication.getName()).orElse(null);
     }
 
     @PutMapping("/activities/edit/{id}")
-    Activity editActivity(@Valid @RequestBody ActivityInputDTO input, @PathVariable Long id, Authentication authentication){
+    ActivityDTO editActivity(@Valid @RequestBody ActivityInputDTO input, @PathVariable Long id, Authentication authentication){
         return activityService.edit(input, id, authentication.getName()).orElse(null);
     }
 
@@ -106,22 +106,24 @@ public class IndividualEndpoint {
     }
 
     @PutMapping("/activities/complete/{id}/{rating}")
-    ActivityDTO completeActivityClientNotifyVolunteer(@PathVariable Long id, @PathVariable int rating, @RequestBody String feedback){
-        return activityService.completeActivityClientNotifyVolunteer(id, rating, feedback).orElse(null);
-    }
-
-    @PutMapping("/activities/approve/{id}/{username}")
-    void approveApplication(@PathVariable Long id, @PathVariable String username){
-        activityService.approveApplicationAsClient(id, username);
-    }
-
-    @PutMapping("/activities/deny/{id}/{username}")
-    void denyApplication(@PathVariable Long id, @PathVariable String username){
-        activityService.denyApplicationAsClient(id, username);
+    ActivityDTO completeActivityClientNotifyVolunteer(@PathVariable Long id, @PathVariable int rating, @RequestBody String feedback, Authentication authentication){
+        return activityService.completeActivityClientNotifyVolunteer(id, rating, feedback, authentication.getName()).orElse(null);
     }
 
     @PutMapping("/activities/contact/{id}/{username}")
-    void contactVolunteerForActivity(@PathVariable Long id, @PathVariable String username) {
-        activityService.contactVolunteerForActivity(id, username);
+    void contactVolunteerForActivity(@PathVariable Long id, @PathVariable String username, Authentication authentication) {
+        activityService.contactVolunteerForActivity(id, username, authentication.getName());
     }
+
+    @PutMapping("/activities/approve/{id}/{username}")
+    void approveApplication(@PathVariable Long id, @PathVariable String username, Authentication authentication){
+        activityService.approveApplicationAsClient(id, username, authentication.getName());
+    }
+
+    @PutMapping("/activities/deny/{id}/{username}")
+    void denyApplication(@PathVariable Long id, @PathVariable String username, Authentication authentication){
+        activityService.denyApplicationAsClient(id, username, authentication.getName());
+    }
+
+
 }

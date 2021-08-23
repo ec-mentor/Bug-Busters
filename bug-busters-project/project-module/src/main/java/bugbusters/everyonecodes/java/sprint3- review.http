@@ -1,0 +1,250 @@
+############ Forgotten Password ############
+
+### Send forgotten password link -> copy UUID from email
+GET http://localhost:8080/users/passwordreset/melanie.huetterer@gmail.com
+
+### Set a new password
+POST http://localhost:8080/users/passwordreset/melanie.huetterer@gmail.com/7a412d2e-a381-4b79-9387-f3c768688ea0
+Content-Type: text/plain
+
+Password12#
+
+### View volunteer profile -FAIL old password
+GET http://localhost:8080/volunteer/view
+Authorization: Basic Volunteer1 Coding12#
+
+### View volunteer profile
+GET http://localhost:8080/volunteer/view
+Authorization: Basic Volunteer1 Password12#
+
+############ Add Admin User ############
+
+### List all volunteers
+GET http://localhost:8080/admin/volunteers
+Authorization: Basic admin Coding12#
+
+### List all organisation
+GET http://localhost:8080/admin/organizations
+Authorization: Basic admin Coding12#
+
+### List all individuals
+GET http://localhost:8080/admin/individuals
+Authorization: Basic admin Coding12#
+
+### View details of an account by username
+GET http://localhost:8080/admin/account/Volunteer1
+Authorization: Basic admin Coding12#
+
+############ Create activity ############
+
+### Create activity as individual
+POST http://localhost:8080/individual/activities/create/new
+Authorization: Basic Individual1 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Individual1",
+  "title": "Physical Work",
+  "description": "Need help in my garden",
+  "recommendedSkills": "gardening;planting",
+  "categories": "garden",
+  "startTime": "2021-09-16T00:00:00",
+  "endTime": "2050-09-17T00:00:00",
+  "statusClient": "PENDING"
+}
+
+### Create activity-draft as organization
+POST http://localhost:8080/organization/activities/create/new
+Authorization: Basic Organization1 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Organization1",
+  "title": "Soup kitchen",
+  "description": "Cooking and serving soup",
+  "startTime": "2020-01-16T00:00:00",
+  "endTime": "2050-01-17T00:00:00",
+  "statusClient": "DRAFT"
+}
+
+### Create activity as volunteer -FAIL
+POST http://localhost:8080/individual/activities/create/new
+Authorization: Basic Volunteer1 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Volunteer1",
+  "title": "test",
+  "description": "test",
+  "startTime": "2021-09-16T00:00:00",
+  "endTime": "2050-09-17T00:00:00",
+  "statusClient": "PENDING"
+}
+
+############ Save activity as draft ############
+
+### List all drafts as organization
+GET http://localhost:8080/organization/activities/list/drafts
+Authorization: Basic Organization1 Coding12#
+
+### List all activities as organization
+GET http://localhost:8080/organization/activities/list
+Authorization: Basic Organization1 Coding12#
+
+### Post draft as organization
+PUT http://localhost:8080/organization/activities/post/10
+Authorization: Basic Organization1 Coding12#
+
+############ Volunteer - List my activities ############
+
+GET http://localhost:8080/volunteer/activities/list
+Authorization: Basic Volunteer3 Coding12#
+
+############ Individual - List my activities ############
+
+GET http://localhost:8080/individual/activities/list
+Authorization: Basic Individual1 Coding12#
+
+############ Organization - List my activities ############
+
+GET http://localhost:8080/organization/activities/list
+Authorization: Basic Organization1 Coding12#
+
+############ See all volunteers as an org/ind ############
+
+### List all volunteers as individual
+GET http://localhost:8080/individual/view/volunteers
+Authorization: Basic Individual1 Coding12#
+
+### List all volunteers as organization
+GET http://localhost:8080/organization/view/volunteers
+Authorization: Basic Organization2 Coding12#
+
+############ See all activities - as a volunteer ############
+
+### List all pending activities as volunteer
+GET http://localhost:8080/volunteer/activities/list/pending
+Authorization: Basic Volunteer2 Coding12#
+
+############ Search based on text as an organization / individual ############
+
+### Search for a volunteer by text as an individual
+GET http://localhost:8080/individual/search/volunteers/cook
+Authorization: Basic Individual1 Coding12#
+
+### Search for a volunteer by text as an individual - EMPTY
+GET http://localhost:8080/individual/search/volunteers/nurse
+Authorization: Basic Individual1 Coding12#
+
+### Search for a volunteer by text as an organization - not case sensitive
+GET http://localhost:8080/organization/search/volunteers/COOK
+Authorization: Basic Organization2 Coding12#
+
+############ Search based on text as a volunteer ############
+
+### Search for activity as an volunteer
+GET http://localhost:8080/volunteer/activities/search/coding
+Authorization: Basic Volunteer2 Coding12#
+
+### Search for activity as an volunteer - EMPTY
+GET http://localhost:8080/volunteer/activities/search/nurse
+Authorization: Basic Volunteer2 Coding12#
+
+############ Contact a volunteer for an activity ############
+
+### Contact a volunteer as an organization - activity id
+PUT http://localhost:8080/organization/activities/contact/10/Volunteer2
+Authorization: Basic Organization1 Coding12#
+
+### Contact a volunteer as an individual
+PUT http://localhost:8080/individual/activities/contact/9/Volunteer2
+Authorization: Basic Individual3 Coding12#
+
+### View all notifications as volunteer
+GET http://localhost:8080/users/notifications
+Authorization: Basic Volunteer2 Coding12#
+
+### Accept an actitivy as a volunteer
+PUT http://localhost:8080/volunteer/activities/approve/9
+Authorization: Basic Volunteer2 Coding12#
+
+### Deny an activity as a volunteer
+PUT http://localhost:8080/volunteer/activities/deny/10
+Authorization: Basic Volunteer2 Coding12#
+
+### View all notifications as organization
+GET http://localhost:8080/users/notifications
+Authorization: Basic Organization1 Coding12#
+
+############ Apply for an activity as a volunteer ############
+
+### Apply for an activity as a volunteer -apply all for same activity
+PUT http://localhost:8080/volunteer/activities/apply/2
+Authorization: Basic Volunteer1 Password12#
+
+### Apply for an activity as a volunteer
+PUT http://localhost:8080/volunteer/activities/apply/2
+Authorization: Basic Volunteer2 Coding12#
+
+### Apply for an activity as a volunteer
+PUT http://localhost:8080/volunteer/activities/apply/2
+Authorization: Basic Volunteer3 Coding12#
+
+### View activities as volunteer - show status PENDING
+GET http://localhost:8080/volunteer/activities/list
+Authorization: Basic Volunteer1 Password12#
+
+### Deny an application
+PUT http://localhost:8080/individual/activities/deny/2/Volunteer1
+Authorization: Basic Individual1 Coding12#
+
+### View activities as volunteer - EMPTY/DENIED
+GET http://localhost:8080/volunteer/activities/list
+Authorization: Basic Volunteer1 Password12#
+
+### View all notifications as volunteer
+GET http://localhost:8080/users/notifications
+Authorization: Basic Volunteer1 Coding12#
+
+### Approve an application
+PUT http://localhost:8080/individual/activities/approve/2/Volunteer2
+Authorization: Basic Individual1 Coding12#
+
+### View activities as volunteer - IN PROGRESS
+GET http://localhost:8080/volunteer/activities/list
+Authorization: Basic Volunteer2 Coding12#
+
+### View activities as volunteer - EMPTY
+GET http://localhost:8080/volunteer/activities/list
+Authorization: Basic Volunteer3 Coding12#
+
+############ See my notifications ############
+
+### View all notifications as volunteer
+GET http://localhost:8080/users/notifications
+Authorization: Basic Volunteer1 Password12#
+
+############ Complete activity ############
+
+### Complete activity as individual- volunteer gets notified
+PUT http://localhost:8080/individual/activities/complete/2/3
+Authorization: Basic Individual2 Coding12#
+Content-Type: application/json
+
+{}
+
+### View all notifications as volunteer
+GET http://localhost:8080/users/notifications
+Authorization: Basic Volunteer2 Coding12#
+
+### Complete activity as volunteer
+PUT http://localhost:8080/volunteer/activities/complete/2/5
+Authorization: Basic Volunteer2 Coding12#
+Content-Type: text/plain
+
+Everything fine
+
+### View activities as volunteer - show status COMPLETED
+GET http://localhost:8080/volunteer/activities/list
+Authorization: Basic Volunteer2 Coding12#
+

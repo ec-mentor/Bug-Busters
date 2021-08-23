@@ -1,13 +1,12 @@
 package bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization;
 
+import bugbusters.everyonecodes.java.activities.*;
+import bugbusters.everyonecodes.java.search.VolunteerTextSearchService;
 import bugbusters.everyonecodes.java.usermanagement.data.User;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPrivateDTO;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPublicDTO;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.individual.Individual;
-import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.Volunteer;
-import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerDTOMapper;
-import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerPublicDTO;
-import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerRepository;
+import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.*;
 import bugbusters.everyonecodes.java.usermanagement.service.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -17,7 +16,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class OrganizationServiceTest {
@@ -32,6 +34,9 @@ class OrganizationServiceTest {
     OrganizationRepository organizationRepository;
 
     @MockBean
+    ActivityRepository activityRepository;
+
+    @MockBean
     UserService userService;
 
     @MockBean
@@ -39,6 +44,12 @@ class OrganizationServiceTest {
 
     @MockBean
     VolunteerDTOMapper volunteerMapper;
+
+    @MockBean
+    VolunteerTextSearchService volunteerTextSearchService;
+
+    @MockBean
+    ActivityDTOMapper activityDTOMapper;
 
     // for testing
     private final String username = "test";
@@ -49,6 +60,11 @@ class OrganizationServiceTest {
     private final UserPublicDTO userPublicDTO = new UserPublicDTO(username, "test", 1, "test", 5.0);
     private final Organization organization = new Organization(user);
     private final Volunteer volunteer = new Volunteer(user);
+    private final VolunteerSearchResultDTO volunteerSearchResultDTO = new VolunteerSearchResultDTO("test", null, null);
+    private final Activity activity = new Activity("test", "test", "test", Set.of("test"), Set.of("test"), LocalDateTime.now(), LocalDateTime.now(), true, Status.PENDING, Status.PENDING, null, null, null, null);
+    private final Activity draft = new Activity("test", "test", "test", Set.of("test"), Set.of("test"), LocalDateTime.now(), LocalDateTime.now(), true, Status.DRAFT, Status.DRAFT, null, null, null, null);
+    private final ActivityDTO activityDTO = new ActivityDTO("test", "test", "test", Status.PENDING, LocalDateTime.now(), LocalDateTime.now(), null, null, null, null, null, null);
+    private final ActivityDTO draftDTO = new ActivityDTO("test", "test", "test", Status.DRAFT, LocalDateTime.now(), LocalDateTime.now(), null, null, null, null, null, null);
 
     @Test
     void getOrganizationByUsername() {
@@ -131,5 +147,75 @@ class OrganizationServiceTest {
         var oResult = organizationService.editOrganizationData(new ClientPrivateDTO(userPrivateDTO), username);
         Assertions.assertEquals(Optional.empty(), oResult);
         Mockito.verify(organizationRepository, Mockito.never()).save(Mockito.any(Organization.class));
+    }
+
+    @Test
+    void listAllVolunteers() {
+        Mockito.when(volunteerRepository.findAll()).thenReturn(List.of(volunteer));
+        Mockito.when(volunteerMapper.toVolunteerSearchResultDTO(volunteer)).thenReturn(volunteerSearchResultDTO);
+        var result = organizationService.listAllVolunteers();
+        Assertions.assertEquals(List.of(volunteerSearchResultDTO), result);
+    }
+
+    @Test
+    void listAllVolunteers_Empty() {
+        Mockito.when(volunteerRepository.findAll()).thenReturn(List.of());
+        var result = organizationService.listAllVolunteers();
+        Assertions.assertEquals(List.of(), result);
+    }
+
+
+    @Test
+    void searchVolunteersByText() {
+        Mockito.when(volunteerRepository.findAll()).thenReturn(List.of(volunteer));
+        Mockito.when(volunteerTextSearchService.searchVolunteersByText(List.of(volunteer), "test")).thenReturn(List.of(volunteer));
+        Mockito.when(volunteerMapper.toVolunteerSearchResultDTO(volunteer)).thenReturn(volunteerSearchResultDTO);
+        var result = organizationService.searchVolunteersByText("test");
+        Assertions.assertEquals(List.of(volunteerSearchResultDTO), result);
+    }
+
+    @Test
+    void searchVolunteersByText_Empty() {
+        Mockito.when(volunteerRepository.findAll()).thenReturn(List.of(volunteer));
+        Mockito.when(volunteerTextSearchService.searchVolunteersByText(List.of(volunteer), "test")).thenReturn(List.of());
+        var result = organizationService.searchVolunteersByText("test");
+        Assertions.assertEquals(List.of(), result);
+    }
+
+    @Test
+    void listAllActivitiesOfOrganization() {
+        Mockito.when(activityRepository.findAllByCreator(username)).thenReturn(List.of(activity, draft));
+        Mockito.when(activityDTOMapper.toClientActivityDTO(activity)).thenReturn(activityDTO);
+        Mockito.when(activityDTOMapper.toClientActivityDTO(draft)).thenReturn(draftDTO);
+        var result = organizationService.listAllActivitiesOfOrganization(username);
+        Assertions.assertEquals(List.of(activityDTO, draftDTO), result);
+        Mockito.verify(activityRepository).findAllByCreator(username);
+    }
+
+    @Test
+    void listAllActivitiesOfOrganization_Empty() {
+        Mockito.when(activityRepository.findAllByCreator(username)).thenReturn(List.of());
+        Mockito.when(activityDTOMapper.toClientActivityDTO(Mockito.any(Activity.class))).thenReturn(activityDTO);
+        var result = organizationService.listAllActivitiesOfOrganization(username);
+        Assertions.assertEquals(List.of(), result);
+        Mockito.verify(activityRepository).findAllByCreator(username);
+    }
+
+    @Test
+    void listAllDraftsOfOrganization() {
+        Mockito.when(activityRepository.findAllByCreatorAndStatusClient(username, Status.DRAFT)).thenReturn(List.of(draft));
+        Mockito.when(activityDTOMapper.toClientActivityDTO(draft)).thenReturn(draftDTO);
+        var result = organizationService.listAllDraftsOfOrganization(username);
+        Assertions.assertEquals(List.of(draftDTO), result);
+        Mockito.verify(activityRepository).findAllByCreatorAndStatusClient(username, Status.DRAFT);
+    }
+
+    @Test
+    void listAllDraftsOfOrganization_Empty() {
+        Mockito.when(activityRepository.findAllByCreatorAndStatusClient(username, Status.DRAFT)).thenReturn(List.of());
+        Mockito.when(activityDTOMapper.toClientActivityDTO(Mockito.any(Activity.class))).thenReturn(draftDTO);
+        var result = organizationService.listAllDraftsOfOrganization(username);
+        Assertions.assertEquals(List.of(), result);
+        Mockito.verify(activityRepository).findAllByCreatorAndStatusClient(username, Status.DRAFT);
     }
 }

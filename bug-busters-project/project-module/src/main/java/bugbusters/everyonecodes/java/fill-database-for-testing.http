@@ -9,7 +9,7 @@ Content-Type: application/json
   "fullName": "Volunteer1",
   "birthday": "1990-01-01",
   "address": "Volunteer Street 213",
-  "email": "vol.unteer1@bugbusters.com",
+  "email": "melanie.huetterer@gmail.com",
   "description": "first Volunteer"
 }
 
@@ -27,7 +27,7 @@ Content-Type: application/json
     "fullName": "Volunteer1",
     "birthday": "1990-01-01",
     "address": "Volunteer Street 213",
-    "email": "vol.unteer1@bugbusters.com",
+    "email": "melanie.huetterer@gmail.com",
     "description": "first Volunteer"
   },
   "skills": "cooking;testing;a lot of laughing"
@@ -191,6 +191,8 @@ Content-Type: application/json
   "description": null
 }
 
+################################## CREATE ACTIVITIES ##################################
+
 ###
 POST http://localhost:8080/individual/activities/create/new
 Authorization: Basic Individual1 Coding12#
@@ -203,7 +205,7 @@ Content-Type: application/json
   "recommendedSkills": "cooking;eating",
   "categories": "food",
   "startTime": "2020-01-16T00:00:00",
-  "endTime": "2020-01-17T00:00:00",
+  "endTime": "2050-01-17T00:00:00",
   "statusClient": "DRAFT"
 }
 
@@ -217,7 +219,7 @@ Content-Type: application/json
   "title": "Activity 2 of Ind1",
   "description": "Pending of Ind 1",
   "startTime": "2020-01-18T00:00:00",
-  "endTime": "2020-01-19T00:00:00",
+  "endTime": "2050-01-19T00:00:00",
   "statusClient": "PENDING"
 }
 
@@ -231,7 +233,7 @@ Content-Type: application/json
   "title": "Activity 1 of Ind2",
   "description": "Draft of Ind 2",
   "startTime": "2020-01-20T00:00:00",
-  "endTime": "2020-01-21T00:00:00",
+  "endTime": "20250-01-21T00:00:00",
   "statusClient": "DRAFT"
 }
 
@@ -243,11 +245,11 @@ Content-Type: application/json
 {
   "creator": "Individual3",
   "title": "Activity 1 of Ind3",
-  "description": "Pending of Ind 3",
+  "description": "Help with computer",
   "recommendedSkills": "testing",
   "categories": "coding",
   "startTime": "2020-01-22T00:00:00",
-  "endTime": "2020-01-23T00:00:00",
+  "endTime": "2050-01-23T00:00:00",
   "statusClient": "PENDING"
 }
 
@@ -261,7 +263,7 @@ Content-Type: application/json
   "title": "Activity 1 of Org1",
   "description": "Draft of Org 1",
   "startTime": "2020-01-16T00:00:00",
-  "endTime": "2020-01-17T00:00:00",
+  "endTime": "2050-01-17T00:00:00",
   "statusClient": "DRAFT"
 }
 
@@ -277,7 +279,7 @@ Content-Type: application/json
   "recommendedSkills": "laughing;crying;improvisation",
   "categories": "acting;theater",
   "startTime": "2020-01-18T00:00:00",
-  "endTime": "2020-01-19T00:00:00",
+  "endTime": "2050-01-19T00:00:00",
   "statusClient": "PENDING"
 }
 
@@ -293,7 +295,7 @@ Content-Type: application/json
   "recommendedSkills": "testing",
   "categories": "coding",
   "startTime": "2020-01-20T00:00:00",
-  "endTime": "2020-01-21T00:00:00",
+  "endTime": "2050-01-21T00:00:00",
   "statusClient": "DRAFT"
 }
 
@@ -307,6 +309,6 @@ Content-Type: application/json
   "title": "Activity 1 of Org3",
   "description": "Pending of Org 3",
   "startTime": "2020-01-22T00:00:00",
-  "endTime": "2020-01-23T00:00:00",
+  "endTime": "2050-01-23T00:00:00",
   "statusClient": "PENDING"
 }

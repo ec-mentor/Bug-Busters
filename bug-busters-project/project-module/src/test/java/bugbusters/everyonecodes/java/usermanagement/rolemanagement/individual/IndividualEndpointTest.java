@@ -4,6 +4,7 @@ import bugbusters.everyonecodes.java.usermanagement.data.UserPrivateDTO;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientPrivateDTO;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientPublicDTO;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerPublicDTO;
+import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerSearchResultDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.List;
 import java.util.Optional;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -124,6 +126,39 @@ class IndividualEndpointTest {
         String expected = "def";
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(url + "/webapptree")).andReturn();
         Assertions.assertEquals(expected, result.getResponse().getContentAsString());
+    }
+
+
+    //searchVolunteersByText Test
+    @Test
+    @WithMockUser(username = "test", password = "Testing1#", authorities = {"ROLE_INDIVIDUAL"})
+    void searchActivitiesByText_listNotEmpty() throws Exception {
+        String text = "test";
+        String username = "testUsername";
+        VolunteerSearchResultDTO volunteerSearchResultDTO = new VolunteerSearchResultDTO("testUsername", null, null);
+        List<VolunteerSearchResultDTO> volunteerSearchResultDTOList = List.of(volunteerSearchResultDTO);
+        Mockito.when(individualService.searchVolunteersByText(text)).thenReturn(volunteerSearchResultDTOList);
+        var result = mockMvc.perform(MockMvcRequestBuilders.get(url + "/search/volunteers/" + text)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+        var resultResponse = result.getResponse().getContentAsString();
+        Assertions.assertTrue(resultResponse.contains(username));
+        Assertions.assertFalse(resultResponse.contains("No results found for"));
+    }
+
+    @Test
+    @WithMockUser(username = "test", password = "Testing1#", authorities = {"ROLE_INDIVIDUAL"})
+    void searchActivitiesByText_listEmpty() throws Exception {
+        String text = "test";
+        String expected = "No results found for \"test\"";
+        Mockito.when(individualService.searchVolunteersByText(text)).thenReturn(List.of());
+        var result = mockMvc.perform(MockMvcRequestBuilders.get(url + "/search/volunteers/" + text)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andReturn();
+        var resultResponse = result.getResponse().getContentAsString();
+        Assertions.assertEquals(expected, resultResponse);
     }
 
 }
