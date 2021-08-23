@@ -219,3 +219,7 @@ Content-Type: application/json
   "endTime": "2050-01-19T00:00:00",
   "statusClient": "PENDING"
 }
+
+### delete activity as individual
+DELETE http://localhost:8080/individual/activities/delete/2
+Authorization: Basic Individual1 Coding12#
