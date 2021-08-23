@@ -4,6 +4,7 @@ import bugbusters.everyonecodes.java.activities.Activity;
 import bugbusters.everyonecodes.java.activities.ActivityDTO;
 import bugbusters.everyonecodes.java.activities.ActivityInputDTO;
 import bugbusters.everyonecodes.java.activities.ActivityService;
+import bugbusters.everyonecodes.java.search.FilterVolunteer;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerPublicDTO;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerSearchResultDTO;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,6 +58,15 @@ public class OrganizationEndpoint {
     @GetMapping("/search/volunteers/{text}")
     ResponseEntity<Object> searchVolunteersByText(@PathVariable String text) {
         var searchResult = organizationService.searchVolunteersByText(text);
+        if (searchResult.isEmpty()) {
+            return new ResponseEntity<>("No results found for '" + text + "'", HttpStatus.OK);
+        }
+        return new ResponseEntity<>(searchResult, HttpStatus.OK);
+    }
+
+    @GetMapping("/search/filter/volunteers/{text}")
+    ResponseEntity<Object> searchVolunteersByTextFiltered(@PathVariable String text, @RequestBody FilterVolunteer filterVolunteer) {
+        var searchResult = organizationService.searchVolunteersByTextFiltered(text, filterVolunteer);
         if (searchResult.isEmpty()) {
             return new ResponseEntity<>("No results found for '" + text + "'", HttpStatus.OK);
         }
