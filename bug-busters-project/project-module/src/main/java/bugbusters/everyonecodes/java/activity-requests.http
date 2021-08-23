@@ -200,3 +200,22 @@ Authorization: Basic Volunteer2 Coding12#
 Content-Type: text/plain
 
 alles super
+
+
+
+
+### edit activity as individual
+PUT http://localhost:8080/individual/activities/edit/2
+Authorization: Basic Individual1 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Individual1",
+  "title": "Activity 2 of Ind1",
+  "description": "Posted and edited of Ind 1",
+  "recommendedSkills": "cooking;eating",
+  "categories": "food",
+  "startTime": "2020-01-16T00:00:00",
+  "endTime": "2050-01-19T00:00:00",
+  "statusClient": "PENDING"
+}
