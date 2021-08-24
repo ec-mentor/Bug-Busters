@@ -69,7 +69,9 @@ public class FilterActivityService {
         var creator = userRepository.findOneByUsername(creatorName);
         if (creator.isEmpty()) return false;
         var ratings = creator.get().getRatings();
-        return (userDTOMapper.calculateRating(ratings) >= Double.valueOf(input));
+        Double rating = userDTOMapper.calculateRating(ratings);
+        if (rating == null) return false;
+        return (rating >= Double.valueOf(input));
     }
 
 }

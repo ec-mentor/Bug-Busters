@@ -37,6 +37,8 @@ public class FilterVolunteerService {
         if(input == null){
             return true;
         }
-        return (userDTOMapper.calculateRating(ratings) >= Double.valueOf(input));
+        Double rating = userDTOMapper.calculateRating(ratings);
+        if (rating == null) return false;
+        return (rating >= Double.valueOf(input));
     }
 }

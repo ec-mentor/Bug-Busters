@@ -1,7 +1,7 @@
 #################################### Filter Volunteer ####################################
 
 ### Filter Volunteer for Skills as Organization - cook
-GET http://localhost:8080/search/filter/volunteers/cook
+GET http://localhost:8080/organization/search/filter/volunteers/o
 Authorization: Basic Organization1 Coding12#
 Content-Type: application/json
 
@@ -10,7 +10,7 @@ Content-Type: application/json
 }
 
 ### Filter Volunteer for Rating as Organization - 3 and above
-GET http://localhost:8080/search/filter/volunteers/cook
+GET http://localhost:8080/organization/search/filter/volunteers/o
 Authorization: Basic Organization1 Coding12#
 Content-Type: application/json
 
@@ -19,42 +19,42 @@ Content-Type: application/json
 }
 
 ### Filter Volunteer for Skills and Rating as Organization - cook, 3 and above
-GET http://localhost:8080/search/filter/volunteers/cook
+GET http://localhost:8080/organization/search/filter/volunteers/o
 Authorization: Basic Organization1 Coding12#
 Content-Type: application/json
 
 {
-  "skills": "cook"
+  "skills": "cook",
   "rating": "3"
 }
 
 ### Filter Volunteer for Skills and Rating as Organization - pilot, 4 and above / FAIL
-GET http://localhost:8080/search/filter/volunteers/cook
+GET http://localhost:8080/organization/search/filter/volunteers/o
 Authorization: Basic Organization1 Coding12#
 Content-Type: application/json
 
 {
-  "skills": "pilot"
+  "skills": "pilot",
   "rating": "4"
 }
 
 ### Filter Volunteer for Skills and Rating as Individual - cook, 3 and above
-GET http://localhost:8080/search/filter/volunteers/cook
+GET http://localhost:8080/individual/search/filter/volunteers/o
 Authorization: Basic Granny Coding12#
 Content-Type: application/json
 
 {
-  "skills": "cook"
-  "rating": "4"
+  "skills": "cook",
+  "rating": "2"
 }
 
 ### Filter Volunteer for Skills and Rating as Individual - pilot, 4 and above / FAIL
-GET http://localhost:8080/search/filter/volunteers/cook
+GET http://localhost:8080/individual/search/filter/volunteers/o
 Authorization: Basic Granny Coding12#
 Content-Type: application/json
 
 {
-  "skills": "pilot"
+  "skills": "pilot",
   "rating": "4"
 }
 
@@ -62,7 +62,7 @@ Content-Type: application/json
 #################################### Filter Activity ####################################
 
 ### Filter Activity for Date as Volunteer - Date 2020-01-22
-GET http://localhost:8080/activities/search/filtered/cook
+GET http://localhost:8080/volunteer/activities/search/filtered/o
 Authorization: Basic Derek Coding12#
 Content-Type: application/json
 
@@ -71,7 +71,7 @@ Content-Type: application/json
 }
 
 ### Filter Activity for Category as Volunteer - Category cooking
-GET http://localhost:8080/activities/search/filtered/cook
+GET http://localhost:8080/volunteer/activities/search/filtered/o
 Authorization: Basic Derek Coding12#
 Content-Type: application/json
 
@@ -80,7 +80,7 @@ Content-Type: application/json
 }
 
 ### Filter Activity for Skills as Volunteer - Skills baking
-GET http://localhost:8080/activities/search/filtered/cook
+GET http://localhost:8080/volunteer/activities/search/filtered/o
 Authorization: Basic Derek Coding12#
 Content-Type: application/json
 
@@ -89,7 +89,7 @@ Content-Type: application/json
 }
 
 ### Filter Activity for Creator as Volunteer - Creator Organization3
-GET http://localhost:8080/activities/search/filtered/cook
+GET http://localhost:8080/volunteer/activities/search/filtered/o
 Authorization: Basic Derek Coding12#
 Content-Type: application/json
 
@@ -98,36 +98,36 @@ Content-Type: application/json
 }
 
 ### Filter Activity for Rating as Volunteer - Rating 2 or above
-GET http://localhost:8080/activities/search/filtered/cook
+GET http://localhost:8080/volunteer/activities/search/filtered/o
 Authorization: Basic Derek Coding12#
 Content-Type: application/json
 
 {
-  "rating": "2"
+  "rating": "4"
 }
 
 ### Filter Activity as Volunteer
-GET http://localhost:8080/activities/search/filtered/cook
+GET http://localhost:8080/volunteer/activities/search/filtered/o
 Authorization: Basic Derek Coding12#
 Content-Type: application/json
 
 {
-  "date": "2020-01-18"
-  "category": "cooking"
-  "skills": "kitchen"
-  "creator": "Organization3"
+  "date": "2020-01-18",
+  "category": "kitchen",
+  "skills": "cooking",
+  "creator": "Organization3",
   "rating": "2"
 }
 
 ### Filter Activity as Volunteer / FAIL
-GET http://localhost:8080/activities/search/filtered/pilot
+GET http://localhost:8080/volunteer/activities/search/filtered/pilot
 Authorization: Basic Derek Coding12#
 Content-Type: application/json
 
 {
-  "date": "2020-01-19"
-  "category": "transport"
-  "skills": "endurance"
-  "creator": "Individual4"
+  "date": "2020-01-19",
+  "category": "transport",
+  "skills": "endurance",
+  "creator": "Individual4",
   "rating": "5"
 }
