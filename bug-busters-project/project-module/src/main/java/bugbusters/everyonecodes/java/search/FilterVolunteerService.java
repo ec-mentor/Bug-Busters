@@ -11,17 +11,14 @@ import java.util.stream.Collectors;
 @Service
 public class FilterVolunteerService {
     private final UserDTOMapper userDTOMapper;
-    private final VolunteerTextSearchService volunteerTextSearchService;
 
-    public FilterVolunteerService(UserDTOMapper userDTOMapper, VolunteerTextSearchService volunteerTextSearchService) {
+    public FilterVolunteerService(UserDTOMapper userDTOMapper) {
         this.userDTOMapper = userDTOMapper;
-        this.volunteerTextSearchService = volunteerTextSearchService;
     }
 
     public List<Volunteer> filterSearchResults(List<Volunteer> searchResults, FilterVolunteer filterVolunteer){
         return searchResults.stream()
-                .filter(searchResult ->
-                        filterSkills(searchResult.getSkills(), filterVolunteer.getSkills()))
+                .filter(searchResult -> filterSkills(searchResult.getSkills(), filterVolunteer.getSkills()))
                 .filter(searchResult -> filterRating(searchResult.getUser().getRatings(), filterVolunteer.getRating()))
                 .collect(Collectors.toList());
     }

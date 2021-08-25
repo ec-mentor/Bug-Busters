@@ -15,12 +15,10 @@ import java.util.stream.Collectors;
 public class FilterActivityService {
 
     private final UserDTOMapper userDTOMapper;
-    private final ActivityTextSearchService activityTextSearchService;
     private final UserRepository userRepository;
 
-    public FilterActivityService(UserDTOMapper userDTOMapper, ActivityTextSearchService activityTextSearchService, UserRepository userRepository) {
+    public FilterActivityService(UserDTOMapper userDTOMapper, UserRepository userRepository) {
         this.userDTOMapper = userDTOMapper;
-        this.activityTextSearchService = activityTextSearchService;
         this.userRepository = userRepository;
     }
 
