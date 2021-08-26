@@ -90,6 +90,11 @@ public class IndividualEndpoint {
         return activityService.edit(input, id, authentication.getName()).orElse(null);
     }
 
+    @DeleteMapping ("/activities/delete/{id}")
+    void deleteActivity(@PathVariable Long id, Authentication authentication){
+        activityService.delete(id, authentication.getName());
+    }
+
     @GetMapping("/activities/list")
     List<ActivityDTO> listAllOfUsersActivities(Authentication authentication) {
         return individualService.listAllActivitiesOfIndividual(authentication.getName());

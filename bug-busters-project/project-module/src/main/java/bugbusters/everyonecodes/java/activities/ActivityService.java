@@ -64,6 +64,10 @@ public class ActivityService {
         }
         Activity result = oActivity.get();
         if (!result.getCreator().equals(username)) return Optional.empty();
+
+        // check so it only works on drafts or pending activities
+        if (!result.getStatusClient().equals(Status.DRAFT) && !result.getStatusClient().equals(Status.PENDING)) return Optional.empty();
+
         result.setTitle(input.getTitle());
         result.setDescription(input.getDescription());
         result.setRecommendedSkills(setToStringMapper.convertToSet(input.getRecommendedSkills()));
@@ -72,7 +76,41 @@ public class ActivityService {
         result.setEndTime(input.getEndTime());
         result.setOpenEnd(input.isOpenEnd());
         activityRepository.save(result);
+
+        // send a notification to all applicants
+        var applicants = result.getApplicants();
+        for (String applicant: applicants) {
+            notificationService.saveNotification(new Notification(username, "There have been changes to an activity you applied to: " + result.getTitle()), applicant);
+        }
+
         return Optional.of(activityDTOMapper.toClientActivityDTO(result));
+    }
+
+
+    public void delete(Long id, String username) {
+        var oActivity = activityRepository.findById(id);
+        if (oActivity.isEmpty()) return;
+        var activity = oActivity.get();
+
+        if (!activity.getCreator().equals(username)) return;
+
+        var oCreator = userRepository.findOneByUsername(activity.getCreator());
+        if (oCreator.isEmpty()) return;
+        var creator = oCreator.get();
+
+        // check so it only works on drafts or pending activities
+        if (!activity.getStatusClient().equals(Status.DRAFT) && !activity.getStatusClient().equals(Status.PENDING)) return;
+
+        creator.getActivities().remove(activity);
+
+        // send a notification to all applicants and remove from their activities
+        var applicants = activity.getApplicants();
+        for (String applicant: applicants) {
+            var oUser = userRepository.findOneByUsername(applicant);
+            oUser.ifPresent(user -> user.getActivities().remove(activity));
+            notificationService.saveNotification(new Notification(username, "There following activity you applied to has been deleted: " + activity.getTitle()), applicant);
+        }
+        activityRepository.delete(activity);
     }
 
     public Optional<ActivityDTO> completeActivityClientNotifyVolunteer(Long id, int rating, String feedback, String creatorAuthName) {
