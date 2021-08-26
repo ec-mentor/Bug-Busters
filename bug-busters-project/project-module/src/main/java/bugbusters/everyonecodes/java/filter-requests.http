@@ -131,3 +131,85 @@ Content-Type: application/json
   "creator": "Individual4",
   "rating": "5"
 }
+
+#################################### Edit Posted Activity ####################################
+
+### List all own activities as organization
+GET http://localhost:8080/organization/activities/list
+Authorization: Basic Organization1 Coding12#
+
+### list all pending activities as volunteer
+GET http://localhost:8080/volunteer/activities/list/pending
+Authorization: Basic Derek Coding12#
+
+### apply for an activity as a volunteer
+PUT http://localhost:8080/volunteer/activities/apply/1
+Authorization: Basic Derek Coding12#
+
+### view all notifications
+GET http://localhost:8080/users/notifications
+Authorization: Basic Organization1 Coding12#
+
+### list all pending activities as volunteer
+GET http://localhost:8080/volunteer/activities/list
+Authorization: Basic Derek Coding12#
+
+### edit activity as organization
+PUT http://localhost:8080/organization/activities/edit/1
+Authorization: Basic Organization1 Coding12#
+Content-Type: application/json
+
+{
+  "creator": "Organization1",
+  "title": "Activity 1 of Org1",
+  "description": "Posted and edited of Org1",
+  "recommendedSkills": "cooking;eating",
+  "categories": "food",
+  "startTime": "2020-01-16T00:00:00",
+  "endTime": "2050-01-19T00:00:00",
+  "statusClient": "PENDING"
+}
+
+### view all notifications
+GET http://localhost:8080/users/notifications
+Authorization: Basic Derek Coding12#
+
+#################################### Delete Potsed Activity ####################################
+
+### List all own activities as individual
+GET http://localhost:8080/individual/activities/list
+Authorization: Basic MisterW Coding12#
+
+### list all pending activities as volunteer
+GET http://localhost:8080/volunteer/activities/list/pending
+Authorization: Basic Hansel Coding12#
+
+### apply for an activity as a volunteer
+PUT http://localhost:8080/volunteer/activities/apply/13
+Authorization: Basic Hansel Coding12#
+
+### view all notifications
+GET http://localhost:8080/users/notifications
+Authorization: Basic MisterW Coding12#
+
+### list all pending activities as volunteer
+GET http://localhost:8080/volunteer/activities/list
+Authorization: Basic Hansel Coding12#
+
+### delete activity as individual
+DELETE http://localhost:8080/individual/activities/delete/13
+Authorization: Basic MisterW Coding12#
+
+### view all notifications
+GET http://localhost:8080/users/notifications
+Authorization: Basic Hansel Coding12#
+
+#################################### Discard Activity Draft ####################################
+
+### List all own drafts as organization
+GET http://localhost:8080/organization/activities/list/drafts
+Authorization: Basic Organization2 Coding12#
+
+### delete activity as organization
+DELETE http://localhost:8080/organization/activities/delete/6
+Authorization: Basic Organization2 Coding12#

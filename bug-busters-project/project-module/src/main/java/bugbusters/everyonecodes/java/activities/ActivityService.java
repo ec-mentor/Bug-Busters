@@ -68,6 +68,8 @@ public class ActivityService {
         // check so it only works on drafts or pending activities
         if (!result.getStatusClient().equals(Status.DRAFT) && !result.getStatusClient().equals(Status.PENDING)) return Optional.empty();
 
+        var title = result.getTitle();
+
         result.setTitle(input.getTitle());
         result.setDescription(input.getDescription());
         result.setRecommendedSkills(setToStringMapper.convertToSet(input.getRecommendedSkills()));
@@ -80,7 +82,7 @@ public class ActivityService {
         // send a notification to all applicants
         var applicants = result.getApplicants();
         for (String applicant: applicants) {
-            notificationService.saveNotification(new Notification(username, "There have been changes to an activity you applied to: " + result.getTitle()), applicant);
+            notificationService.saveNotification(new Notification(username, "There have been changes to an activity you applied to: " + title), applicant);
         }
 
         return Optional.of(activityDTOMapper.toClientActivityDTO(result));
