@@ -223,3 +223,11 @@ Content-Type: application/json
 ### delete activity as individual
 DELETE http://localhost:8080/individual/activities/delete/2
 Authorization: Basic Individual1 Coding12#
+
+### delete application as individual
+DELETE http://localhost:8080/volunteer/activities/remove/2
+Authorization: Basic Volunteer2 Coding12#
+
+### view all notifications as individual
+GET http://localhost:8080/users/notifications
+Authorization: Basic Individual1 Coding12#

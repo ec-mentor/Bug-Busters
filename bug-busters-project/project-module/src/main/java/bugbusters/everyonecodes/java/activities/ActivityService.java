@@ -110,7 +110,7 @@ public class ActivityService {
         for (String applicant: applicants) {
             var oUser = userRepository.findOneByUsername(applicant);
             oUser.ifPresent(user -> user.getActivities().remove(activity));
-            notificationService.saveNotification(new Notification(username, "There following activity you applied to has been deleted: " + activity.getTitle()), applicant);
+            notificationService.saveNotification(new Notification(username, "The following activity you applied to has been deleted: " + activity.getTitle()), applicant);
         }
         activityRepository.delete(activity);
     }
@@ -276,6 +276,24 @@ public class ActivityService {
         String message = username + " has denied your activity recommendation for \"" + activity.getTitle() + "\"!";
         Notification notification = new Notification(activity.getCreator(), message);
         notificationService.saveNotification(notification, activity.getCreator());
+    }
+
+    public void deleteApplicationAsVolunteer(Long activityId, String volunteerAuthName) {
+        var oActivity = activityRepository.findById(activityId);
+        if (oActivity.isEmpty()) return;
+        var oUser = userRepository.findOneByUsername(volunteerAuthName);
+        if (oUser.isEmpty()) return;
+
+        var activity = oActivity.get();
+        var user = oUser.get();
+
+        user.getActivities().remove(activity);
+
+        if (volunteerAuthName.equals(activity.getVolunteer())) activity.setVolunteer(null);
+        activity.getApplicants().remove(volunteerAuthName);
+
+        notificationService.saveNotification(new Notification(volunteerAuthName, volunteerAuthName + " has removed their application to your activity " + activity.getTitle()), activity.getCreator());
+
     }
 
     private void removeActivityFromApplicants(Activity result) {
