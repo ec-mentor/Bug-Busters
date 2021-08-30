@@ -281,16 +281,19 @@ public class ActivityService {
     public void deleteApplicationAsVolunteer(Long activityId, String volunteerAuthName) {
         var oActivity = activityRepository.findById(activityId);
         if (oActivity.isEmpty()) return;
+        var activity = oActivity.get();
+        if (activity.getStatusClient().equals(Status.COMPLETED) || activity.getStatusClient().equals(Status.EXPIRED)) return;
+
         var oUser = userRepository.findOneByUsername(volunteerAuthName);
         if (oUser.isEmpty()) return;
-
-        var activity = oActivity.get();
         var user = oUser.get();
 
         if (user.getActivities().contains(activity)) {
             user.getActivities().remove(activity);
             activity.getApplicants().remove(volunteerAuthName);
             if (volunteerAuthName.equals(activity.getVolunteer())) activity.setVolunteer(null);
+            activity.setStatusVolunteer(Status.PENDING);
+            activity.setStatusClient(Status.PENDING);
             notificationService.saveNotification(new Notification(volunteerAuthName, volunteerAuthName + " has removed their application to your activity " + activity.getTitle()), activity.getCreator());
             activityRepository.save(activity);
             userRepository.save(user);
