@@ -13,7 +13,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/volunteer")
@@ -106,4 +108,13 @@ public class VolunteerEndpoint {
         volunteerService.registerNewKeyword(keyword, schedule, authentication.getName());
     }
 
+    @GetMapping("/activities/email/keywords")
+    Map<String, EmailSchedule> viewKeywordRegistrations(Authentication authentication) {
+        return volunteerService.viewKeywordRegistrations(authentication.getName());
+    }
+
+    @DeleteMapping("/activities/email/{keyword}/delete")
+    void deleteKeywordRegistration(@PathVariable String keyword, Authentication authentication) {
+        volunteerService.deleteKeywordRegistration(keyword, authentication.getName());
+    }
 }

@@ -20,6 +20,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -131,19 +132,19 @@ public class VolunteerService {
         }
     }
 
-    @Scheduled(cron = "0 0 * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     void sendDailyEmail() {
         List<Activity> activitiesOfLastDay = activityRepository.findAllByStatusVolunteerAndPostedDateGreaterThanEqual(Status.PENDING, localDateNowProvider.getLocalDateTimeNow().minusDays(1));
         sendEmailsForMatchingKeywords(activitiesOfLastDay, EmailSchedule.DAILY);
     }
-    
-    @Scheduled(cron = "0 0 * * 1")
+
+    @Scheduled(cron = "0 0 0 * * 1")
     void sendWeeklyEmail() {
         List<Activity> activitiesOfLastWeek = activityRepository.findAllByStatusVolunteerAndPostedDateGreaterThanEqual(Status.PENDING, localDateNowProvider.getLocalDateTimeNow().minusWeeks(1));
         sendEmailsForMatchingKeywords(activitiesOfLastWeek, EmailSchedule.WEEKLY);
     }
 
-    @Scheduled(cron = "0 0 1 * *")
+    @Scheduled(cron = "0 0 0 1 * *")
     void sendMonthlyEmail() {
         List<Activity> activitiesOfLastMonth = activityRepository.findAllByStatusVolunteerAndPostedDateGreaterThanEqual(Status.PENDING, localDateNowProvider.getLocalDateTimeNow().minusMonths(1));
         sendEmailsForMatchingKeywords(activitiesOfLastMonth, EmailSchedule.MONTHLY);
@@ -169,5 +170,18 @@ public class VolunteerService {
                 "Description: \"" + activity.getDescription() + "\"\n" +
                 "Start Time: \"" + activity.getStartTime() + "\"\n" +
                 "End Time: \"" + activity.getEndTime() + "\"\n";
+    }
+
+    public Map<String, EmailSchedule> viewKeywordRegistrations(String username) {
+        var oVolunteer = volunteerRepository.findOneByUser_username(username);
+        if (oVolunteer.isPresent()) {
+            return oVolunteer.get().getRegisteredKeywords();
+        }
+        return Map.of();
+    }
+
+    public void deleteKeywordRegistration(String keyword, String username) {
+        var oVolunteer = volunteerRepository.findOneByUser_username(username);
+        oVolunteer.ifPresent(volunteer -> volunteer.getRegisteredKeywords().remove(keyword));
     }
 }
