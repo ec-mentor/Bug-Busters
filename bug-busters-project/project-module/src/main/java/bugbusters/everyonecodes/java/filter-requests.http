@@ -44,7 +44,7 @@ Authorization: Basic Granny Coding12#
 Content-Type: application/json
 
 {
-  "skills": "cook",
+  "skills": "baking",
   "rating": "2"
 }
 
@@ -120,7 +120,7 @@ Content-Type: application/json
 }
 
 ### Filter Activity as Volunteer / FAIL
-GET http://localhost:8080/volunteer/activities/search/filtered/pilot
+GET http://localhost:8080/volunteer/activities/search/filtered/o
 Authorization: Basic Derek Coding12#
 Content-Type: application/json
 
