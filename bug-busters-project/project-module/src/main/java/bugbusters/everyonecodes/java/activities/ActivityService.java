@@ -287,13 +287,14 @@ public class ActivityService {
         var activity = oActivity.get();
         var user = oUser.get();
 
-        user.getActivities().remove(activity);
-
-        if (volunteerAuthName.equals(activity.getVolunteer())) activity.setVolunteer(null);
-        activity.getApplicants().remove(volunteerAuthName);
-
-        notificationService.saveNotification(new Notification(volunteerAuthName, volunteerAuthName + " has removed their application to your activity " + activity.getTitle()), activity.getCreator());
-
+        if (user.getActivities().contains(activity)) {
+            user.getActivities().remove(activity);
+            activity.getApplicants().remove(volunteerAuthName);
+            if (volunteerAuthName.equals(activity.getVolunteer())) activity.setVolunteer(null);
+            notificationService.saveNotification(new Notification(volunteerAuthName, volunteerAuthName + " has removed their application to your activity " + activity.getTitle()), activity.getCreator());
+            activityRepository.save(activity);
+            userRepository.save(user);
+        }
     }
 
     private void removeActivityFromApplicants(Activity result) {

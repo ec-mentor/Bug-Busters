@@ -100,7 +100,7 @@ public class VolunteerEndpoint {
         activityService.denyRecommendationAsVolunteer(id, authentication.getName());
     }
 
-    @DeleteMapping("/activities/remove/{id}")
+    @PutMapping("/activities/delete/{id}")
     void removeApplication(@PathVariable Long id, Authentication authentication){
         activityService.deleteApplicationAsVolunteer(id, authentication.getName());
     }
