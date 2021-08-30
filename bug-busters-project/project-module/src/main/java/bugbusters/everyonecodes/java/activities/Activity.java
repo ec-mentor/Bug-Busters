@@ -57,6 +57,8 @@ public class Activity {
     @ElementCollection
     private List<String> applicants = new ArrayList<>();
 
+    private LocalDateTime postedDate;
+
     public Activity(){}
 
     public Activity(String creator, String title, String description, Set<String> recommendedSkills, Set<String> categories, LocalDateTime startTime, LocalDateTime endTime, boolean isOpenEnd, Status statusVolunteer, Status statusClient, Integer ratingFromVolunteer, Integer ratingFromClient, String feedbackFromVolunteer, String feedbackFromClient) {
@@ -210,6 +212,14 @@ public class Activity {
 
     public void setFeedbackFromClient(String feedbackFromClient) {
         this.feedbackFromClient = feedbackFromClient;
+    }
+
+    public LocalDateTime getPostedDate() {
+        return postedDate;
+    }
+
+    public void setPostedDate(LocalDateTime postedDate) {
+        this.postedDate = postedDate;
     }
 
     @Override

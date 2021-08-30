@@ -31,6 +31,9 @@ public class ActivityService {
     public Optional<ActivityDTO> saveNewActivity(ActivityInputDTO activityInputDTO, String creatorAuthName) {
         if (!activityInputDTO.getStatusClient().equals(Status.PENDING) && !activityInputDTO.getStatusClient().equals(Status.DRAFT)) return Optional.empty();
         Activity activity = activityDTOMapper.createNewActivityFromActivityInputDTO(activityInputDTO, creatorAuthName);
+        if (Status.PENDING.equals(activity.getStatusClient())) {
+            activity.setPostedDate(localDateNowProvider.getLocalDateTimeNow());
+        }
         var oCreator = userRepository.findOneByUsername(creatorAuthName);
         if (oCreator.isPresent()) {
             activity = activityRepository.save(activity);
@@ -53,6 +56,7 @@ public class ActivityService {
         }
         result.setStatusClient(Status.PENDING);
         result.setStatusVolunteer(Status.PENDING);
+        result.setPostedDate(localDateNowProvider.getLocalDateTimeNow());
         activityRepository.save(result);
         return Optional.of(activityDTOMapper.toClientActivityDTO(result));
     }
