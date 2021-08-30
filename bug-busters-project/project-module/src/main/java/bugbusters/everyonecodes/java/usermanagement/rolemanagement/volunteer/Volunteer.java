@@ -1,11 +1,10 @@
 package bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer;
 
+import bugbusters.everyonecodes.java.usermanagement.data.EmailSchedule;
 import bugbusters.everyonecodes.java.usermanagement.data.User;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Volunteer {
@@ -16,6 +15,9 @@ public class Volunteer {
 
     @ElementCollection
     private Set<String> skills = new HashSet<>();
+
+    @ElementCollection
+    private Map<String, EmailSchedule> registeredKeywords = new HashMap<>();
 
     @OneToOne @MapsId
     private User user;
@@ -41,6 +43,14 @@ public class Volunteer {
 
     public void setSkills(Set<String> skills) {
         this.skills = skills;
+    }
+
+    public Map<String, EmailSchedule> getRegisteredKeywords() {
+        return registeredKeywords;
+    }
+
+    public void setRegisteredKeywords(Map<String, EmailSchedule> registeredKeywords) {
+        this.registeredKeywords = registeredKeywords;
     }
 
     public User getUser() {

@@ -5,6 +5,7 @@ import bugbusters.everyonecodes.java.activities.*;
 import bugbusters.everyonecodes.java.search.ActivityTextSearchService;
 import bugbusters.everyonecodes.java.search.FilterActivity;
 import bugbusters.everyonecodes.java.search.FilterActivityService;
+import bugbusters.everyonecodes.java.usermanagement.data.EmailSchedule;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.Client;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.individual.Individual;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.individual.IndividualRepository;
@@ -12,7 +13,10 @@ import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientPublicDTO;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.Organization;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.OrganizationRepository;
+import bugbusters.everyonecodes.java.usermanagement.service.EmailService;
+import bugbusters.everyonecodes.java.usermanagement.service.LocalDateNowProvider;
 import bugbusters.everyonecodes.java.usermanagement.service.UserService;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,8 +36,10 @@ public class VolunteerService {
     private final ActivityTextSearchService activityTextSearchService;
     private final ActivityRepository activityRepository;
     private final FilterActivityService filterActivityService;
+    private final LocalDateNowProvider localDateNowProvider;
+    private final EmailService emailService;
 
-    public VolunteerService(UserService userService, VolunteerRepository volunteerRepository, OrganizationRepository organizationRepository, IndividualRepository individualRepository, ClientDTOMapper clientMapper, VolunteerDTOMapper volunteerMapper, SetToStringMapper setToStringMapper, ActivityDTOMapper activityDTOMapper, ActivityTextSearchService activityTextSearchService, ActivityRepository activityRepository, FilterActivityService filterActivityService) {
+    public VolunteerService(UserService userService, VolunteerRepository volunteerRepository, OrganizationRepository organizationRepository, IndividualRepository individualRepository, ClientDTOMapper clientMapper, VolunteerDTOMapper volunteerMapper, SetToStringMapper setToStringMapper, ActivityDTOMapper activityDTOMapper, ActivityTextSearchService activityTextSearchService, ActivityRepository activityRepository, FilterActivityService filterActivityService, LocalDateNowProvider localDateNowProvider, EmailService emailService) {
         this.userService = userService;
         this.volunteerRepository = volunteerRepository;
         this.organizationRepository = organizationRepository;
@@ -45,6 +51,8 @@ public class VolunteerService {
         this.activityTextSearchService = activityTextSearchService;
         this.activityRepository = activityRepository;
         this.filterActivityService = filterActivityService;
+        this.localDateNowProvider = localDateNowProvider;
+        this.emailService = emailService;
     }
 
     public Optional<VolunteerPrivateDTO> editVolunteerData(VolunteerPrivateDTO edits, String username) {
@@ -114,5 +122,52 @@ public class VolunteerService {
         return oResult.get().getUser().getActivities().stream()
                 .map(activityDTOMapper::toVolunteerActivityDTO)
                 .collect(Collectors.toList());
+    }
+
+    public void registerNewKeyword(String keyword, EmailSchedule schedule, String username) {
+        if (EmailSchedule.DAILY.equals(schedule) || EmailSchedule.WEEKLY.equals(schedule) || EmailSchedule.MONTHLY.equals(schedule)) {
+            var oVolunteer = volunteerRepository.findOneByUser_username(username);
+            oVolunteer.ifPresent(volunteer -> volunteer.getRegisteredKeywords().put(keyword, schedule));
+        }
+    }
+
+    @Scheduled(cron = "0 0 * * *")
+    void sendDailyEmail() {
+        List<Activity> activitiesOfLastDay = activityRepository.findAllByStatusVolunteerAndPostedDateGreaterThanEqual(Status.PENDING, localDateNowProvider.getLocalDateTimeNow().minusDays(1));
+        sendEmailsForMatchingKeywords(activitiesOfLastDay, EmailSchedule.DAILY);
+    }
+    
+    @Scheduled(cron = "0 0 * * 1")
+    void sendWeeklyEmail() {
+        List<Activity> activitiesOfLastWeek = activityRepository.findAllByStatusVolunteerAndPostedDateGreaterThanEqual(Status.PENDING, localDateNowProvider.getLocalDateTimeNow().minusWeeks(1));
+        sendEmailsForMatchingKeywords(activitiesOfLastWeek, EmailSchedule.WEEKLY);
+    }
+
+    @Scheduled(cron = "0 0 1 * *")
+    void sendMonthlyEmail() {
+        List<Activity> activitiesOfLastMonth = activityRepository.findAllByStatusVolunteerAndPostedDateGreaterThanEqual(Status.PENDING, localDateNowProvider.getLocalDateTimeNow().minusMonths(1));
+        sendEmailsForMatchingKeywords(activitiesOfLastMonth, EmailSchedule.MONTHLY);
+    }
+
+    private void sendEmailsForMatchingKeywords(List<Activity> activities, EmailSchedule emailSchedule) {
+        List<Volunteer> volunteers = volunteerRepository.findAll();
+        volunteers.forEach(volunteer -> volunteer.getRegisteredKeywords().forEach((key, value) -> {
+            if (emailSchedule.equals(value)) {
+                var matchingActivities = activityTextSearchService.searchActivitiesByText(activities, key);
+                var matchingActivitiesAsString = matchingActivities.stream()
+                        .map(this::toEmailString).collect(Collectors.joining("\n"));
+                String message = "The following Activities have been posted since the last notification: \n\n"
+                        + matchingActivitiesAsString;
+                emailService.sendListOfActivityMailForKeyword(volunteer.getUser().getEmail(), key,  message);
+            }
+        }));
+    }
+
+    private String toEmailString(Activity activity) {
+        return "Title: \"" + activity.getTitle() + "\"\n" +
+                "Creator: \"" + activity.getCreator() + "\"\n" +
+                "Description: \"" + activity.getDescription() + "\"\n" +
+                "Start Time: \"" + activity.getStartTime() + "\"\n" +
+                "End Time: \"" + activity.getEndTime() + "\"\n";
     }
 }

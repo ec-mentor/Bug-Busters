@@ -53,6 +53,19 @@ public class EmailService {
         javaMailSender.send(mailMessage);
     }
 
+    // send Email with List of Activities
+    public void sendListOfActivityMailForKeyword(String to, String keyword, String message) {
+
+        var subject = "New Activities have been posted containing the keyword \"" + keyword + "\"";
+
+        var mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(to);
+        mailMessage.setSubject(subject);
+        mailMessage.setText(message);
+        mailMessage.setFrom("bugbusters21@gmail.com");
+        javaMailSender.send(mailMessage);
+    }
+
 
     // use the link sent by mail to actually set a new password
     public UserPrivateDTO savePassword(String email, String uuid, String newPassword) throws IllegalArgumentException {

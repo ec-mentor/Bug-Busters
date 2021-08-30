@@ -3,6 +3,7 @@ package bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer;
 import bugbusters.everyonecodes.java.activities.ActivityDTO;
 import bugbusters.everyonecodes.java.activities.ActivityService;
 import bugbusters.everyonecodes.java.search.FilterActivity;
+import bugbusters.everyonecodes.java.usermanagement.data.EmailSchedule;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.ClientPublicDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -98,6 +99,11 @@ public class VolunteerEndpoint {
     @PutMapping("/activities/deny/{id}")
     void denyApplication(@PathVariable Long id, Authentication authentication){
         activityService.denyRecommendationAsVolunteer(id, authentication.getName());
+    }
+
+    @PutMapping("/activities/email/{keyword}/{schedule}")
+    void registerForEmailNotificationByKeywordDailyWeeklyOrMonthly(@PathVariable String keyword, @PathVariable EmailSchedule schedule, Authentication authentication) {
+        volunteerService.registerNewKeyword(keyword, schedule, authentication.getName());
     }
 
 }
