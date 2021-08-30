@@ -38,11 +38,4 @@ public class NotificationService {
         result.getNotifications().add(notification);
         userRepository.save(result);
     }
-
-    public NotificationDTO convertToDTO(Notification notification) {
-        NotificationDTO result = new NotificationDTO();
-        result.setCreator(notification.getCreator());
-        result.setMessage(notification.getMessage());
-        return result;
-    }
 }

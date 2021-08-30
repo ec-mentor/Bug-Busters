@@ -1,7 +1,6 @@
 package bugbusters.everyonecodes.java.usermanagement.service;
 
 import bugbusters.everyonecodes.java.notification.Notification;
-import bugbusters.everyonecodes.java.notification.NotificationDTO;
 import bugbusters.everyonecodes.java.notification.NotificationService;
 import bugbusters.everyonecodes.java.usermanagement.data.EmailSchedule;
 import bugbusters.everyonecodes.java.usermanagement.data.User;
@@ -105,7 +104,7 @@ public class EmailService {
     @Scheduled(cron= "0 0 10 * * ?")
     public void sendEmailNotificationDaily() {
         var subject = "Daily Notifications from BugBusters";
-        var message = "Here are your notifications:\n";
+        var message = "Here are your notifications:\n\n";
         var mailMessage = new SimpleMailMessage();
         List<User> users = userRepository.findByEmailSchedule(EmailSchedule.DAILY);
         for (User user : users) {
@@ -113,10 +112,10 @@ public class EmailService {
             if (notifications.isEmpty()) {
                 continue;
             }
-            List<NotificationDTO> result = notifications.stream()
+            String result = notifications.stream()
                     .filter(n -> n.getTimestamp().isAfter(LocalDateTime.now().minusHours(24)))
-                    .map(notificationService::convertToDTO)
-                    .collect(Collectors.toList());
+                    .map(this::toEmailString)
+                    .collect(Collectors.joining("\n"));
             mailMessage.setTo(user.getEmail());
             mailMessage.setSubject(subject);
             mailMessage.setText(message + result);
@@ -129,7 +128,7 @@ public class EmailService {
     @Scheduled(cron= "0 0 10 ? * MON")
     public void sendEmailNotificationWeekly() {
         var subject = "Weekly Notifications from BugBusters";
-        var message = "Here are your notifications:\n";
+        var message = "Here are your notifications:\n\n";
         var mailMessage = new SimpleMailMessage();
         List<User> users = userRepository.findByEmailSchedule(EmailSchedule.WEEKLY);
         for (User user : users) {
@@ -137,10 +136,10 @@ public class EmailService {
             if (notifications.isEmpty()) {
                 continue;
             }
-            List<NotificationDTO> result = notifications.stream()
+            String result = notifications.stream()
                     .filter(n -> n.getTimestamp().isAfter(LocalDateTime.now().minusDays(7)))
-                    .map(notificationService::convertToDTO)
-                    .collect(Collectors.toList());
+                    .map(this::toEmailString)
+                    .collect(Collectors.joining("\n"));
             mailMessage.setTo(user.getEmail());
             mailMessage.setSubject(subject);
             mailMessage.setText(message + result);
@@ -153,7 +152,7 @@ public class EmailService {
     @Scheduled(cron= "0 0 10 1 * ?")
     public void sendEmailNotificationMonthly() {
         var subject = "Monthly Notifications from BugBusters";
-        var message = "Here are your notifications:\n";
+        var message = "Here are your notifications:\n\n";
         var mailMessage = new SimpleMailMessage();
         List<User> users = userRepository.findByEmailSchedule(EmailSchedule.MONTHLY);
         for (User user : users) {
@@ -161,10 +160,10 @@ public class EmailService {
             if (notifications.isEmpty()) {
                 continue;
             }
-            List<NotificationDTO> result = notifications.stream()
+            String result = notifications.stream()
                     .filter(n -> n.getTimestamp().isAfter(LocalDateTime.now().minusMonths(1)))
-                    .map(notificationService::convertToDTO)
-                    .collect(Collectors.toList());
+                    .map(this::toEmailString)
+                    .collect(Collectors.joining("\n"));
             mailMessage.setTo(user.getEmail());
             mailMessage.setSubject(subject);
             mailMessage.setText(message + result);
@@ -173,36 +172,36 @@ public class EmailService {
         }
     }
 
-    //this method is only here to test the logic
-    public List<List<NotificationDTO>> sendEmailNotificationDaily_forTesting() {
-        var subject = "Monthly Notifications from BugBusters";
-        var message = "Here are your notifications:\n";
+    private String toEmailString(Notification notification) {
+        return "Creator: \"" + notification.getCreator() + "\"\n" +
+                "Message: \"" + notification.getMessage() + "\"\n";
+    }
+
+    public void sendTestEmailNotification(String username) {
+        Optional<User> oUser = userRepository.findOneByUsername(username);
+        if (oUser.isEmpty()) return;
         var mailMessage = new SimpleMailMessage();
-        List<User> users = userRepository.findByEmailSchedule(EmailSchedule.DAILY);
-        List<List<NotificationDTO>> result = new ArrayList<>();
-        for (User user : users) {
-            List<Notification> notifications = user.getNotifications();
-            if (notifications.isEmpty()) {
-                continue;
-            }
-            List<NotificationDTO> resultDaily = notifications.stream()
-                    .filter(n -> n.getTimestamp().isAfter(LocalDateTime.now().minusHours(24)))
-                    .map(notificationService::convertToDTO)
-                    .collect(Collectors.toList());
-            result.add(resultDaily);
-            mailMessage.setTo(user.getEmail());
-            mailMessage.setSubject(subject);
-            mailMessage.setText(message + resultDaily);
-            mailMessage.setFrom("bugbusters21@gmail.com");
-            javaMailSender.send(mailMessage);
-        }
-        return result;
+        var subject = "Test Notifications from BugBusters";
+        var message = "Here are your notifications:\n\n";
+        List<Notification> notifications = oUser.get().getNotifications();
+        String notificationsAsString = notifications.stream()
+                .map(this::toEmailString)
+                .collect(Collectors.joining("\n"));
+        mailMessage.setTo(oUser.get().getEmail());
+        mailMessage.setSubject(subject);
+        mailMessage.setText(message + notificationsAsString);
+        mailMessage.setFrom("bugbusters21@gmail.com");
+        javaMailSender.send(mailMessage);
     }
 
     public String registerEmailNotification(String username, EmailSchedule schedule) {
         Optional<User> oUser = userRepository.findOneByUsername(username);
         if (oUser.isEmpty()) return "Oops, something went wrong.";
         User user = oUser.get();
+        if (!user.getEmailSchedule().equals(EmailSchedule.NONE)) {
+            return username + " already has a "
+                    + schedule.toString().toLowerCase() + " notification subscription.";
+        }
         user.setEmailSchedule(schedule);
         userRepository.save(user);
         return username + " is registered for " + schedule.toString().toLowerCase() + " email notification";

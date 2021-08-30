@@ -57,22 +57,20 @@ public class UserEndpoint {
         return notificationService.findAllNotificationsChronologicalByUsername(authentication.getName());
     }
 
-    @Secured({"ROLE_VOLUNTEER", "ROLE_INDIVIDUAL", "ROLE_ORGANIZATION"})
-    @GetMapping("/notifications/email/daily")
-    String registerDailyNotifications(Authentication authentication){
-        return emailService.registerEmailNotification(authentication.getName(), EmailSchedule.DAILY);
-    }
 
     @Secured({"ROLE_VOLUNTEER", "ROLE_INDIVIDUAL", "ROLE_ORGANIZATION"})
-    @GetMapping("/notifications/email/weekly")
-    String registerWeeklyNotifications(Authentication authentication){
-        return emailService.registerEmailNotification(authentication.getName(), EmailSchedule.WEEKLY);
+    @PutMapping("/notifications/email/{schedule}")
+    String registerEmailNotifications(Authentication authentication, @PathVariable String schedule) {
+        return emailService.registerEmailNotification(authentication.getName(), EmailSchedule.valueOf(schedule.toUpperCase()));
     }
 
-    @Secured({"ROLE_VOLUNTEER", "ROLE_INDIVIDUAL", "ROLE_ORGANIZATION"})
-    @GetMapping("/notifications/email/monthly")
-    String registerMonthlyNotifications(Authentication authentication){
-        return emailService.registerEmailNotification(authentication.getName(), EmailSchedule.MONTHLY);
+    //endpoint only for review
+    @Secured({"ROLE_ADMIN"})
+    @GetMapping("/notifications/email/test/{username}")
+    void sendTestEmail(@PathVariable String username) {
+        emailService.sendTestEmailNotification(username);
     }
+
+
 
 }

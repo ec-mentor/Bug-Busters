@@ -1,11 +1,9 @@
-##############Preparation##############
-
-### Add new user - valid email
+### Add new user - valid email!!!
 POST http://localhost:8080/users/register
 Content-Type: application/json
 
 {
-  "username": "Ratko",
+  "username": "Meli",
   "password": "Coding12#",
   "role": "ROLE_VOLUNTEER",
   "fullName": "Test",
@@ -16,13 +14,26 @@ Content-Type: application/json
 }
 
 ### Contact a volunteer as an organization- to get notification
-PUT http://localhost:8080/organization/activities/contact/2/Ratko
+PUT http://localhost:8080/organization/activities/contact/2/Meli
 Authorization: Basic Organization1 Coding12#
+
+### Contact a volunteer as an organization- to get notification
+PUT http://localhost:8080/organization/activities/contact/4/Meli
+Authorization: Basic Organization2 Coding12#
+
+### Contact a volunteer as an individual- to get notification
+PUT http://localhost:8080/individual/activities/contact/14/Meli
+Authorization: Basic MisterW Coding12#
+
 
 ### View notifications from profile
 GET http://localhost:8080/users/notifications
-Authorization: Basic Ratko Coding12#
+Authorization: Basic Meli Coding12#
 
 ### Register for email notification
-GET http://localhost:8080/users/notifications/email/daily
-Authorization: Basic Ratko Coding12#
+PUT http://localhost:8080/users/notifications/email/monthly
+Authorization: Basic Meli Coding12#
+
+### Register for email notification
+GET http://localhost:8080/users/notifications/email/test/Meli
+Authorization: Basic admin Coding12#
