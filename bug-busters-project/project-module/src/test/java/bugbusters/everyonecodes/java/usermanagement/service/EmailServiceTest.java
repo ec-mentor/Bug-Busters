@@ -1,5 +1,6 @@
 package bugbusters.everyonecodes.java.usermanagement.service;
 
+import bugbusters.everyonecodes.java.notification.NotificationService;
 import bugbusters.everyonecodes.java.usermanagement.data.User;
 import bugbusters.everyonecodes.java.usermanagement.repository.UserRepository;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.admin.AdminRunner;
@@ -41,6 +42,9 @@ class EmailServiceTest {
 
     @MockBean
     AdminRunner adminRunner;
+
+    @MockBean
+    NotificationService notificationService;
 
     private final User user = new User("test", "test", "test",
             "test", LocalDate.of(2000, 1, 1), "test",

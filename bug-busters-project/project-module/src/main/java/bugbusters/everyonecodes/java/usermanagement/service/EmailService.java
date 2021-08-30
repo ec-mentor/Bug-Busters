@@ -1,5 +1,9 @@
 package bugbusters.everyonecodes.java.usermanagement.service;
 
+import bugbusters.everyonecodes.java.notification.Notification;
+import bugbusters.everyonecodes.java.notification.NotificationDTO;
+import bugbusters.everyonecodes.java.notification.NotificationService;
+import bugbusters.everyonecodes.java.usermanagement.data.EmailSchedule;
 import bugbusters.everyonecodes.java.usermanagement.data.User;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPrivateDTO;
 import bugbusters.everyonecodes.java.usermanagement.repository.UserRepository;
@@ -10,7 +14,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @EnableScheduling
@@ -20,14 +26,16 @@ public class EmailService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserDTOMapper userDTOMapper;
+    private final NotificationService notificationService;
 
     private final Map<String, String> allowedUsers = new HashMap<>();
 
-    public EmailService(JavaMailSender javaMailSender, UserRepository userRepository, PasswordEncoder passwordEncoder, UserDTOMapper userDTOMapper) {
+    public EmailService(JavaMailSender javaMailSender, UserRepository userRepository, PasswordEncoder passwordEncoder, UserDTOMapper userDTOMapper, NotificationService notificationService) {
         this.javaMailSender = javaMailSender;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userDTOMapper = userDTOMapper;
+        this.notificationService = notificationService;
     }
 
 
@@ -88,5 +96,89 @@ public class EmailService {
 // just for testing
     public void addEntryToMap(String key, String value) {
         allowedUsers.put(key, value);
+    }
+
+
+    //-----------email notifications-------------------
+
+    //every day at 10am
+    @Scheduled(cron= "0 0 10 * * ?")
+    public void sendEmailNotificationDaily() {
+        var subject = "Daily Notifications from BugBusters";
+        var message = "Here are your notifications:\n";
+        var mailMessage = new SimpleMailMessage();
+        List<User> users = userRepository.findByEmailSchedule(EmailSchedule.DAILY);
+        for (User user : users) {
+            List<Notification> notifications = user.getNotifications();
+            if (notifications.isEmpty()) {
+                continue;
+            }
+            List<NotificationDTO> result = notifications.stream()
+                    .filter(n -> n.getTimestamp().isAfter(LocalDateTime.now().minusHours(24)))
+                    .map(notificationService::convertToDTO)
+                    .collect(Collectors.toList());
+            mailMessage.setTo(user.getEmail());
+            mailMessage.setSubject(subject);
+            mailMessage.setText(message + result);
+            mailMessage.setFrom("bugbusters21@gmail.com");
+            javaMailSender.send(mailMessage);
+        }
+    }
+
+    //every monday at 10am - weekly
+    @Scheduled(cron= "0 0 10 ? * MON")
+    public void sendEmailNotificationWeekly() {
+        var subject = "Weekly Notifications from BugBusters";
+        var message = "Here are your notifications:\n";
+        var mailMessage = new SimpleMailMessage();
+        List<User> users = userRepository.findByEmailSchedule(EmailSchedule.WEEKLY);
+        for (User user : users) {
+            List<Notification> notifications = user.getNotifications();
+            if (notifications.isEmpty()) {
+                continue;
+            }
+            List<NotificationDTO> result = notifications.stream()
+                    .filter(n -> n.getTimestamp().isAfter(LocalDateTime.now().minusDays(7)))
+                    .map(notificationService::convertToDTO)
+                    .collect(Collectors.toList());
+            mailMessage.setTo(user.getEmail());
+            mailMessage.setSubject(subject);
+            mailMessage.setText(message + result);
+            mailMessage.setFrom("bugbusters21@gmail.com");
+            javaMailSender.send(mailMessage);
+        }
+    }
+
+    //on the first day of every month at 10am - monthly
+    @Scheduled(cron= "0 0 10 1 * ?")
+    public void sendEmailNotificationMonthly() {
+        var subject = "Monthly Notifications from BugBusters";
+        var message = "Here are your notifications:\n";
+        var mailMessage = new SimpleMailMessage();
+        List<User> users = userRepository.findByEmailSchedule(EmailSchedule.MONTHLY);
+        for (User user : users) {
+            List<Notification> notifications = user.getNotifications();
+            if (notifications.isEmpty()) {
+                continue;
+            }
+            List<NotificationDTO> result = notifications.stream()
+                    .filter(n -> n.getTimestamp().isAfter(LocalDateTime.now().minusMonths(1)))
+                    .map(notificationService::convertToDTO)
+                    .collect(Collectors.toList());
+            mailMessage.setTo(user.getEmail());
+            mailMessage.setSubject(subject);
+            mailMessage.setText(message + result);
+            mailMessage.setFrom("bugbusters21@gmail.com");
+            javaMailSender.send(mailMessage);
+        }
+    }
+
+    public String registerEmailNotification(String username, EmailSchedule schedule) {
+        Optional<User> oUser = userRepository.findOneByUsername(username);
+        if (oUser.isEmpty()) return "Oops, something went wrong.";
+        User user = oUser.get();
+        user.setEmailSchedule(schedule);
+        userRepository.save(user);
+        return username + " is registered for " + schedule.toString().toLowerCase() + " email notification";
     }
 }

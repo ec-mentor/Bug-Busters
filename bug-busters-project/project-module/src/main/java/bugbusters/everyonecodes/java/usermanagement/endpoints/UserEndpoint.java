@@ -2,6 +2,7 @@ package bugbusters.everyonecodes.java.usermanagement.endpoints;
 
 import bugbusters.everyonecodes.java.notification.Notification;
 import bugbusters.everyonecodes.java.notification.NotificationService;
+import bugbusters.everyonecodes.java.usermanagement.data.EmailSchedule;
 import bugbusters.everyonecodes.java.usermanagement.data.User;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPrivateDTO;
 import bugbusters.everyonecodes.java.usermanagement.service.EmailService;
@@ -55,4 +56,23 @@ public class UserEndpoint {
     List<Notification> getNotifications(Authentication authentication){
         return notificationService.findAllNotificationsChronologicalByUsername(authentication.getName());
     }
+
+    @Secured({"ROLE_VOLUNTEER", "ROLE_INDIVIDUAL", "ROLE_ORGANIZATION"})
+    @GetMapping("/notifications/email/daily")
+    String registerDailyNotifications(Authentication authentication){
+        return emailService.registerEmailNotification(authentication.getName(), EmailSchedule.DAILY);
+    }
+
+    @Secured({"ROLE_VOLUNTEER", "ROLE_INDIVIDUAL", "ROLE_ORGANIZATION"})
+    @GetMapping("/notifications/email/weekly")
+    String registerWeeklyNotifications(Authentication authentication){
+        return emailService.registerEmailNotification(authentication.getName(), EmailSchedule.WEEKLY);
+    }
+
+    @Secured({"ROLE_VOLUNTEER", "ROLE_INDIVIDUAL", "ROLE_ORGANIZATION"})
+    @GetMapping("/notifications/email/monthly")
+    String registerMonthlyNotifications(Authentication authentication){
+        return emailService.registerEmailNotification(authentication.getName(), EmailSchedule.MONTHLY);
+    }
+
 }
