@@ -173,6 +173,32 @@ public class EmailService {
         }
     }
 
+    //this method is only here to test the logic
+    public List<List<NotificationDTO>> sendEmailNotificationDaily_forTesting() {
+        var subject = "Monthly Notifications from BugBusters";
+        var message = "Here are your notifications:\n";
+        var mailMessage = new SimpleMailMessage();
+        List<User> users = userRepository.findByEmailSchedule(EmailSchedule.DAILY);
+        List<List<NotificationDTO>> result = new ArrayList<>();
+        for (User user : users) {
+            List<Notification> notifications = user.getNotifications();
+            if (notifications.isEmpty()) {
+                continue;
+            }
+            List<NotificationDTO> resultDaily = notifications.stream()
+                    .filter(n -> n.getTimestamp().isAfter(LocalDateTime.now().minusHours(24)))
+                    .map(notificationService::convertToDTO)
+                    .collect(Collectors.toList());
+            result.add(resultDaily);
+            mailMessage.setTo(user.getEmail());
+            mailMessage.setSubject(subject);
+            mailMessage.setText(message + resultDaily);
+            mailMessage.setFrom("bugbusters21@gmail.com");
+            javaMailSender.send(mailMessage);
+        }
+        return result;
+    }
+
     public String registerEmailNotification(String username, EmailSchedule schedule) {
         Optional<User> oUser = userRepository.findOneByUsername(username);
         if (oUser.isEmpty()) return "Oops, something went wrong.";

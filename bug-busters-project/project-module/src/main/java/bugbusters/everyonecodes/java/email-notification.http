@@ -1,0 +1,28 @@
+##############Preparation##############
+
+### Add new user - valid email
+POST http://localhost:8080/users/register
+Content-Type: application/json
+
+{
+  "username": "Ratko",
+  "password": "Coding12#",
+  "role": "ROLE_VOLUNTEER",
+  "fullName": "Test",
+  "birthday": null,
+  "address": null,
+  "email": "xxx@gmail.com",
+  "description": null
+}
+
+### Contact a volunteer as an organization- to get notification
+PUT http://localhost:8080/organization/activities/contact/2/Ratko
+Authorization: Basic Organization1 Coding12#
+
+### View notifications from profile
+GET http://localhost:8080/users/notifications
+Authorization: Basic Ratko Coding12#
+
+### Register for email notification
+GET http://localhost:8080/users/notifications/email/daily
+Authorization: Basic Ratko Coding12#
