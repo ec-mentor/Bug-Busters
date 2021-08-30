@@ -15,7 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -106,7 +105,7 @@ class FilterActivityServiceTest {
                 Arguments.of(
                         input, creators,
                         new FilterActivity(
-                                LocalDate.of(2000, 1, 1),
+                                LocalDateTime.of(2000, 1, 1, 0, 0),
                                 null,
                                 null,
                                 null,
@@ -166,7 +165,7 @@ class FilterActivityServiceTest {
                 Arguments.of(
                         input, creators,
                         new FilterActivity(
-                                LocalDate.of(2000, 2, 1),
+                                LocalDateTime.of(2000, 2, 1, 0, 0),
                                 "z",
                                 "g",
                                 "user1",
@@ -178,7 +177,7 @@ class FilterActivityServiceTest {
                 Arguments.of(
                         input, creators,
                         new FilterActivity(
-                                LocalDate.of(1999, 1, 1),
+                                LocalDateTime.of(1999, 1, 1, 0, 0),
                                 "no",
                                 "no",
                                 "no",
