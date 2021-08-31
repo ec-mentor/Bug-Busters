@@ -8,11 +8,16 @@ import bugbusters.everyonecodes.java.usermanagement.data.UserPrivateDTO;
 import bugbusters.everyonecodes.java.usermanagement.repository.UserRepository;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.mail.*;
+import javax.mail.internet.*;
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -173,26 +178,60 @@ public class EmailService {
     }
 
     private String toEmailString(Notification notification) {
-        return "Creator: \"" + notification.getCreator() + "\"\n" +
+        return "From: \"" + notification.getCreator() + "\"\n" +
                 "Message: \"" + notification.getMessage() + "\"\n";
     }
 
-    public void sendTestEmailNotification(String username) {
-        Optional<User> oUser = userRepository.findOneByUsername(username);
+    //only for review to show test email for notifications
+    public void sendTestHTMLEmail(String usernameInput) {
+        Optional<User> oUser = userRepository.findOneByUsername(usernameInput);
         if (oUser.isEmpty()) return;
-        var mailMessage = new SimpleMailMessage();
-        var subject = "Test Notifications from BugBusters";
-        var message = "Here are your notifications:\n\n";
-        List<Notification> notifications = oUser.get().getNotifications();
-        String notificationsAsString = notifications.stream()
-                .map(this::toEmailString)
-                .collect(Collectors.joining("\n"));
-        mailMessage.setTo(oUser.get().getEmail());
-        mailMessage.setSubject(subject);
-        mailMessage.setText(message + notificationsAsString);
-        mailMessage.setFrom("bugbusters21@gmail.com");
-        javaMailSender.send(mailMessage);
+        String to = oUser.get().getEmail();
+        String from = "bugbusters21@gmail.com";
+        final String username = from;
+        final String password = "kgatvfvoxznoyxsx";
+        String host = "smtp.gmail.com";
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.port", "587");
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+        try {
+            MimeMessage message = new MimeMessage(session);
+            MimeMessageHelper helper = new MimeMessageHelper(message,  true, "utf-8");
+            helper.setTo(to);
+            String body = "<h3><font color=black>Your Email notification is working!</font></h3><br>";
+            body += "<font color=black><p><i>Here are your notifications:</i><br><br>";
+            List<Notification> notifications = oUser.get().getNotifications();
+            String notificationsAsString = notifications.stream()
+                    .map(this::toEmailStringHTML)
+                    .collect(Collectors.joining("<br>"));
+            body += notificationsAsString;
+            body += "<br><br>" + "Click on Link to unsubscribe: "
+                    + "http://localhost:8080/users/notifications/email/unsubscribe/" + usernameInput + "</p></font>";
+            helper.setText(body, true);
+            helper.setSubject("Test Notifications from BugBusters");
+            helper.setFrom(from);
+            File file = new File("bug-busters-project/project-module/src/main/resources/BugBustersSmall.png");
+            helper.addAttachment("BugBustersSmall.png", file);
+            javaMailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
+
+    private String toEmailStringHTML(Notification notification) {
+        return "<b>From:</b> \"" + notification.getCreator() + "\"<br>" +
+                "<b>Message:</b> \"" + notification.getMessage() + "\"<br>";
+    }
+
+
 
     public String registerEmailNotification(String username, EmailSchedule schedule) {
         Optional<User> oUser = userRepository.findOneByUsername(username);
@@ -205,5 +244,14 @@ public class EmailService {
         user.setEmailSchedule(schedule);
         userRepository.save(user);
         return username + " is registered for " + schedule.toString().toLowerCase() + " email notification";
+    }
+
+    public String unsubscribeEmailNotification(String username) {
+        Optional<User> oUser = userRepository.findOneByUsername(username);
+        if (oUser.isEmpty()) return "Oops, something went wrong.";
+        User user = oUser.get();
+        user.setEmailSchedule(EmailSchedule.NONE);
+        userRepository.save(user);
+        return "You have successfully unsubscribed from your email notifications!";
     }
 }

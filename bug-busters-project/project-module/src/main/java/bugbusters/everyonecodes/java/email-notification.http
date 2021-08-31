@@ -1,3 +1,5 @@
+##### Registration for e-mail notifications #####
+
 ### Add new user - valid email!!!
 POST http://localhost:8080/users/register
 Content-Type: application/json
@@ -12,6 +14,8 @@ Content-Type: application/json
   "email": "xxx@gmail.com",
   "description": null
 }
+
+### Add some notifications to new user
 
 ### Contact a volunteer as an organization- to get notification
 PUT http://localhost:8080/organization/activities/contact/2/Meli
@@ -30,10 +34,26 @@ Authorization: Basic MisterW Coding12#
 GET http://localhost:8080/users/notifications
 Authorization: Basic Meli Coding12#
 
-### Register for email notification
-PUT http://localhost:8080/users/notifications/email/monthly
-Authorization: Basic Meli Coding12#
+
 
 ### Register for email notification
+PUT http://localhost:8080/users/notifications/email/weekly
+Authorization: Basic Meli Coding12#
+
+### View details of user account- to show successfull registration
+GET http://localhost:8080/admin/account/Meli
+Authorization: Basic admin Coding12#
+
+### Trigger email notification
 GET http://localhost:8080/users/notifications/email/test/Meli
+Authorization: Basic admin Coding12#
+
+
+##### Unsubscribe option in email of notifications #####
+
+### Click link to unsubscribe in email - show changed email notification status
+### Note: Maybe Chrome wants you to type in username and password
+
+### View details of user account
+GET http://localhost:8080/admin/account/Meli
 Authorization: Basic admin Coding12#

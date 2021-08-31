@@ -67,10 +67,13 @@ public class UserEndpoint {
     //endpoint only for review
     @Secured({"ROLE_ADMIN"})
     @GetMapping("/notifications/email/test/{username}")
-    void sendTestEmail(@PathVariable String username) {
-        emailService.sendTestEmailNotification(username);
+    void sendTestHtmlEmail(@PathVariable String username) {
+        emailService.sendTestHTMLEmail(username);
     }
 
 
-
+    @GetMapping("/notifications/email/unsubscribe/{username}")
+    String unsubscribeEmailNotification(@PathVariable String username) {
+        return emailService.unsubscribeEmailNotification(username);
+    }
 }
