@@ -12,6 +12,7 @@ import bugbusters.everyonecodes.java.usermanagement.rolemanagement.individual.In
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.organization.*;
 import bugbusters.everyonecodes.java.usermanagement.service.UserService;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -61,18 +62,30 @@ class VolunteerServiceTest {
     ActivityDTOMapper activityDTOMapper;
 
     // for testing
-    private final String username = "test";
-    private final User user = new User("test", "test", "test",
-            "test", LocalDate.of(2000, 1, 1), "test",
-            "test", "test");
-    private final UserPrivateDTO userPrivateDTO = new UserPrivateDTO(username, user.getRole(), user.getFullName(), user.getBirthday(), user.getAddress(), user.getEmail(), user.getDescription());
-    private final UserPublicDTO userPublicDTO = new UserPublicDTO(username, "test", 1, "test", 5.0);
-    private final Individual individual = new Individual(user);
-    private final Organization organization = new Organization(user);
-    private final Volunteer volunteer = new Volunteer(user);
-    private final Activity activity = new Activity("test", "test", "test", Set.of("test"), Set.of("test"), LocalDateTime.now(), LocalDateTime.now(), true, Status.PENDING, Status.PENDING, null, null, null, null);
-    private final ActivityDTO activityDTO = new ActivityDTO("test", "test", "test", Status.PENDING, LocalDateTime.now(), LocalDateTime.now(), null, null, null, null, null, null);
-    private Object ActivityDTO;
+    private String username;
+    private User user;
+    private UserPrivateDTO userPrivateDTO;
+    private UserPublicDTO userPublicDTO;
+    private Individual individual;
+    private Organization organization;
+    private Volunteer volunteer;
+    private Activity activity;
+    private ActivityDTO activityDTO;
+    
+    @BeforeEach
+    void setUp() {
+        username = "test";
+        user = new User("test", "test", "test",
+                "test", LocalDate.of(2000, 1, 1), "test",
+                "test", "test");
+        userPrivateDTO = new UserPrivateDTO(username, user.getRole(), user.getFullName(), user.getBirthday(), user.getAddress(), user.getEmail(), user.getDescription());
+        userPublicDTO = new UserPublicDTO(username, "test", 1, "test", 5.0);
+        individual = new Individual(user);
+        organization = new Organization(user);
+        volunteer = new Volunteer(user);
+        activity = new Activity("test", "test", "test", Set.of("test"), Set.of("test"), LocalDateTime.now(), LocalDateTime.now(), true, Status.PENDING, Status.PENDING, null, null, null, null);
+        activityDTO = new ActivityDTO("test", "test", "test", Status.PENDING, LocalDateTime.now(), LocalDateTime.now(), null, null, null, null, null, null);
+    }
 
     @Test
     void getVolunteerByUsername() {
