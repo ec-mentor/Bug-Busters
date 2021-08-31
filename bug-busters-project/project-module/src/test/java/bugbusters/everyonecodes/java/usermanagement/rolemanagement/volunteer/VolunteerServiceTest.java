@@ -23,8 +23,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static bugbusters.everyonecodes.java.usermanagement.data.EmailSchedule.DAILY;
-import static bugbusters.everyonecodes.java.usermanagement.data.EmailSchedule.WEEKLY;
+import static bugbusters.everyonecodes.java.usermanagement.data.EmailSchedule.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -222,18 +221,18 @@ class VolunteerServiceTest {
     // registerNewKeyword() Test
     @Test
     void registerNewKeyword() {
-        volunteer.setRegisteredKeywords(Map.of("cook", DAILY));
-        volunteerService.registerNewKeyword("cook", DAILY, "test");
         Mockito.when(volunteerRepository.findOneByUser_username("test")).thenReturn(Optional.of(volunteer));
+        volunteer.setRegisteredKeywords(new HashMap<>());
+        volunteerService.registerNewKeyword("cook", DAILY, "test");
         var result = volunteer.getRegisteredKeywords();
         Assertions.assertEquals(Map.of("cook", DAILY), result);
     }
 
     @Test
-    void registerNewKeyword_Empty() {
-        volunteer.setRegisteredKeywords(Map.of());
-        volunteerService.registerNewKeyword("cook", DAILY, "test");
-        Mockito.when(volunteerRepository.findOneByUser_username("test")).thenReturn(Optional.empty());
+    void registerNewKeyword_EmailScheduleNONE() {
+        Mockito.when(volunteerRepository.findOneByUser_username("test")).thenReturn(Optional.of(volunteer));
+        volunteer.setRegisteredKeywords(new HashMap<>());
+        volunteerService.registerNewKeyword("cook", NONE, "test");
         var result = volunteer.getRegisteredKeywords();
         Assertions.assertEquals(Map.of(), result);
     }
@@ -248,34 +247,38 @@ class VolunteerServiceTest {
     // viewKeywordRegistrations() Test
     @Test
     void viewKeywordRegistrations() {
-        volunteer.setRegisteredKeywords(Map.of("cook", DAILY));
-        volunteerService.viewKeywordRegistrations("test");
         Mockito.when(volunteerRepository.findOneByUser_username("test")).thenReturn(Optional.of(volunteer));
-        var result = volunteer.getRegisteredKeywords();
-        Assertions.assertEquals(Map.of("cook", DAILY), result);
+        volunteer.setRegisteredKeywords(new HashMap<>(Map.of("cook", DAILY)));
+        var expected = volunteer.getRegisteredKeywords();
+        var result = volunteerService.viewKeywordRegistrations("test");
+        Assertions.assertEquals(expected, result);
     }
 
     @Test
-    void viewKeywordRegistrations_Empty() {
-        volunteer.setRegisteredKeywords(Map.of());
-        volunteerService.viewKeywordRegistrations("test");
-        Mockito.when(volunteerRepository.findOneByUser_username("test")).thenReturn(Optional.empty());
-        var result = volunteer.getRegisteredKeywords();
-        Assertions.assertEquals(Map.of(), result);
+    void viewKeywordRegistrations_EmptyMap() {
+        Mockito.when(volunteerRepository.findOneByUser_username("test")).thenReturn(Optional.of(volunteer));
+        volunteer.setRegisteredKeywords(new HashMap<>());
+        var expected = volunteer.getRegisteredKeywords();
+        var result = volunteerService.viewKeywordRegistrations("test");
+        Assertions.assertEquals(expected, result);
     }
-
-
-    //TODO: deleteKeywordRegistration() Test
-
-    // still does not work, always returns the whole map without removing an entry ...
 
     @Test
     void deleteKeywordRegistration() {
-        volunteer.setRegisteredKeywords(Map.of("cook", DAILY, "garden", WEEKLY));
-        volunteerService.deleteKeywordRegistration("cook", username);
         Mockito.when(volunteerRepository.findOneByUser_username(username)).thenReturn(Optional.of(volunteer));
+        volunteer.setRegisteredKeywords(new HashMap<>(Map.of("cook", DAILY, "garden", WEEKLY)));
+        volunteerService.deleteKeywordRegistration("cook", username);
         var result = volunteer.getRegisteredKeywords();
         Assertions.assertEquals(Map.of("garden", WEEKLY), result);
+    }
+
+    @Test
+    void deleteKeywordRegistration_removeNoEntryIfNoMatch() {
+        Mockito.when(volunteerRepository.findOneByUser_username(username)).thenReturn(Optional.of(volunteer));
+        volunteer.setRegisteredKeywords(new HashMap<>(Map.of("cook", DAILY, "garden", WEEKLY)));
+        volunteerService.deleteKeywordRegistration("pilot", username);
+        var result = volunteer.getRegisteredKeywords();
+        Assertions.assertEquals(Map.of("garden", WEEKLY, "cook", DAILY), result);
     }
 
 }
