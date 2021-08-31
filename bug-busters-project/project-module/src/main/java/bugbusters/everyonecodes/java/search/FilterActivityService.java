@@ -32,7 +32,7 @@ public class FilterActivityService {
     }
 
     private boolean filterDate(LocalDateTime startDate, LocalDateTime endDate, LocalDateTime inputDate) {
-        if (inputDate == null) return true;
+        if (inputDate == null || inputDate.equals(startDate) || inputDate.equals(endDate)) return true;
         return startDate.isBefore(inputDate) && endDate.isAfter(inputDate);
     }
 

@@ -105,7 +105,7 @@ class FilterActivityServiceTest {
                 Arguments.of(
                         input, creators,
                         new FilterActivity(
-                                LocalDateTime.of(2000, 1, 1, 0, 0),
+                                LocalDateTime.of(2000, 1, 1, 12, 0),
                                 null,
                                 null,
                                 null,
