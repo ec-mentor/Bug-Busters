@@ -30,7 +30,7 @@ class VolunteerDTOMapperTest {
             "test", LocalDate.of(2000, 1, 1), "test",
             "test", "test");
     private final UserPrivateDTO userPrivateDTO = new UserPrivateDTO(username, user.getRole(), user.getFullName(), user.getBirthday(), user.getAddress(), user.getEmail(), user.getDescription());
-    private final UserPublicDTO userPublicDTO = new UserPublicDTO(username, "test", 1, "test", 5.0);
+    private final UserPublicDTO userPublicDTO = new UserPublicDTO(username, "test", 1, "test", 5.0, 0);
     private final Volunteer volunteer = new Volunteer(user);
 
 

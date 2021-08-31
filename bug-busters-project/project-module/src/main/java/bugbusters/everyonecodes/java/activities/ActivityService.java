@@ -8,6 +8,7 @@ import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.Set
 import bugbusters.everyonecodes.java.usermanagement.service.LocalDateNowProvider;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.Optional;
 
 @Service
@@ -116,49 +117,57 @@ public class ActivityService {
     }
 
     public Optional<ActivityDTO> completeActivityClientNotifyVolunteer(Long id, int rating, String feedback, String creatorAuthName) {
-        Optional<Activity> oResult = activityRepository.findById(id);
-        if (oResult.isEmpty()) {
-            return Optional.empty();
-        }
-        Activity result = oResult.get();
-        if (!creatorAuthName.equals(result.getCreator())) {
-            return Optional.empty();
-        }
-        String volunteerUsername = result.getVolunteer();
-        var oUser = userRepository.findOneByUsername(volunteerUsername);
-        if (oUser.isEmpty()) return Optional.empty();
-        result.setStatusClient(Status.COMPLETED);
-        result.setRatingFromClient(rating);
-        oUser.get().getRatings().add(rating);
-        userRepository.save(oUser.get());
+        var oActivity = activityRepository.findById(id);
+        if (oActivity.isEmpty()) return Optional.empty();
+        var activity = oActivity.get();
+        if (!creatorAuthName.equals(activity.getCreator())) return Optional.empty();
+        var volunteerUsername = activity.getVolunteer();
+
+        var oVolunteer = userRepository.findOneByUsername(volunteerUsername);
+//        var oClient = userRepository.findOneByUsername(creatorAuthName);
+        if (oVolunteer.isEmpty()) return Optional.empty();
+//        if (oClient.isEmpty()) return Optional.empty();
+//
+//        var activityDuration = (int) Duration.between(activity.getStartTime(), activity.getEndTime()).toDays();
+//        oClient.get().setExperience(oClient.get().getExperience() + activityDuration);
+
+        activity.setStatusClient(Status.COMPLETED);
+        activity.setRatingFromClient(rating);
+        oVolunteer.get().getRatings().add(rating);
+        userRepository.save(oVolunteer.get());
+//        userRepository.save(oClient.get());
         if (!feedback.isEmpty()) {
-            result.setFeedbackFromClient(feedback);
+            activity.setFeedbackFromClient(feedback);
         }
-        String message = "Congratulations, you have completed the activity: " + result.getTitle() + " from " + result.getCreator() + ". You have been rated: " + rating + ". To finish the process you have to rate the organization and you can give optional feedback!";
-        Notification notification = new Notification(result.getCreator(), message);
+        String message = "Congratulations, you have completed the activity: " + activity.getTitle() + " from " + activity.getCreator() + ". You have been rated: " + rating + ". To finish the process you have to rate the organization and you can give optional feedback!";
+        Notification notification = new Notification(activity.getCreator(), message);
         notificationService.saveNotification(notification, volunteerUsername);
-        return Optional.of(activityDTOMapper.toClientActivityDTO(activityRepository.save(result)));
+        return Optional.of(activityDTOMapper.toClientActivityDTO(activityRepository.save(activity)));
     }
 
     public Optional<ActivityDTO> completeActivityVolunteer(Long id, int rating, String feedback, String volunteerAuthName) {
-        Optional<Activity> oResult = activityRepository.findById(id);
-        if (oResult.isEmpty()) {
-            return Optional.empty();
-        }
-        Activity result = oResult.get();
-        if (!result.getStatusClient().equals(Status.COMPLETED) || !volunteerAuthName.equals(result.getVolunteer())) {
-            return Optional.empty();
-        }
-        var oUser = userRepository.findOneByUsername(result.getCreator());
-        if (oUser.isEmpty()) return Optional.empty();
-        result.setStatusVolunteer(Status.COMPLETED);
-        result.setRatingFromVolunteer(rating);
-        oUser.get().getRatings().add(rating);
-        userRepository.save(oUser.get());
+        var oActivity = activityRepository.findById(id);
+        if (oActivity.isEmpty()) return Optional.empty();
+        var activity = oActivity.get();
+        if (!activity.getStatusClient().equals(Status.COMPLETED) || !volunteerAuthName.equals(activity.getVolunteer())) return Optional.empty();
+
+        var oClient = userRepository.findOneByUsername(activity.getCreator());
+//        var oVolunteer = userRepository.findOneByUsername(volunteerAuthName);
+        if (oClient.isEmpty()) return Optional.empty();
+//        if (oVolunteer.isEmpty()) return Optional.empty();
+
+//        var activityDuration = (int) Duration.between(activity.getStartTime(), activity.getEndTime()).toDays();
+//        oVolunteer.get().setExperience(oVolunteer.get().getExperience() + activityDuration);
+
+        activity.setStatusVolunteer(Status.COMPLETED);
+        activity.setRatingFromVolunteer(rating);
+        oClient.get().getRatings().add(rating);
+        userRepository.save(oClient.get());
+//        userRepository.save(oVolunteer.get());
         if (!feedback.isEmpty()) {
-            result.setFeedbackFromVolunteer(feedback);
+            activity.setFeedbackFromVolunteer(feedback);
         }
-        return Optional.of(activityDTOMapper.toVolunteerActivityDTO(activityRepository.save(result)));
+        return Optional.of(activityDTOMapper.toVolunteerActivityDTO(activityRepository.save(activity)));
     }
 
     public void applyForActivity(Long activityId, String username) {

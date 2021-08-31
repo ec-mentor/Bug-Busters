@@ -144,7 +144,7 @@ class UserServiceTest {
         User user = new User(username, "test", "test",
                 "test", LocalDate.of(2000, 1, 1), "test",
                 "test", "test");
-        UserPublicDTO userPublicDTO = new UserPublicDTO(username, "test", 1, "test", null);
+        UserPublicDTO userPublicDTO = new UserPublicDTO(username, "test", 1, "test", null, 0);
         Mockito.when(userRepository.findOneByUsername(username)).thenReturn(Optional.of(user));
         Mockito.when(mapper.toUserPublicDTO(user)).thenReturn(userPublicDTO);
         var oResult = userService.viewUserPublicData(username);
