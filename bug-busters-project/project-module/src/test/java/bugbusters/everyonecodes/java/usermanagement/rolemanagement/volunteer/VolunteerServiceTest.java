@@ -2,6 +2,7 @@ package bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer;
 
 import bugbusters.everyonecodes.java.activities.*;
 import bugbusters.everyonecodes.java.search.ActivityTextSearchService;
+import bugbusters.everyonecodes.java.usermanagement.data.EmailSchedule;
 import bugbusters.everyonecodes.java.usermanagement.data.User;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPrivateDTO;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPublicDTO;
@@ -20,10 +21,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
+import static bugbusters.everyonecodes.java.usermanagement.data.EmailSchedule.DAILY;
+import static bugbusters.everyonecodes.java.usermanagement.data.EmailSchedule.WEEKLY;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -217,4 +218,64 @@ class VolunteerServiceTest {
         var result = volunteerService.listAllActivitiesOfVolunteer("test");
         Assertions.assertEquals(List.of(), result);
     }
+
+    // registerNewKeyword() Test
+    @Test
+    void registerNewKeyword() {
+        volunteer.setRegisteredKeywords(Map.of("cook", DAILY));
+        volunteerService.registerNewKeyword("cook", DAILY, "test");
+        Mockito.when(volunteerRepository.findOneByUser_username("test")).thenReturn(Optional.of(volunteer));
+        var result = volunteer.getRegisteredKeywords();
+        Assertions.assertEquals(Map.of("cook", DAILY), result);
+    }
+
+    @Test
+    void registerNewKeyword_Empty() {
+        volunteer.setRegisteredKeywords(Map.of());
+        volunteerService.registerNewKeyword("cook", DAILY, "test");
+        Mockito.when(volunteerRepository.findOneByUser_username("test")).thenReturn(Optional.empty());
+        var result = volunteer.getRegisteredKeywords();
+        Assertions.assertEquals(Map.of(), result);
+    }
+
+    //TODO: sendEmailsForMatchingKeywords() Test
+    @Test
+    void sendEmailsForMatchingKeywords() {
+
+    }
+
+
+    // viewKeywordRegistrations() Test
+    @Test
+    void viewKeywordRegistrations() {
+        volunteer.setRegisteredKeywords(Map.of("cook", DAILY));
+        volunteerService.viewKeywordRegistrations("test");
+        Mockito.when(volunteerRepository.findOneByUser_username("test")).thenReturn(Optional.of(volunteer));
+        var result = volunteer.getRegisteredKeywords();
+        Assertions.assertEquals(Map.of("cook", DAILY), result);
+    }
+
+    @Test
+    void viewKeywordRegistrations_Empty() {
+        volunteer.setRegisteredKeywords(Map.of());
+        volunteerService.viewKeywordRegistrations("test");
+        Mockito.when(volunteerRepository.findOneByUser_username("test")).thenReturn(Optional.empty());
+        var result = volunteer.getRegisteredKeywords();
+        Assertions.assertEquals(Map.of(), result);
+    }
+
+
+    //TODO: deleteKeywordRegistration() Test
+
+    // still does not work, always returns the whole map without removing an entry ...
+
+    @Test
+    void deleteKeywordRegistration() {
+        volunteer.setRegisteredKeywords(Map.of("cook", DAILY, "garden", WEEKLY));
+        volunteerService.deleteKeywordRegistration("cook", username);
+        Mockito.when(volunteerRepository.findOneByUser_username(username)).thenReturn(Optional.of(volunteer));
+        var result = volunteer.getRegisteredKeywords();
+        Assertions.assertEquals(Map.of("garden", WEEKLY), result);
+    }
+
 }

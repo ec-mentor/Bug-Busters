@@ -1,0 +1,11 @@
+### Register for Email Notification Daily/Weekly/Monthly
+PUT http://localhost:8080/volunteer/activities/email/cook/DAILY
+Authorization: Basic Derek Coding12#
+
+### Register for Email Notification Daily/Weekly/Monthly
+GET http://localhost:8080/volunteer/activities/email/keywords
+Authorization: Basic Derek Coding12#
+
+### Register for Email Notification Daily/Weekly/Monthly
+DELETE http://localhost:8080/volunteer/activities/email/cook/delete
+Authorization: Basic Derek Coding12#

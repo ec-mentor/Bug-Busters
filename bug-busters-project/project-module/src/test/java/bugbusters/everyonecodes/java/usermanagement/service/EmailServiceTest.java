@@ -90,4 +90,11 @@ class EmailServiceTest {
         });
     }
 
+    //TODO: sendListOfActivityMailForKeyword() Test
+
+    @Test
+    void sendListOfActivityMailForKeyword() {
+
+    }
+
 }
