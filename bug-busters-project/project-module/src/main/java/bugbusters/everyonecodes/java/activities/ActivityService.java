@@ -124,18 +124,18 @@ public class ActivityService {
         var volunteerUsername = activity.getVolunteer();
 
         var oVolunteer = userRepository.findOneByUsername(volunteerUsername);
-//        var oClient = userRepository.findOneByUsername(creatorAuthName);
+        var oClient = userRepository.findOneByUsername(creatorAuthName);
         if (oVolunteer.isEmpty()) return Optional.empty();
-//        if (oClient.isEmpty()) return Optional.empty();
-//
-//        var activityDuration = (int) Duration.between(activity.getStartTime(), activity.getEndTime()).toDays();
-//        oClient.get().setExperience(oClient.get().getExperience() + activityDuration);
+        if (oClient.isEmpty()) return Optional.empty();
+
+        var activityDuration = (int) Duration.between(activity.getStartTime(), activity.getEndTime()).toDays();
+        oClient.get().setExperience(oClient.get().getExperience() + activityDuration);
 
         activity.setStatusClient(Status.COMPLETED);
         activity.setRatingFromClient(rating);
         oVolunteer.get().getRatings().add(rating);
         userRepository.save(oVolunteer.get());
-//        userRepository.save(oClient.get());
+        userRepository.save(oClient.get());
         if (!feedback.isEmpty()) {
             activity.setFeedbackFromClient(feedback);
         }
@@ -152,18 +152,18 @@ public class ActivityService {
         if (!activity.getStatusClient().equals(Status.COMPLETED) || !volunteerAuthName.equals(activity.getVolunteer())) return Optional.empty();
 
         var oClient = userRepository.findOneByUsername(activity.getCreator());
-//        var oVolunteer = userRepository.findOneByUsername(volunteerAuthName);
+        var oVolunteer = userRepository.findOneByUsername(volunteerAuthName);
         if (oClient.isEmpty()) return Optional.empty();
-//        if (oVolunteer.isEmpty()) return Optional.empty();
+        if (oVolunteer.isEmpty()) return Optional.empty();
 
-//        var activityDuration = (int) Duration.between(activity.getStartTime(), activity.getEndTime()).toDays();
-//        oVolunteer.get().setExperience(oVolunteer.get().getExperience() + activityDuration);
+        var activityDuration = (int) Duration.between(activity.getStartTime(), activity.getEndTime()).toDays();
+        oVolunteer.get().setExperience(oVolunteer.get().getExperience() + activityDuration);
 
         activity.setStatusVolunteer(Status.COMPLETED);
         activity.setRatingFromVolunteer(rating);
         oClient.get().getRatings().add(rating);
         userRepository.save(oClient.get());
-//        userRepository.save(oVolunteer.get());
+        userRepository.save(oVolunteer.get());
         if (!feedback.isEmpty()) {
             activity.setFeedbackFromVolunteer(feedback);
         }
