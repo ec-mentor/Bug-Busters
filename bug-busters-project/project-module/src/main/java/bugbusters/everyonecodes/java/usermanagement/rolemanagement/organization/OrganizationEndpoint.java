@@ -88,6 +88,11 @@ public class OrganizationEndpoint {
         return activityService.edit(input, id, authentication.getName()).orElse(null);
     }
 
+    @DeleteMapping ("/activities/delete/{id}")
+    void deleteActivity(@PathVariable Long id, Authentication authentication){
+        activityService.delete(id, authentication.getName());
+    }
+
     @GetMapping("/activities/list")
     List<ActivityDTO> listAllOfUsersActivities(Authentication authentication) {
         return organizationService.listAllActivitiesOfOrganization(authentication.getName());

@@ -16,6 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -136,6 +137,7 @@ public class ActivityServiceTest {
         when(activityRepository.findById(id)).thenReturn(Optional.empty());
         activityService.edit(activityInputDTO, id, username2);
         verify(activityRepository, never()).save(any(Activity.class));
+        verify(notificationService, never()).saveNotification(any(Notification.class), any(String.class));
     }
 
     @Test
@@ -144,16 +146,49 @@ public class ActivityServiceTest {
         when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
         activityService.edit(activityInputDTO, id, "wrongCreator");
         verify(activityRepository, never()).save(any(Activity.class));
+        verify(notificationService, never()).saveNotification(any(Notification.class), any(String.class));
     }
 
     @Test
     void edit_success() {
         activity.setCreator(username2);
+        activity.setApplicants(List.of("test"));
         when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
         when(activityDTOMapper.toClientActivityDTO(any(Activity.class))).thenReturn(activityDTO);
         activityService.edit(activityInputDTO, id, username2);
+        verify(notificationService).saveNotification(any(Notification.class), any(String.class));
         verify(activityRepository, times(1)).save(any(Activity.class));
         Assertions.assertEquals(activityInputDTO.getDescription(), activity.getDescription());
+    }
+
+    @Test
+    void delete_ActivityNotFound() {
+        activity.setCreator(username2);
+        when(activityRepository.findById(id)).thenReturn(Optional.empty());
+        activityService.delete(id, username2);
+        verify(activityRepository, never()).delete(any(Activity.class));
+        verify(notificationService, never()).saveNotification(any(Notification.class), any(String.class));
+    }
+
+    @Test
+    void delete_WrongUser() {
+        activity.setCreator(username2);
+        when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
+        activityService.delete(id, "wrongCreator");
+        verify(activityRepository, never()).delete(any(Activity.class));
+        verify(notificationService, never()).saveNotification(any(Notification.class), any(String.class));
+    }
+
+    @Test
+    void delete_success() {
+        activity.setCreator(username);
+        activity.setApplicants(List.of("test2"));
+        when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
+        when(userRepository.findOneByUsername(username)).thenReturn(Optional.of(user));
+        activityService.delete(id, username);
+        verify(userRepository).findOneByUsername(username);
+        verify(notificationService).saveNotification(any(Notification.class), any(String.class));
+        verify(activityRepository, times(1)).delete(any(Activity.class));
     }
 
 
