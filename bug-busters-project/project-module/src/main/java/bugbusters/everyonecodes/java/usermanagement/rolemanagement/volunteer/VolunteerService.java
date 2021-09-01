@@ -128,7 +128,11 @@ public class VolunteerService {
     public void registerNewKeyword(String keyword, EmailSchedule schedule, String username) {
         if (EmailSchedule.DAILY.equals(schedule) || EmailSchedule.WEEKLY.equals(schedule) || EmailSchedule.MONTHLY.equals(schedule)) {
             var oVolunteer = volunteerRepository.findOneByUser_username(username);
-            oVolunteer.ifPresent(volunteer -> volunteer.getRegisteredKeywords().put(keyword, schedule));
+            if (oVolunteer.isPresent()) {
+                Volunteer volunteer = oVolunteer.get();
+                volunteer.getRegisteredKeywords().put(keyword, schedule);
+                volunteerRepository.save(volunteer);
+            }
         }
     }
 
@@ -182,6 +186,10 @@ public class VolunteerService {
 
     public void deleteKeywordRegistration(String keyword, String username) {
         var oVolunteer = volunteerRepository.findOneByUser_username(username);
-        oVolunteer.ifPresent(volunteer -> volunteer.getRegisteredKeywords().remove(keyword));
+        if (oVolunteer.isPresent()) {
+            Volunteer volunteer = oVolunteer.get();
+            volunteer.getRegisteredKeywords().remove(keyword);
+            volunteerRepository.save(volunteer);
+        }
     }
 }

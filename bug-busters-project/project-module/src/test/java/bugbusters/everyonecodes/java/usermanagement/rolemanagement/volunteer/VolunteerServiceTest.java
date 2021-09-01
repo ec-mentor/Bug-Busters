@@ -71,7 +71,7 @@ class VolunteerServiceTest {
     private Volunteer volunteer;
     private Activity activity;
     private ActivityDTO activityDTO;
-    
+
     @BeforeEach
     void setUp() {
         username = "test";

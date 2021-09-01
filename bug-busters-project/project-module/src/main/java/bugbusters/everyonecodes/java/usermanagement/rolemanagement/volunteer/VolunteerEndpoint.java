@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 @RestController
@@ -104,8 +105,8 @@ public class VolunteerEndpoint {
     }
 
     @PutMapping("/activities/email/{keyword}/{schedule}")
-    void registerForEmailNotificationByKeywordDailyWeeklyOrMonthly(@PathVariable String keyword, @PathVariable EmailSchedule schedule, Authentication authentication) {
-        volunteerService.registerNewKeyword(keyword, schedule, authentication.getName());
+    void registerForEmailNotificationByKeywordDailyWeeklyOrMonthly(@PathVariable String keyword, @PathVariable String schedule, Authentication authentication) {
+        volunteerService.registerNewKeyword(keyword, EmailSchedule.valueOf(schedule.toUpperCase(Locale.ROOT)), authentication.getName());
     }
 
     @GetMapping("/activities/email/keywords")

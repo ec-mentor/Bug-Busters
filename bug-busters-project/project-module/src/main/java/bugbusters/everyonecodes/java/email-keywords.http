@@ -3,9 +3,17 @@ PUT http://localhost:8080/volunteer/activities/email/cook/DAILY
 Authorization: Basic Derek Coding12#
 
 ### Register for Email Notification Daily/Weekly/Monthly
-GET http://localhost:8080/volunteer/activities/email/keywords
+PUT http://localhost:8080/volunteer/activities/email/bike/weekly
 Authorization: Basic Derek Coding12#
 
 ### Register for Email Notification Daily/Weekly/Monthly
+PUT http://localhost:8080/volunteer/activities/email/pilot/MONTHLY
+Authorization: Basic Derek Coding12#
+
+### View registered Email Notifications Daily/Weekly/Monthly
+GET http://localhost:8080/volunteer/activities/email/keywords
+Authorization: Basic Derek Coding12#
+
+### Delete Email Notification Daily/Weekly/Monthly
 DELETE http://localhost:8080/volunteer/activities/email/cook/delete
 Authorization: Basic Derek Coding12#
