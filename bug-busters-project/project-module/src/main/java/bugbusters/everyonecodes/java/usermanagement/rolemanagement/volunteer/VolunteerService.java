@@ -158,11 +158,16 @@ public class VolunteerService {
         List<Volunteer> volunteers = volunteerRepository.findAll();
         volunteers.forEach(volunteer -> volunteer.getRegisteredKeywords().forEach((key, value) -> {
             if (emailSchedule.equals(value)) {
+                String message;
                 var matchingActivities = activityTextSearchService.searchActivitiesByText(activities, key);
-                var matchingActivitiesAsString = matchingActivities.stream()
-                        .map(this::toEmailString).collect(Collectors.joining("\n"));
-                String message = "The following Activities have been posted since the last notification: \n\n"
-                        + matchingActivitiesAsString;
+                if (matchingActivities.isEmpty()) {
+                    message = "There have been no new Activities since the last notification for the keyword \"" + key + "\"";
+                } else {
+                    var matchingActivitiesAsString = matchingActivities.stream()
+                            .map(this::toEmailString).collect(Collectors.joining("\n"));
+                    message = "The following Activities have been posted since the last notification for the keyword \"" + key + "\": \n\n"
+                            + matchingActivitiesAsString;
+                }
                 emailService.sendListOfActivityMailForKeyword(volunteer.getUser().getEmail(), key,  message);
             }
         }));
