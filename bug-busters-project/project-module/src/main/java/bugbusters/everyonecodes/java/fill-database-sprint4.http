@@ -49,7 +49,7 @@ Content-Type: application/json
   "fullName": "Hansel Hansington",
   "birthday": "1992-05-01",
   "address": "Volunteer Street 213",
-  "email": "hansel@mail.com",
+  "email": "josic.ratko1@gmail.com",
   "description": "I am a good cook"
 }
 
@@ -67,7 +67,7 @@ Content-Type: application/json
     "fullName": "Hansel Hansington",
     "birthday": "1992-05-01",
     "address": "Volunteer Street 213",
-    "email": "hansel@mail.com",
+    "email": "josic.ratko1@gmail.com",
     "description": "I am a good cook"
   },
   "skills": "professional cook;hobby baker"

@@ -137,7 +137,7 @@ public class VolunteerService {
     }
 
     @Scheduled(cron = "0 0 0 * * *")
-    void sendDailyEmail() {
+    public void sendDailyEmail() {
         List<Activity> activitiesOfLastDay = activityRepository.findAllByStatusVolunteerAndPostedDateGreaterThanEqual(Status.PENDING, localDateNowProvider.getLocalDateTimeNow().minusDays(1));
         sendEmailsForMatchingKeywords(activitiesOfLastDay, EmailSchedule.DAILY);
     }

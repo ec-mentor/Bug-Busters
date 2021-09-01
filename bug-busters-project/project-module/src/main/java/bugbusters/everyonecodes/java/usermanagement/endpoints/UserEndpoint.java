@@ -4,6 +4,7 @@ import bugbusters.everyonecodes.java.notification.Notification;
 import bugbusters.everyonecodes.java.notification.NotificationService;
 import bugbusters.everyonecodes.java.usermanagement.data.User;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPrivateDTO;
+import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerService;
 import bugbusters.everyonecodes.java.usermanagement.service.EmailService;
 import bugbusters.everyonecodes.java.usermanagement.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -22,11 +23,13 @@ public class UserEndpoint {
     private final UserService userService;
     private final EmailService emailService;
     private final NotificationService notificationService;
+    private final VolunteerService volunteerService;
 
-    public UserEndpoint(UserService userService, EmailService emailService, NotificationService notificationService) {
+    public UserEndpoint(UserService userService, EmailService emailService, NotificationService notificationService, VolunteerService volunteerService) {
         this.userService = userService;
         this.emailService = emailService;
         this.notificationService = notificationService;
+        this.volunteerService = volunteerService;
     }
 
     @PostMapping("/register")
@@ -54,5 +57,11 @@ public class UserEndpoint {
     @GetMapping("/notifications")
     List<Notification> getNotifications(Authentication authentication){
         return notificationService.findAllNotificationsChronologicalByUsername(authentication.getName());
+    }
+
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/notifications/email/test/daily")
+    void sendDailyEmailTest(){
+        volunteerService.sendDailyEmail();
     }
 }
