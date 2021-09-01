@@ -2,6 +2,7 @@ package bugbusters.everyonecodes.java.usermanagement.endpoints;
 
 import bugbusters.everyonecodes.java.notification.Notification;
 import bugbusters.everyonecodes.java.notification.NotificationService;
+import bugbusters.everyonecodes.java.usermanagement.data.EmailSchedule;
 import bugbusters.everyonecodes.java.usermanagement.data.User;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPrivateDTO;
 import bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer.VolunteerService;
@@ -61,7 +62,27 @@ public class UserEndpoint {
 
     @Secured("ROLE_ADMIN")
     @GetMapping("/notifications/email/test/daily")
-    void sendDailyEmailTest(){
+    void sendDailyEmailTest() {
         volunteerService.sendDailyEmail();
+    }
+
+    @Secured({"ROLE_VOLUNTEER", "ROLE_INDIVIDUAL", "ROLE_ORGANIZATION"})
+    @PutMapping("/notifications/email/{schedule}")
+    String registerEmailNotifications(Authentication authentication, @PathVariable String schedule) {
+        return emailService.registerEmailNotification(authentication.getName(), EmailSchedule.valueOf(schedule.toUpperCase()));
+    }
+
+    //endpoint only for review
+    @Secured({"ROLE_ADMIN"})
+    @GetMapping("/notifications/email/test/{username}")
+    void sendTestHtmlEmail(@PathVariable String username) {
+        emailService.sendTestHTMLEmail(username);
+    }
+
+
+    @GetMapping("/notifications/email/unsubscribe/{username}")
+    String unsubscribeEmailNotification(@PathVariable String username) {
+        return emailService.unsubscribeEmailNotification(username);
+
     }
 }

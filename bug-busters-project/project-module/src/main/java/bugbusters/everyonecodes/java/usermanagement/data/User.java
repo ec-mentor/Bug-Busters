@@ -51,6 +51,9 @@ public class User {
 
     private int experience = 0;
 
+    @Enumerated
+    private EmailSchedule emailSchedule = EmailSchedule.NONE;
+
     public User() {}
 
     public User(String username, String password, String role, String fullName, LocalDate birthday, String address, String email, String description) {
@@ -158,6 +161,14 @@ public class User {
 
     public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;
+    }
+
+    public EmailSchedule getEmailSchedule() {
+        return emailSchedule;
+    }
+
+    public void setEmailSchedule(EmailSchedule emailSchedule) {
+        this.emailSchedule = emailSchedule;
     }
 
     @Override
