@@ -5,7 +5,6 @@ import bugbusters.everyonecodes.java.usermanagement.repository.UserRepository;
 import bugbusters.everyonecodes.java.usermanagement.service.UserDTOMapper;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
@@ -24,7 +23,7 @@ public class FilterActivityService {
 
     public List<Activity> filterSearchResults(List<Activity> searchResults, FilterActivity filterActivity){
         return searchResults.stream()
-                .filter(searchResult -> filterDate(searchResult.getStartTime(), filterActivity.getDate()))
+                .filter(searchResult -> filterDate(searchResult.getStartTime(), searchResult.getEndTime(), filterActivity.getDate()))
                 .filter(searchResult -> filterCategories(searchResult.getCategories(), filterActivity.getCategory()))
                 .filter(searchResult -> filterSkills(searchResult.getRecommendedSkills(), filterActivity.getSkills()))
                 .filter(searchResult -> filterCreator(searchResult.getCreator(), filterActivity.getCreator()))
@@ -32,9 +31,9 @@ public class FilterActivityService {
                 .collect(Collectors.toList());
     }
 
-    private boolean filterDate(LocalDateTime startDate, LocalDate inputDate) {
-        if (inputDate == null) return true;
-        return startDate.toLocalDate().equals(inputDate);
+    private boolean filterDate(LocalDateTime startDate, LocalDateTime endDate, LocalDateTime inputDate) {
+        if (inputDate == null || inputDate.equals(startDate) || inputDate.equals(endDate)) return true;
+        return startDate.isBefore(inputDate) && endDate.isAfter(inputDate);
     }
 
     private boolean filterCategories(Set<String> categories, String input) {
