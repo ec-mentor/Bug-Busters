@@ -159,16 +159,19 @@ public class VolunteerService {
         volunteers.forEach(volunteer -> volunteer.getRegisteredKeywords().forEach((key, value) -> {
             if (emailSchedule.equals(value)) {
                 String message;
+                String subject;
                 var matchingActivities = activityTextSearchService.searchActivitiesByText(activities, key);
                 if (matchingActivities.isEmpty()) {
+                    subject = "No new Activities since the last notification for the keyword \"" + key + "\"";
                     message = "There have been no new Activities since the last notification for the keyword \"" + key + "\"";
                 } else {
                     var matchingActivitiesAsString = matchingActivities.stream()
                             .map(this::toEmailString).collect(Collectors.joining("\n"));
+                    subject = "New Activities for the keyword \"" + key + "\"";
                     message = "The following Activities have been posted since the last notification for the keyword \"" + key + "\": \n\n"
                             + matchingActivitiesAsString;
                 }
-                emailService.sendListOfActivityMailForKeyword(volunteer.getUser().getEmail(), key,  message);
+                emailService.sendListOfActivityMailForKeyword(volunteer.getUser().getEmail(), key,  message, subject);
             }
         }));
     }

@@ -14,10 +14,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.mail.*;
-import javax.mail.internet.*;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.internet.MimeMessage;
 import java.io.File;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -66,10 +67,7 @@ public class EmailService {
     }
 
     // send Email with List of Activities
-    public void sendListOfActivityMailForKeyword(String to, String keyword, String message) {
-
-        var subject = "New Activities have been posted containing the keyword \"" + keyword + "\"";
-
+    public void sendListOfActivityMailForKeyword(String to, String keyword, String message, String subject) {
         var mailMessage = new SimpleMailMessage();
         mailMessage.setTo(to);
         mailMessage.setSubject(subject);

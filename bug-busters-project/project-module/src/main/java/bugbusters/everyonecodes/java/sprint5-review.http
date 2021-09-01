@@ -1,0 +1,145 @@
+########## Modify Date Filtering ##########
+
+### Filter Activity for Date as Volunteer - Date 2030-01-22
+GET http://localhost:8080/volunteer/activities/search/filtered/o
+Authorization: Basic Derek Coding12#
+Content-Type: application/json
+
+{
+  "date": "2030-01-22T12:00:00"
+}
+
+### Filter Activity for Date as Volunteer finds none  - Date 2050-01-23
+GET http://localhost:8080/volunteer/activities/search/filtered/o
+Authorization: Basic Derek Coding12#
+Content-Type: application/json
+
+{
+  "date": "2050-01-23T12:00:00"
+}
+
+########## Remove application from activity as Volunteer ##########
+
+### apply for an activity as a volunteer
+PUT http://localhost:8080/volunteer/activities/apply/1
+Authorization: Basic Hansel Coding12#
+
+### approve an application as Organization
+PUT http://localhost:8080/organization/activities/approve/1/Hansel
+Authorization: Basic Organization1 Coding12#
+
+### view activities as volunteer
+GET http://localhost:8080/volunteer/activities/list
+Authorization: Basic Hansel Coding12#
+
+### delete application as Volunteer
+PUT http://localhost:8080/volunteer/activities/delete/1
+Authorization: Basic Hansel Coding12#
+
+### view all notifications as Organization
+GET http://localhost:8080/users/notifications
+Authorization: Basic Organization1 Coding12#
+
+########## Registration for e-mail notifications & Unsubscribe ##########
+
+### apply for an activity as a volunteer
+PUT http://localhost:8080/volunteer/activities/apply/1
+Authorization: Basic Hansel Coding12#
+
+### approve an application as Organization
+PUT http://localhost:8080/organization/activities/deny/1/Hansel
+Authorization: Basic Organization1 Coding12#
+
+### view all notifications as Organization
+GET http://localhost:8080/users/notifications
+Authorization: Basic Hansel Coding12#
+
+### Register for email notification
+PUT http://localhost:8080/users/notifications/email/weekly
+Authorization: Basic Hansel Coding12#
+
+### View details of user account- to show successfull registration
+GET http://localhost:8080/admin/account/Hansel
+Authorization: Basic admin Coding12#
+
+### Trigger email notification
+GET http://localhost:8080/users/notifications/email/test/Hansel
+Authorization: Basic admin Coding12#
+
+### View details of user account- to show successfull unregistration
+GET http://localhost:8080/admin/account/Hansel
+Authorization: Basic admin Coding12#
+
+########## Register with keyword for activity ##########
+
+### Register for Email Notification Daily with cook
+PUT http://localhost:8080/volunteer/activities/email/cook/DAILY
+Authorization: Basic Hansel Coding12#
+
+### Register for Email Notification Weekly with bike
+PUT http://localhost:8080/volunteer/activities/email/bike/weekly
+Authorization: Basic Hansel Coding12#
+
+### Register for Email Notification Daily with pilot
+PUT http://localhost:8080/volunteer/activities/email/pilot/DAILY
+Authorization: Basic Hansel Coding12#
+
+### View registered Email Notifications Daily/Weekly/Monthly
+GET http://localhost:8080/volunteer/activities/email/keywords
+Authorization: Basic Hansel Coding12#
+
+### Test request for daily Email notifications
+GET http://localhost:8080/users/notifications/email/test/daily
+Authorization: Basic admin Coding12#
+
+### Delete Email Notification Daily/Weekly/Monthly
+DELETE http://localhost:8080/volunteer/activities/email/pilot/delete
+Authorization: Basic Hansel Coding12#
+
+### View registered Email Notifications Daily/Weekly/Monthly
+GET http://localhost:8080/volunteer/activities/email/keywords
+Authorization: Basic Hansel Coding12#
+
+########## Experience Level ##########
+
+### apply for an activity as a volunteer
+PUT http://localhost:8080/volunteer/activities/apply/1
+Authorization: Basic Derek Coding12#
+
+### approve an application
+PUT http://localhost:8080/organization/activities/approve/1/Derek
+Authorization: Basic Organization1 Coding12#
+
+### view activities as volunteer
+GET http://localhost:8080/volunteer/activities/list
+Authorization: Basic Derek Coding12#
+
+### complete activity as organization
+PUT http://localhost:8080/organization/activities/complete/1/3
+Authorization: Basic Organization1 Coding12#
+Content-Type: application/json
+
+{}
+
+### View own profile as seen by others, with optional info and rating
+GET http://localhost:8080/organization/view
+Authorization: Basic Organization1 Coding12#
+
+### View own profile as seen by others, with optional info and rating
+GET http://localhost:8080/volunteer/view
+Authorization: Basic Derek Coding12#
+
+### complete activity as volunteer
+PUT http://localhost:8080/volunteer/activities/complete/1/5
+Authorization: Basic Derek Coding12#
+Content-Type: text/plain
+
+alles super
+
+### View own profile as seen by others, with optional info and rating
+GET http://localhost:8080/volunteer/view
+Authorization: Basic Derek Coding12#
+
+### view activities as volunteer
+GET http://localhost:8080/volunteer/activities/list
+Authorization: Basic Derek Coding12#
