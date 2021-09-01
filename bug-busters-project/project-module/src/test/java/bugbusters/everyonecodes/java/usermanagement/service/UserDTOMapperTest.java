@@ -89,7 +89,7 @@ class UserDTOMapperTest {
         User user = new User(username, "password", "role",
                 fullName, birthday, "address", "email", description);
         UserPublicDTO result = userDTOMapper.toUserPublicDTO(user);
-        UserPublicDTO expected = new UserPublicDTO(username, fullName, 53, description, rating);
+        UserPublicDTO expected = new UserPublicDTO(username, fullName, 53, description, rating, 0);
         Assertions.assertEquals(expected, result);
     }
 
@@ -101,7 +101,7 @@ class UserDTOMapperTest {
         User user = new User(username, "password", "role",
                 fullName, null, null, null, null);
         UserPublicDTO result = userDTOMapper.toUserPublicDTO(user);
-        UserPublicDTO expected = new UserPublicDTO(username, fullName, null, null, null);
+        UserPublicDTO expected = new UserPublicDTO(username, fullName, null, null, null, 0);
         Assertions.assertEquals(expected, result);
     }
 

@@ -104,6 +104,7 @@ public class VolunteerEndpoint {
         activityService.denyRecommendationAsVolunteer(id, authentication.getName());
     }
 
+
     @PutMapping("/activities/email/{keyword}/{schedule}")
     void registerForEmailNotificationByKeywordDailyWeeklyOrMonthly(@PathVariable String keyword, @PathVariable String schedule, Authentication authentication) {
         volunteerService.registerNewKeyword(keyword, EmailSchedule.valueOf(schedule.toUpperCase(Locale.ROOT)), authentication.getName());
@@ -118,4 +119,11 @@ public class VolunteerEndpoint {
     void deleteKeywordRegistration(@PathVariable String keyword, Authentication authentication) {
         volunteerService.deleteKeywordRegistration(keyword, authentication.getName());
     }
+
+    @PutMapping("/activities/delete/{id}")
+    void removeApplication(@PathVariable Long id, Authentication authentication){
+        activityService.deleteApplicationAsVolunteer(id, authentication.getName());
+    }
+
+
 }

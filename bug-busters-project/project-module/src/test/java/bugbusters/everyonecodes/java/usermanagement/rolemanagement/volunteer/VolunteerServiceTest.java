@@ -2,7 +2,6 @@ package bugbusters.everyonecodes.java.usermanagement.rolemanagement.volunteer;
 
 import bugbusters.everyonecodes.java.activities.*;
 import bugbusters.everyonecodes.java.search.ActivityTextSearchService;
-import bugbusters.everyonecodes.java.usermanagement.data.EmailSchedule;
 import bugbusters.everyonecodes.java.usermanagement.data.User;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPrivateDTO;
 import bugbusters.everyonecodes.java.usermanagement.data.UserPublicDTO;
@@ -26,7 +25,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import static bugbusters.everyonecodes.java.usermanagement.data.EmailSchedule.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
@@ -63,6 +61,7 @@ class VolunteerServiceTest {
     ActivityDTOMapper activityDTOMapper;
 
     // for testing
+
     private String username;
     private User user;
     private UserPrivateDTO userPrivateDTO;
@@ -80,13 +79,14 @@ class VolunteerServiceTest {
                 "test", LocalDate.of(2000, 1, 1), "test",
                 "test", "test");
         userPrivateDTO = new UserPrivateDTO(username, user.getRole(), user.getFullName(), user.getBirthday(), user.getAddress(), user.getEmail(), user.getDescription());
-        userPublicDTO = new UserPublicDTO(username, "test", 1, "test", 5.0);
+        userPublicDTO = new UserPublicDTO(username, "test", 1, "test", 5.0, 0);
         individual = new Individual(user);
         organization = new Organization(user);
         volunteer = new Volunteer(user);
         activity = new Activity("test", "test", "test", Set.of("test"), Set.of("test"), LocalDateTime.now(), LocalDateTime.now(), true, Status.PENDING, Status.PENDING, null, null, null, null);
         activityDTO = new ActivityDTO("test", "test", "test", Status.PENDING, LocalDateTime.now(), LocalDateTime.now(), null, null, null, null, null, null);
     }
+
 
     @Test
     void getVolunteerByUsername() {

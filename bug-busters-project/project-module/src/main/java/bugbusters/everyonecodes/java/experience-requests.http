@@ -1,0 +1,35 @@
+### needs database entries from fill-database-spring4.http
+
+### apply for an activity as a volunteer
+PUT http://localhost:8080/volunteer/activities/apply/1
+Authorization: Basic Derek Coding12#
+
+### approve an application
+PUT http://localhost:8080/organization/activities/approve/1/Derek
+Authorization: Basic Organization1 Coding12#
+
+### view activities as volunteer
+GET http://localhost:8080/volunteer/activities/list
+Authorization: Basic Derek Coding12#
+
+### complete activity as organization
+PUT http://localhost:8080/organization/activities/complete/1/3
+Authorization: Basic Organization1 Coding12#
+Content-Type: application/json
+
+{}
+
+### complete activity as volunteer
+PUT http://localhost:8080/volunteer/activities/complete/1/5
+Authorization: Basic Derek Coding12#
+Content-Type: text/plain
+
+alles super
+
+### View own profile as seen by others, with optional info and rating
+GET http://localhost:8080/volunteer/view
+Authorization: Basic Derek Coding12#
+
+### view activities as volunteer
+GET http://localhost:8080/volunteer/activities/list
+Authorization: Basic Derek Coding12#

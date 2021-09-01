@@ -106,8 +106,8 @@ class ClientDTOMapperTest {
                 "fullname",
                 0,
                 "description",
-                null
-        );
+                null,
+                0);
         Mockito.when(userDTOMapper.toUserPublicDTO(client.getUser())).thenReturn(publicDTO);
         ClientPublicDTO result = clientDTOMapper.toClientPublicDTO(client);
         ClientPublicDTO expected = new ClientPublicDTO(publicDTO);
@@ -135,8 +135,8 @@ class ClientDTOMapperTest {
                 null,
                 null,
                 null,
-                null
-        );
+                null,
+                0);
         Mockito.when(userDTOMapper.toUserPublicDTO(client.getUser())).thenReturn(publicDTO);
         ClientPublicDTO result = clientDTOMapper.toClientPublicDTO(client);
         ClientPublicDTO expected = new ClientPublicDTO(publicDTO);

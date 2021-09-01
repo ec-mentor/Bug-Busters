@@ -12,15 +12,17 @@ public class UserPublicDTO {
     private Integer age;
     private String description;
     private Double rating;
+    private Integer experience;
 
     public UserPublicDTO() {}
 
-    public UserPublicDTO(String username, String fullName, Integer age, String description, Double rating) {
+    public UserPublicDTO(String username, String fullName, Integer age, String description, Double rating, Integer experience) {
         this.username = username;
         this.fullName = fullName;
         this.age = age;
         this.description = description;
         this.rating = rating;
+        this.experience = experience;
     }
 
     public String getUsername() {
@@ -63,7 +65,13 @@ public class UserPublicDTO {
         this.rating = rating;
     }
 
+    public Integer getExperience() {
+        return experience;
+    }
 
+    public void setExperience(Integer experience) {
+        this.experience = experience;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -87,4 +95,5 @@ public class UserPublicDTO {
                 ", description='" + description + '\'' +
                 '}';
     }
+
 }

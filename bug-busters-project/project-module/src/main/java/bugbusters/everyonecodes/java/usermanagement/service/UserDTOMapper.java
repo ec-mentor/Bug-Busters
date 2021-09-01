@@ -41,7 +41,7 @@ public class UserDTOMapper {
         }
         List<Integer> ratings = user.getRatings();
         Double rating = calculateRating(ratings);
-        return new UserPublicDTO(user.getUsername(), user.getFullName(), age, user.getDescription(), rating);
+        return new UserPublicDTO(user.getUsername(), user.getFullName(), age, user.getDescription(), rating, user.getExperience());
     }
 
     Integer calculateAge(LocalDate birthDate, LocalDate currentDate) {

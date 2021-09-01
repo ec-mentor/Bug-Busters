@@ -401,4 +401,27 @@ public class ActivityServiceTest {
         Assertions.assertNull(activity.getVolunteer());
     }
 
+    // delete an application as a volunteer
+    @Test
+    void deleteApplication_notFound() {
+        activity.setVolunteer(username);
+        when(activityRepository.findById(id)).thenReturn(Optional.empty());
+        when(userRepository.findOneByUsername(username)).thenReturn(Optional.of(user));
+        activityService.deleteApplicationAsVolunteer(id, username);
+        verify(notificationService, never()).saveNotification(any(Notification.class), any(String.class));
+        verify(userRepository, never()).save(any(User.class));
+        verify(activityRepository, never()).save(any(Activity.class));
+    }
+
+    @Test
+    void deleteApplication_success() {
+        activity.setVolunteer(username);
+        user.getActivities().add(activity);
+        when(activityRepository.findById(id)).thenReturn(Optional.of(activity));
+        when(userRepository.findOneByUsername(username)).thenReturn(Optional.of(user));
+        activityService.deleteApplicationAsVolunteer(id, username);
+        verify(notificationService).saveNotification(any(Notification.class), any(String.class));
+        verify(userRepository).save(any(User.class));
+        verify(activityRepository).save(any(Activity.class));
+    }
 }

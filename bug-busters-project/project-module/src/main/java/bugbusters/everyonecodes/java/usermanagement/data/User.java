@@ -49,6 +49,8 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Notification> notifications = new ArrayList<>();
 
+    private int experience = 0;
+
     public User() {}
 
     public User(String username, String password, String role, String fullName, LocalDate birthday, String address, String email, String description) {
@@ -185,5 +187,13 @@ public class User {
                 ", description='" + description + '\'' +
                 ", ratings=" + ratings +
                 '}';
+    }
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
     }
 }
