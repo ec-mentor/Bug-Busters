@@ -90,7 +90,9 @@ public class ActivityServiceTest {
     @Test
     void saveNewActivity_statusDraftAndUserNotFound() {
         activityInputDTO.setStatusClient(Status.DRAFT);
+        activity.setStatusClient(Status.DRAFT);
         when(userRepository.findOneByUsername(username)).thenReturn(Optional.empty());
+        when(activityDTOMapper.createNewActivityFromActivityInputDTO(activityInputDTO, username)).thenReturn(activity);
         activityService.saveNewActivity(activityInputDTO, username);
         verify(activityDTOMapper, times(1)).createNewActivityFromActivityInputDTO(activityInputDTO, username);
         verify(activityRepository, never()).save(any(Activity.class));
